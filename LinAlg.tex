@@ -1,0 +1,2034 @@
+\documentclass[letterpaper,11pt,twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\setlist{nosep}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{biblatex}
+\usepackage{tikz-cd}
+\usepackage[margin=0.9in,
+    left=1.0in,%
+right=1.0in,%
+top=1.25in,%
+bottom=1.25in
+]{geometry}	
+
+
+
+%%%%-------Further Fancy--------
+%To add index of symbols
+\usepackage{makeidx}
+
+
+
+%%%%------ Fonts-------------
+% \usepackage{fontspec}
+%\setmainfont{QTHandwriting}
+% \usepackage{boisik}
+% \usepackage[OT1]{fontenc}
+
+%\usepackage{mlmodern}
+%\usepackage[T1]{fontenc}
+%--------------------------------
+
+
+%%%%------ To get "nice" PARTS----
+\makeatletter
+\renewcommand\part{%
+	%  \if@openright
+	%    \cleardoublepage
+	%  \else
+	\clearpage
+	%  \fi
+	\thispagestyle{plain}%
+	\if@twocolumn
+	\onecolumn
+	\@tempswatrue
+	\else
+	\@tempswafalse
+	\fi
+	\null\vfil
+	\secdef\@part\@spart}
+
+\def\@part[#1]#2{%
+	\ifnum \c@secnumdepth >-2\relax
+	\refstepcounter{part}%
+	\addcontentsline{toc}{part}{\thepart\hspace{1em}#1}%
+	\else
+	\addcontentsline{toc}{part}{#1}%
+	\fi
+	\markboth{}{}%
+	{\centering
+		\interlinepenalty \@M
+		\normalfont
+		\ifnum \c@secnumdepth >-2\relax
+		\huge\bfseries \partname\nobreakspace\thepart
+		\par
+		\vskip 20\p@
+		\fi
+		\Huge \bfseries #2\par}%
+	\@endpart}
+
+\def\@spart#1{%
+	{\centering
+		\interlinepenalty \@M
+		\normalfont
+		\Huge \bfseries #1\par}%
+	\@endpart}
+\def\@endpart{\vfil\newpage}
+\makeatother
+
+
+
+
+\usepackage{bm}
+\usepackage{fancyhdr}
+\usepackage{mathrsfs}
+\usepackage{amsbsy}
+
+%%%%%%%%------------Hyperref Settings------
+\usepackage{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={blue!70!black},
+    citecolor={red!50!black},
+    urlcolor={green!80!black}
+}
+%%%%%%%------------------------------------
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MATH BACKGROUND DECLARATORS
+\theoremstyle{definition}
+\newtheorem{proposition}{Proposition}[subsection]
+
+\theoremstyle{definition}
+\newtheorem{definition}[proposition]{Definition}
+\newcommand{\tit}[1]{\textit{#1}}
+\newtheorem{theorem}[proposition]{Theorem}
+
+\theoremstyle{definition}
+\newtheorem{remark}[proposition]{\textbf{Remark}}
+
+\theoremstyle{definition}
+\newtheorem{lemma}[proposition]{\textbf{Lemma}}
+
+\theoremstyle{definition}
+\newtheorem{construct}[proposition]{\textbf{Construction}}
+
+\theoremstyle{definition}
+\newtheorem*{example}{\textbf{Example}}
+
+\theoremstyle{remark}
+\newtheorem*{comment}{\textbf{Comments on Proof Technique}}
+
+
+\theoremstyle{definition}
+\newtheorem{corollary}[proposition]{Corollary}
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MACROS.
+
+%0. Acts
+\newenvironment{act}[2]{\begin{center}
+    \textbf{Act. #1} : \textit{#2}
+\end{center}
+}
+
+%1. Tor and Ext groups
+%\newcommand{\tor}[1]{def}
+
+%2. Categories
+\newcommand{\cat}[1]{{\fontfamily{qpl}\selectfont 
+		\text{\textbf{#1}}
+}}
+\newcommand{\opcat}[1]{{\fontfamily{qpl}\selectfont 
+		\text{\textbf{#1}}^{\text{op}}
+}}
+%3. Homsets
+\newcommand{\homset}[3]{{\fontfamily{lmss}\selectfont 
+		\text{Hom}_{#1}\left (#2,#3\right )
+}}
+%4. Chain complexes
+\newcommand{\Ch}[1]{\cat{Ch}\left (#1\right )}
+%5. Kernel and Image and Cokernel
+\newcommand{\Ker}[1]{{\fontfamily{lmss}\selectfont 
+		\text{Ker}\left (#1\right )
+}}
+\newcommand{\Image}[1]{{\fontfamily{lmss}\selectfont 
+		\text{Image}\left (#1\right )
+}}
+\newcommand{\Coker}[1]{{\fontfamily{lmss}\selectfont 
+		\text{Coker}\left (#1\right )
+}}
+%6. Isomorphism
+\newcommand{\isom}{\cong}
+%7. Bold blank
+\newcommand{\blank}{\bm{-}}
+%8. Restriction 
+\newcommand{\rest}[2]{\left. { #1 }\right \vert_{#2}}
+%9. Submodule
+\newcommand{\Sub}[1]{\text{Sub}\left (#1\right )}
+%10. Sp
+\newcommand{\Sp}[1]{\text{Sp}\left (#1\right )}
+%11. Open Sets
+\newcommand{\Op}[1]{\mathcal{O}_{#1}}
+%12. Reals
+\newcommand{\R}[0]{\mathbb{R}}
+%13. Inner Product
+\newcommand{\ip}[2]{\langle #1,#2 \rangle}
+%14. Norm
+\newcommand{\norm}[1]{\Vert #1 \Vert}
+%15. Absolute
+\newcommand{\abs}[1]{\left\vert #1 \right \vert}
+%16. Lecture Number and date
+\newcommand{\newlecture}[2]{\begin{center}
+    \textbf{Lecture \# #1, #2}
+\end{center}}
+%17. Rationals
+\newcommand{\Q}[0]{\mathbb{Q}}
+%18. Interior, boundary
+\newcommand{\interior}[1]{\overset{\circ}{\left(#1\right)}}
+\newcommand{\bdry}[1]{\partial \left(#1\right)}
+%19. Integers
+\newcommand{\Z}[0]{\mathbb{Z}}
+%20. Naturals
+\newcommand{\N}[0]{\mathbb{N}}
+%21. Inverse
+\newcommand{\inv}[1]{\left(#1\right)^{-1}}
+%22. Row space
+\newcommand{\row}[1]{\text{Row}\left(#1\right)}
+%23. Annihilator
+\newcommand{\Ann}[1]{\text{Ann}\left(#1\right)}
+%24. Generator
+\newcommand{\gen}[1]{\langle #1\rangle}
+%25. T-conductor of alpha into W
+\newcommand{\cond}[3]{\text{S}_{#1}\left(#2;#3\right)}
+%26. Span
+\newcommand{\Span}[1]{\text{Span}\left(#1\right)}
+%27. Identity
+\newcommand{\id}[1]{{\fontfamily{lmss}\selectfont 
+            \text{id}_{#1}
+}}
+%29. Companion matrix
+\newcommand{\Comp}[1]{{\fontfamily{lmss}\selectfont 
+            \text{Comp}\left(#1\right)
+}}
+
+%30. Rational form
+\newcommand{\Rat}[1]{{\fontfamily{lmss}\selectfont 
+		\text{Rat}\left(#1\right)
+}}
+
+%31. Jordan form
+\newcommand{\Jor}[1]{{\fontfamily{lmss}\selectfont 
+		\text{Jor}\left(#1\right)
+}}
+
+%32. Conjugate
+\newcommand{\conj}[1]{\overline{#1}}
+
+%33. Complex field
+\newcommand{\C}{\mathbb{C}}
+
+
+\usepackage{titlesec}
+\title{\bfseries \large Advanced Linear Algebra}
+\author{{\fontencoding{T1}\fontfamily{pzc}\selectfont \text{"\textit{...can there be no sorrow, be no pain!?}"}}}
+
+\usepackage{sectsty}
+\sectionfont{\centering \normalsize}
+\subsectionfont{\centering \small}
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[CO]{\ssmall {\scshape Advanced Linear Algebra}}
+\fancyhead[CE]{\ssmall \leftmark}%Add name instead of date.
+\fancyhead[LE,RO]{\ssmall \thepage}
+\fancyhead[LO,RE]{}
+\fancyfoot[CE,CO]{}
+\fancyfoot[LE,RO]{}
+\setlength{\headheight}{15pt}
+\renewcommand{\headrulewidth}{0pt}
+
+\usepackage{moresize}
+
+\begin{document}
+	
+	\maketitle
+	
+ 	\begin{abstract}
+	These are the notes of Linear Algebra 2 that ran during Autumn of 2022 at IISER Kolkata. There were two parts of the course. The first covered rational and Jordan forms and the second (quite quickly, I must add) covered the basic results in the theory of inner product spaces. One can quickly summarize the whole course in two sentences as follows. In the part 1, we wish to classify all linear operators on a finite dimensional vector space upto similarity (Theorem \ref{T-3.2.8} \& Theorem \ref{T-3.3.4}). In the part 2, we wish to see how diagonalizability of an operator over a finite dimensional IPS is characterized by the inner product structure (Theorem \ref{T-6.0.6}) and the fact that operators on a $ \C $-IPS behaves quite a lot like complex numbers (Theorem \ref{T-7.2.1}). Part 1 remains quite detailed, except few results, but the same cannot be said for Part 2, which very often cites outside sources and gives proofs which, at times, can become very sketchy.
+ 		\end{abstract}
+	\tableofcontents
+\newpage
+	\part{Classification of linear operators on a finite dimensional vector space upto similarity}
+	\newpage
+
+\newlecture{1}{08/08/2022}
+	
+	This is a course on advanced linear algebra. In one sentence, the principal aim of everything that we do here will be to "\textit{classify all linear operators on a vector space}". Of-course this is intractable, but in certain cases there is a very rich theory. We have already seen one example of this in the case of diagonalizable operators, we shall see some other types of similar nice operators. \\
+	Of-course we are assuming background in basic algebra, but we will try to give a rather terse look at the basic linear algebra and all the theorems therein, just as a refresher.
+	\section{Overview of basic linear algebra}
+	Whatever we will do in the following will be a terse overview of basic linear algebra but with all of its spectacular theorems present. Keeping in mind the general philosophy of linear algebra as to characterize all linear maps, we will see one such attempt that you have learned in the previous course.
+	\subsection{Linear equations}
+	For a vector space $V$ over field $F$, a linear operator is a linear map $T: V\to V$. One thing that we humans like to do is to ask \textit{what all elements of a space satisfies some collection of conditions?} When the conditions are \textit{equational} in nature and the space is, say $\R^2$, then we get subspaces of $\R^2$, which may or may not be linear (depending on conditions) in the sense that sum of two elements may not be in that subspace. But now suppose that the defining conditions are linear, then we get groovy, for we can write those conditions as very simple looking equations of the form $a_1x_1+\dots a_nx_n = 0$, where $a_i\in F$; of-course there may be more than one such equational conditions. Now suppose we are working in a finite dimensional real vector space $V$, which of-course is thus isomorphic to $\R^{\dim V}$. We want to do the same thing and want to find all those subspaces of $V$ which satisfy some equational linear conditions. Now, we can collect all the coefficients of linear conditions into a nice matrix $A$ of shape equal to \textit{number of total conditions} $\times$ \textit{number of total variables}. Of-course, number of total variables will be $n:=\dim V$. So if total number of conditions are $m$, then $A$ is an $m\times n$ matrix. Now any element of $V\isom \R^{\dim V}$ is simply written as $x = (x_1,x_2,\dots,x_n)$, so if $x$ satisfies all the aforementioned linear conditions, then $Ax = 0$. Of-course, any linear transformation $T : V\to W$ has a corresponding matrix representation given by images of canonical basis vectors; the matrix corresponding to $T$ is $A:= [Te_1,\dots,Te_n]$. In particular
+	\begin{align*}
+	    \{\text{All linear transformations $V\to W$}\} \isom \{\text{All matrices of shape $\dim W\times \dim V$}\}.
+	\end{align*}
+    Finally, remember that there are three elementary row operations that one can perform on a matrix $A$ of shape $m\times n$. 1) multiply a row of $A$ by $c\in F$, 2) Take a row $A_i$ and replace it with $A_i + cA_j$ for some other row $A_j$ and $c\in F$ and 3) swap rows $A_i$ and $A_j$ with each other.\\
+    Let us now bombard you with results that you know already:
+    \begin{theorem}
+        Let $V$ be a vector space over $F$. Let $A$ and $B$ be an $m\times n$ matrix:
+        \begin{enumerate}
+            \item {If $A$ and $B$ are row-equivalent, then the systems $AX= 0$ and $BX = 0$ have same solutions.}
+            \item {Every matrix $A$ of shape $m\times n$ is row-equivalent to a row-reduced echelon matrix.}
+            \item {$\star$ If $A$ is an $m\times n$ matrix such that $m< n$, then there exists a non-trivial solution of $AX = 0$.}
+            \item {$\star$ If $A$ is a matrix of shape $n\times n$, then $A$ is row-equiavalent to $I_n$ if and only if $AX = 0$ has only trivial solution.}
+            \item {If $A$ is an $n\times n$ matrix, then TFAE:
+                \begin{enumerate}
+                    \item {$A$ is invertible,}
+                    \item {row-echelon form of $A$ is identity,}
+                    \item {$A$ is a product of elementary matrices.}
+                \end{enumerate}
+            }
+            \item {$\star$ If $A$ is $n\times n$ matrix, the TFAE:
+            \begin{enumerate}
+                \item {$A$ is invertible,}
+                \item {(\textit{injectivity}) $AX = 0$ has only trivial solution $X= 0$,}
+                \item {(\textit{surjectivity}) for all $Y \in \R^{\dim V} = V$, there exists $X \in \R^{\dim V} = V$ such that $AX = Y$.}
+            \end{enumerate}
+            That is, the matrix $A_{n\times n}$ is invertible iff the linear transformation $A : \R^n \to \R^n$ is injective iff $A : \R^n \to \R^n$ is surjective.}
+        \end{enumerate}
+    \end{theorem}
+	\begin{proof}
+	Let us only sketch the main ideas of the proof here:
+    \begin{enumerate}
+        \item {Since $A = E_1\dots E_k B$, so $AX = 0$ if and only if $E_1\dots E_k BX = 0$ if and only if $BX = 0$.}
+        \item{You know that every matrix is row-equivalent to row-reduced matrix. Then getting to echelon form of that row-reduced matrix is just a matter of few more elementary row operations.}
+        \item{Let $R$ be the row-echelon form of $A$. Then $R = E_1\dots E_k A$. So $R$ and $A$ are row-equivalent. By 1. above, $RX= 0$ and $AX = 0$ have same set of solutions. Now, since $m<n$, so matrix $R$ will have a non-zero row, and thus a non-zero solution, since in row-echelon form, the solutions are determined only by the pivot variables, rest all are assigned values as per choice. In particular, the dimension of the kernel of $A$ is equal to the number of pivot variables which is equal to the number of non-zero rows of $R$.}
+        \item{L $\implies$ R is clear, but for R $\implies$ L, we first observe that the row-echelon form of $R$ also has to have trivial solution for $RX = 0$. Now, assume that $R$ is not identity, then since $R$ is an $n\times n$ matrix, then there will be a zero row of $R$, which, by virtue of 3. above tells us that there exists a non-trivial solution of $RX = 0$, a contradiction.}
+        \item{Since $A = E_1\dots E_k R$, so $A$ is invertible if and only if $R$ is invertible if and only if $R$ is identity; the last one follows from the fact that a row-echelon matrix will be invertible if and only if it is identity (think about it, how can $R$ be invertible? only when all rows are non-zero).}
+        \item {a implies b follows from 5. For b implies c, we proceed as follows. Define a new matrix $\Tilde{A}$ of shape $n\times (n+1)$ where extra column at end is the vector $Y$. Similarly define $\Tilde{X}$ to be the vector of length $n+1$ which is obtained by appending the last entry of $X$ by -1. Then, since $\Tilde{A}$ has more rows than columns, a use of 3. above tells us that $\Tilde{A}\Tilde{X} = 0$ has a non-trivial solution. But $\Tilde{A}\Tilde{X} = AX-Y$. Note that if $\Tilde{X}$ is non-trivial, then it clearly shouldn't be all zeros and then $-1$ because if that is a solution for $\Tilde{A}\Tilde{X} = 0$, then we will get that $Y$ is zero, which we are not assuming in this case. Finally, c implies a follows from the observation that if $A$ is not invertible, then $AX$ always will have an element of the vector as 0 (follows from $R$ having a zero row if $A$ not invertible). This contradicts the surjectivity and hence $A$ is invertible.}
+    \end{enumerate}
+	\end{proof}
+	\subsection{Something about vector spaces}
+	So that's about the basics of matrix manipulation that you may already know. Now let me assume you know finite-dimensional vector spaces well and good. I will give one result, which I think not a lot of you may know (well I certainly didn't before writing these notes !¡):
+	\begin{lemma}
+	Let $V$ be an $F$-vector space and $W_1, W_2\subseteq V$ be two finite-dimensional subspaces of $V$. Then, we have the following relation between the dimensions:
+	\begin{align*}
+	    \dim W_1 + \dim W_2 = \dim (W_1 \cap W_2 ) + \dim (W_1 + W_2).
+	\end{align*}
+	\end{lemma}
+	\begin{proof}
+        The idea is to simply divide the basis vectors of $W_1$ and $W_2$ into three parts: first one which is purely only in $W_1$, other which is in $W_1\cap W_2$ and is a basis for it and the third which is purely only in $W_2$. Denote the cardinality of these three sets as $j,k$ and $l$ respectively. Clearly, $W_1 + W_2$ has a basis constituted by the sets of all first, second and third, that is, $\dim (W_1+W_2) = j+k+l = j+k+k+l - k = \dim W_1 + \dim W_2 - \dim (W_1\cap W_2)$. This is what we needed. 
+	\end{proof}
+	\subsection{Rows-spaces and rank}
+	Let $A_{m\times n}$ be a matrix over $F$. Then, one can view $A$ as a linear transformation:
+	\begin{align*}
+	    A: F^n \to F^m.
+	\end{align*}
+	The row-space of $A$ is simply the subspace of $F^n$ generated by the $m$ rows of $A$:
+	\begin{align*}
+	    \row{A} := \{\sum_{i=1}^m c_i A_i\;\vert\; c_i \in F \forall i=1,\dots,m\}.
+	\end{align*}
+	There are some results to keep in mind:
+	\begin{proposition}
+	    We have the following results.
+	    \begin{enumerate}
+	        \item {If $A_{m\times n}$ and $B_{m\times n}$ are two matrices of same shape such that they are row-equivalent, then $A$ and $B$ have same row-spaces:
+	        \begin{align*}
+	            A= EB, \text{ $E_{m\times m}$ is invertible}  \implies \row{A} = \row{B} \subseteq F^n.
+	        \end{align*}
+	        }
+	        \item{If $A_{m\times n}$ is a matrix over $F$ and $R$ is the row-echelon form of $A$, then the non-zero rows of $R$ forms a basis for $\row{A} \subseteq F^n$.}
+	        \item {Let $W \subseteq F^n$ be a subspace such that $\dim W \le m$. Then there exists a unique row-echelon matrix $R_{m\times n}$ such that $\row{R} = W$.}
+	        \item {A diagonalizable matrix is always similar to a unique diagonal matrix, upto permutations of the diagonal entry.}
+	    \end{enumerate}
+	\end{proposition}
+	\begin{proof}
+	        As usual, these are brief sketches, not fully dressed proofs:
+            \begin{enumerate}
+                \item {$A= EB$ implies rows of $A$ are linear combination of rows of $B$, so $\row{A} \subseteq \row{B}$. Since $E$ is invertible, we can thus write $\inv{E} A = B$.}
+                \item {Linear independence of non-zero rows of $R$ is obvious by the very structure of the rows in $R$. We need only see whether they span the whole of $\row{A}$. Since we have $A = E_1\dots E_k R$, that tells us that any row of $A$ is a linear combination of rows of $R$, so if we take any $x \in \row{A}$, then $x = \sum_{i=1}^m c_iA_i$, but since $A_i$ is itself a linear combination of rows of $R$, so we are done.}
+                \item {There exists such a matrix which is easy to see; simply take a basis of $W$ which will consist of less than $m$ vectors, and construct a matrix $A_{m\times n}$ whose rows are these vectors and rest all 0. Now, row-echelon form of this matrix will have row space equal to $W$ by 1. However, to show uniqueness, we need to work a bit. Take any row-echelon matrix $R_{m\times n}$ such that its row space is $W$. Let the first $r$ rows of it be non-zero. Then for any $x\in W \subseteq F^n$, we can write $x = \sum_{i=1}^r c_i R_i$. Now, we need to capture how exactly is it that $x\in W$ remains independent of choice of $R_i$s? Well, we see that the $x = \sum_{i=1}^r c_iR_i$ as we have taken above will be such that component will be exactly $c_i$. Now if $x = (x_1,\dots,x_n)$, then $x = \sum_{i=1}^rx_{k_i}R_{i}$ where $k_i$ is the pivot index of $i^{\text{th}}$ row of $R$. So, to determine an element $x$ of $W$, where we are given a basis of $W$ using $R$ ($\row{R} = W$), we need only specify the coordinates of $x$ at $k_1,\dots,k_r \le n$ which are the pivot points of $R$. So, to conclude, take any $x\in W$, then $x$ has first non-zero coordinate at index $k_i$ for some $i=1,\dots, r$, which is easy to see as explained above. But the same is true for the standard basis }
+				\item {Trivial.}
+            \end{enumerate}
+	\end{proof} 
+	
+	\newlecture{2}{12/08/2022}
+    \section{Elementary canonical forms}
+    One of our main aims in this course is the following: \textit{Given a finite dimensional vector space $V$ and a linear operator $T$ on $V$, how can we write $T$ in the simplest form possible, or what properties of $T$ makes it easy representable by matrices?} Since we can represent linear operators on a finite dimensional vector space by finite matrices given an ordered choice of a basis, so the question reduces to: \textit{For a linear operator $T$ on a finite dimensional vector space $V$, does there exists a choice of basis vectors $\mathcal{B}$ in $V$ so to make the matrix $[T]_{\mathcal{B}}$ easy to analyze, maybe perhaps even a diagonal matrix or something close to it?}\\
+    
+    As we shall soon see, one of the closest ally in our this task will be the eigenvalues of the operator $T$. We first recall the following basic theorem:
+    \begin{theorem}
+    Let $T$ be a linear operator on a finite dimensional $F$-vector space $V$. Then, TFAE:
+    \begin{enumerate}
+        \item {$\lambda \in F$ is an eigenvalue of $T$,}
+        \item {the linear operator $T-\lambda I : V\to. V$ is non-invertible,}
+        \item {the $\det (T-\lambda I ) = 0$.}
+    \end{enumerate}
+    \end{theorem}
+    Since $\lambda \in F$ is an eigenvalue, so $Tv = \lambda v$ for some non-zero $v \in V$. Hence $(T-\lambda I) v =0$, that is, $0\neq v \in \Ker {T-\lambda I}$. Hence $\Ker{T-\lambda I}$ is non-trivial and by Theorem 1.1.1, 6, $T-\lambda I$ has to be invertible. By the same theorem, $\det (T-\lambda I) = 0$. \\
+    Motivated from above, we form the \textbf{characteristic polynomial} as $\det (A-xI) = 0$, which will be of degree $n = \dim V$ where $A$ is $n\times n$ matrix. Now as can easily be seen, characteristic polynomial of $T$ is independent of the basis chosen, because if $\mathcal{B}$ and $\mathcal{B}^\prime$ are two bases for $V$, then we know that $[T]_\mathcal{B} = P^{-1}[T]_{\mathcal{B}^\prime} P$ for some invertible matrix $P$. So we are good on the well-definedness side of the things about characteristic polynomials. You should be clear where do you want your eigenvalues from; an eigenvalue is a scalar $\lambda $ IN $F$ so that there exists $v\in V$ (which is a $F$-vector space) such that $Tv = \lambda v$. If there are no such $\lambda$, then there is no-eigenvalue of $T$. Equivalently, if there are no roots of characteristic polynomial IN $F$, then there are no eignevalues of $T : V\to V$ where $V$ is a fixed to be an $F$-vector space.\\
+    
+    The \textbf{eigenspace} of $T$ for eigenvalue $\lambda$ is defined to be the following subspace of $V$:
+    \begin{align*}
+        \Ker{T-\lambda I} \subset V.
+    \end{align*} 
+    In other words, the eigenspace of $T$ for eigenvalue $\lambda$ is the set of all eigenvectors of $\lambda$. If we are given that $V$ is finite dimensional and $A = [T]_\mathcal{B}$, then we can analyze the operator $A-\lambda I$ in order to find, say dimension of eigenspace of $\lambda$ (which you will do by using rank-nullity and by finding the rank of $A-\lambda I$) and what not.\\
+    
+    We next study \textbf{diagonalizable operators}. An operator $T : V\to V$ on a finite dimensional $F$-vector space is said to be diagonalizable if there exists an ordered basis $\mathcal{B}$ of $V$ such that each vector $b\in \mathcal{B}$ is an eigenvector of $T$. The name comes form the fact that $[T]_\mathcal{B}$ will look as follows:
+    \begin{align*}
+      [T]_\mathcal{B} =   \begin{bmatrix}
+            c_1 & 0 &\dots & 0\\
+            0 & c_2 & \dots & 0\\
+            \vdots & \vdots &\ddots & \vdots\\
+            0 & 0 & \dots &c_n
+        \end{bmatrix}
+    \end{align*}
+    Let $T$ be a diagonalizable operator on finite-dimensional vector space $V$. There is a subtle relation between dimension of the eigenspace of $A= [T]_\mathcal{B}$ corresponding to eigenvalue $\lambda $ (geometric multiplicity) and the multiplicity of eigenvalue $\lambda$ as the root of characteristic polynomial (algebraic multiplicity). In particular, 
+    \begin{lemma}\label{L-2.0.2}
+    A linear operator $T$ is diagonalizable if and only if for each eigenvalue $\lambda \in F$ of $T$, the algebraic multiplicity of $\lambda$ is equal to geometric multiplicity of $\lambda$. That is, 
+    \begin{align*}
+        \forall \lambda \text{ eigenvalue of $T$, multiplicity of $\lambda$ in $\Phi(x)$, the characteristic polynomial of $T$} = \dim \Ker{T-\lambda I}.
+    \end{align*}
+    \end{lemma}
+    \begin{proof}
+        (L $\implies $ R) Since $T$ is diagonalizable, therefore there exists a basis $\mathcal{B}$ of $V$ such that each vector $b\in \mathcal{B}$ is an eigenvector of $T$. Now, we know that $A = [T]_\mathcal{B}$ will look like as above, where we have to assume that $c_i$ is repeated $d_i$ many times. So characteristic polynomial $\Phi(x)$ of $T$ will look like $\Phi(x) = (x-c_1)^{d_1} \dots (x-c_k)^{d_k}$. So if we take $\lambda = c_1 $ WLOG, then algebraic multiplicity is equal to $d_1$. Next, we will have that $A-c_1I$ looks like a diagonal matrix wose first $d_1$ entries are zero and rest diagonal entries are $c_i - c_1$. Clearly, $\Ker{A-c_1I}$ will have dimension $d_1$.\\
+        
+        (R $\implies$ L) Let $\lambda_i$ be an eigenvalue of $T$. Then, the eigenspace $E_i \subseteq V$ corresponding to $\lambda_i$ will have some basis, say $\{b^i_j\}_{j=1}^{d_i}$ where $d_i$ is also the algebraic multiplicity of $\lambda_i$ in $\Phi(x)$. It is because of this latter viewpoint that we can write $\sum_{i=1}^k d_i = n$. Now, consider the collection $\mathcal{B} = \{b^1_j\}_{j=1}^{d_1} \cup \{b^2_j\}_{j=1}^{d_2} \cup \dots \cup \{b^k_j\}_{j=1}^{d_k}$, which may consist of less than $n$ vectors, but since we know that two eigenspaces always have trivial intersection, therefore $\mathcal{B}$ will have $n$ vectors. Now, we need to show that each element in $\mathcal{B}$ is independent with each other. For that, suppose:
+        \begin{align*}
+            \sum_{b\in \mathcal{B}} c_b b = 0
+        \end{align*}
+        where $c_b \in F$. Since each $\{b^i_j\}_{j=1}^{d_i}$ is a basis of eigenspace corresponding to $\lambda_i$, therefore the part of the above sum corresponding to $\sum_{j=1}^{d_i} c_{ij} b^i_j $ is an eigenvector of $\lambda_i$, for each $i=1,\dots,k$. Therefore the above equation reduces to $v_1 + \dots + v_k = 0$ where each $v_i$ is an eigenvector of $\lambda_i$. Since any two eigenvectors from different eigenspaces are necessarily independent, therefore each $v_i = 0$ and thus each $c_b$ is zero by independence of the basis of eigenspace of $\lambda_i$.\\
+        
+        I think its good to give a proof of the fact that vectors from distinct eigenspaces are necessarily independent. So suppose $v_ + \dots + v_k =0$ where $v_i $ is in eigenspace corresponding to eigenvalue $\lambda_i$. Then we know that for each $f(x) \in F[x]$, we have
+        \begin{align*}
+            0 &= f(T)0\\
+            &= f(T)(v_1+\dots + v_k)\\
+            &= f(c_1)v_1 + \dots + f(c_k) v_k.
+        \end{align*}
+        So if we simply consider $f(x) \in F[x]$ to be such that $f(x) = (x-c_2) \dots (x-c_k)$, then by above we get $0 = (c_1-c_2)v_1 \iff v_1 = 0$ as $c_1 \neq c_2$. Doing same for other $v_i$s does the job. 
+    \end{proof}
+    \begin{lemma}
+    Let $T : V\to V$ be a linear operator on a finite-dimensional $F$-vector space. If every vector $v\in V$ is an eigenvector of $T$, then $T$ is diagonalizable and eigenspaces are independent of each other.
+    \end{lemma}
+    \begin{proof}
+    Since any $v\in V$ is an eigenvector, therefore if we take any ordered basis $\mathcal{B} = \{v_1,\dots,v_n\}$ of $V$, then $v = c_1v_1 + \dots + c_nv_n$. Applying $T$ on it, $Tv = c_1Tv_1 + \dots + c_nTv_n = c_1\lambda_1 v_1 + \dots + c_n\lambda_n v_n$. Since $Tv = \lambda v$ , therefore $\lambda (c_1v_1 + \dots c_n v_n ) = c_1 \lambda_1 v_1 + \dots c_n \lambda_n v_n$. Thus, by independence of vectors $v_i$, we get $c_i = \lambda^{-1} c_i \lambda_i \iff  \lambda = \lambda_i$ for those $i$ for which $c_i \neq 0$ in $v = c_1v_1 + \dots + c_n v_n$. So the fact that each $v\in V$ is an eigenvector tells us that any basis $\mathcal{B}$ of $V$ has to  consist of an element of an eigenvector from each eigenspace of $V$ for $T$. Thus $T$ is diagonalizable as any basis of $V$ will be an eigenvector and $T$ each eigenspace is not linearly dependent on other eigenspaces.
+    \end{proof}
+    The main theorem is the following:
+    \begin{theorem}\label{T-2.0.4}
+        Let $T$ be a linear operator on a finite dimensional $F$-vector space $V$. Then TFAE:
+        \begin{enumerate}
+            \item {$T$ is a diagonalizable operator,}
+            \item {the characteristic polynomial of $T$ is
+            \begin{align*}
+                \Phi(x) = (x-\lambda_1)^{d_1} \dots (x-\lambda_k)^{d_k}
+            \end{align*}
+            where $\lambda_1,\dots,\lambda_k \in F$ are eigenvalues of $T$ and $d_i = \dim \Ker{T-\lambda_i I}$,
+            }
+            \item{we have
+            \begin{align*}
+                \dim V = \sum_{i=1}^k \dim\Ker{T-\lambda_iI},
+            \end{align*}
+            }
+            \item {for each eigenvalue $\lambda_i $ of $T$, algebraic multiplicity of $\lambda_i $ is equal to geometric multiplicity of $\lambda_i$.}
+        \end{enumerate}
+    \end{theorem}
+    \begin{proof}
+    (1 $\implies$ 2) This is how we proved the L $\implies$ R in Lemma 2.0.2 above. \\
+    (2 $\implies$ 3) Since the characteristic polynomial of $T$ is product of linear factors as given, therefore $d_1 + \dots + d_k = n = \dim V$ and since $d_i = \dim \Ker{T-\lambda_i I}$. \\
+    (3 $\implies$ 1 $\iff$ 4) Since $\Ker{T-\lambda_i I}$ spans $V$ by dimension argument, we get a basis of $V$ which consists of eigenvectors of $T$.
+    \end{proof}
+    
+    \subsection{Annihilating polynomials}
+    Ok, we need to be a bit quick here. We have that $\homset{\cat{Vect}_k^{\text{fin}}}{V}{V}= L(V)$ is a ring under pointwise addition and composition. It is moreover an $F$-algebra under scalar multiplication. Let $T: V\to V$ be a linear operator on a finite dimensional $F$-vector space, so an element of $L(V)$. Then, we have an \textbf{annihilator ideal corresponding to $T$} of algebra $F[x]$ given by:
+    \begin{align*}
+        \Ann{T} := \{f(x) \in F[x]\;\vert\; f(T) = 0 \in L(V) \}.
+    \end{align*}
+    That is, we consider all the polynomials $f(x) \in F[x]$ such that the operator that we get after applying $f$ to $T$ will give you the zero $0$ operator. Note that $L(V)$ doesn't obtain a $F[x]$-module structure via the above mapping because $(T+U)^k \neq T^k + U^k$ for $k\in \N$. So the only thing we have going for us is that each element of $L(V)$ induces an ideal in $F[x]$:
+    \begin{align*}
+        L(V) &\longrightarrow \text{Ideal}(F[x])\\
+        T&\longmapsto \Ann{T}.
+    \end{align*}
+    That's nice, we'll be using this annihilator ideal quite frequently.\\
+    
+    Let us first see that $\Ann{T}$ is always non-trivial in finite dimensional case:
+    \begin{lemma}\label{L-2.1.1}
+    Let $T \in L(V)$ where $V$ is a finite-dimensional $F$-vector space. Then, $\Ann{T} \le F[x]$ contains a non-zero element.
+    \end{lemma}
+    \begin{proof}
+    The proof uses the usual dimension argument. Since $\dim V = n$, therefore $\dim L(V) = n^2$ as an $F$-vector space, where one basis might be given as all matrices of the form $\{(a_{ij})\}_{i,j=1,\dots,n}$ where $a_{ij} = 1$ and rest zero in one particular matrix. So $L(V)$ is also a finite-dimensional $F$-vector space. Thus, if we take the operator $T\in L(V)$, then for the collection of elements $\{I,T,T^2,\dots, T^{n^2}\}$ in $L(V)$, we obtain a dependence relation as in any finite dimensional vector space, a collection of elements of size more than the dimension necessarily has to be dependent. Thus, we have:
+    \begin{align*}
+        T^n + c_{n-1} T^{n-1} + \dots + c_1 T + c_0 = 0
+    \end{align*}
+    in $L(V)$. What this tells us is that the corresponding polynomial $f(x) = x^n + c_{n-1} x^{n-1} + \dots +c_1 x + c_0$ annihilates $T$, that is $f(T) = 0$. Thus, $f(x) \in \Ann{T} \le F[x]$ is a non-zero element of the ideal.
+    \end{proof}
+    Ok so we know that if $T\in L(V)$, then for any $p(x) \in F[x]$, we get another linear operator $p(T) \in L(V)$. A natural question that now arises is that how does $p(T)$ act on a vector $v\in V$. Well in general we can only say that if $p(x) = \sum_{i=0}^n c_ix^i$, then $p(T)v = \sum_{i=0}^n c_i T^i(v)$, where $T^i$ is of-course $i$-fold composition of $T$ with itself. But this takes a much simpler form when we consider $v\in V$ to be an eigenvector of $T$:
+    \begin{lemma}\label{L-2.1.2}
+        Let $T\in L(V)$, $\dim V= n$ and $v\in V$ an eigenvector of $T$ corresponding to an eigenvalue $c\in F$. Then, for all $p(x) \in F[x]$,
+        \begin{align*}
+            p(T)v = p(c)v.
+        \end{align*}
+    \end{lemma}
+    \begin{proof}
+        It is quite easy.
+    \end{proof}
+    An important observation about $F[x]$ is that it is a PID. So this means that $\Ann{T}$ is a principal ideal. Define that minimum degree monic polynomial $p(x) \in F[x]$ such that $\gen{p(x)} = \Ann{T}$ to be the \textbf{minimal polynomial} of operator $T$. \\
+    
+    There is a very important relationship between the minimal polynomial $p(x)$ and the characteristic polynomial $\Phi(x)$ for a given linear operator $T\in L(V)$.
+    \begin{theorem}\label{T-2.1.3}
+    Let $T \in L(V)$ where $V$ is a finite-dimensional $F$-vector space and denote $p(x)$ to be the minimal and $\Phi(x)$ to be the characteristic polynomial of $T$. Then, \begin{enumerate}
+        \item {$p(x)$ and $\Phi(x)$ has same roots,}
+        \item {the multiplicity of root $c$ of $p(x)$ $\le$ the multiplicity of root $c$ of $\Phi(x)$, for all roots of $c$ of $p(x)$ (or of $\Phi(x)$, equivalently).}
+    \end{enumerate}
+    \end{theorem}
+    \begin{proof}
+        To show that $p(x)$ and $\Phi(x)$ have same roots, we need to show that $p(c) = 0$ if and only if $c$ is an eigenvalue of $T$ (it is necessary to show if and only if, because only then can we say that both of them will have identical roots). So suppose $p(c) = 0$ for some $c\in F$, then we can write $p(x) = (x-c) q(x) $ for $q(x) \in F[x]$. In order to show that $c$ is an eigenvalue of $T$, we need only show that $\Ker{T-cI} \subseteq V$ is non-trivial. We already have such a form in $p(x) = (x-c)q(x)$, well atleast the feeling is there. Ok, so we observe that $p(T) = (T-cI)q(T)$. Somehow we need an element $v\in V$ such that $p(T)v = 0$ but $q(T)v \neq 0$. Is such an element there? Now comes into the picture the minimality of polynomial $p(x)$ wrt to certain property. Since $\deg p(x) > \deg q(x)$, therefore $q(x)$ cannot possibly be in $\Ann{T}$. Thus, $q(T) \neq 0$ in $L(V)$. Hence, $\exists v\in V$ such that $q(T)v \neq 0$. But since $p(T) = 0$ as $p(x) \in \Ann{T}$, therefore $p(T)v = 0$ for the same $v$ as above. So we can write $0 =p(T)v = (T-cI)q(T)v = (T-cI)w$, where $w = q(T)v \neq 0$. Hence $c\in F$ is an eigenvalue of $T$. Conversely, if $c$ is an eigenvalue of $T$, then $\exists v\in V$ such that $(T-cI)v = 0$. Then by Lemma \ref{L-2.1.2}, we obtain that $p(T)v = p(c)v$. But since $p(x)\in \Ann{T}$, so $p(T)v = 0$, irrespective of what special property $v\in V$ satisfies. Thus, $p(c)v = 0$. Now, two cases can happen, either $v= 0$ or $p(c)=0$. The former cannot happen because $v$ is an eigenvector, which are by definition non-zero. Hence $p(c) = 0$. \\
+        
+        So $p(x)$ and $\Phi(x)$ have exactly the same roots. But how can we talk about multiplicities of those roots? Well, we'll soon see that $\Phi(x)$ is also in $\Ann{T}$, thus, $p(x) | \Phi(x)$. Hence, the multplicities of roots of $p(x)$ is equal to or lower than those of $\Phi(x)$.
+    \end{proof}
+    We next observe that we can find the minimal polynomial of a diagonalizable operator by knowing its distinct eigenvalues. We cannot do the same by the above Theorem \ref{T-2.1.3} because it only tells us that the multiplicites of its roots will be lower than that of $\Phi(x)$, but may not be always $1$.
+    \begin{lemma}\label{L-2.1.4}\footnote{The second part of this proof is different than what was taught.}
+    Let $T\in L(V)$ be a diagonalizable operator with distinct eigenvalues $c_1,\dots,c_k$. Then the minimal polynomial of $T$, denoted $p(x)$ is given by:
+    \begin{align*}
+        p(x) = (x-c_1)\dots (x-c_k).
+    \end{align*}
+    \end{lemma}
+    \begin{proof}
+        Since $T$ is diagonalizable, therefore $V = \bigoplus_{i=1}^k \Ker{T-c_iI}$. Suppose $p(x)$ is the minimal polynomial of $T$. Then by Theorem \ref{T-2.1.3}, we clearly have that the roots of $p(x)$ are exactly all the eigenvalues $c_i$, but possibly with multplicities more than 1. So we reduce to showing that for any eigenvalue $c$, the polynomial $q(x)\in F[x]$ in the factorization
+        \begin{align*}
+            p(x) = (x-c) q(x),
+        \end{align*}
+        where we have $\deg q(x) < \deg p(x)$, cannot have $c$ as a root, that is, we need to show that $q(c) \neq 0$. So assume to the contrary that $q(c) = 0$. Since $c$ is an eigenvalue of $T$, therefore $q(T)v = q(c)v = 0$ for an eigenvector $v\in V$ of eigenvalue $c\in F$. So $q(T)v = 0$ in $V$. Since $Tv = cv$, therefore $v\in \Ker{T-cI}$. Since $v\in \Ker{T-cI}$ was arbitrarily chosen, therefore $q(T)v = 0$ for all $v\in \Ker{T-cI} \subseteq V$. Since $q(T) \in L(V)$, therefore $\Ker{q(T)} \supseteq \Ker{T-cI}$. Therefore $\dim \Ker{q(T)} \ge \dim \Ker{T-cI} \ge 1$. Therefore $\dim \Ker{q(T)} \ge 1$. Thus, $\dim \Image{q(T)} \le n-1$, where $n=\dim V$. Thus, $q(T)$ is not surjective which is equivalent to saying that $q(T)$ is not injective in this case because $V$ is a finite-dimensional $F$-vector space. But since $T$ is diagonalizable, therefore we can also write $T$ in the matrix form as $A_T = P^{-1}\Lambda P$ where $P$ is an invertible $n\times n$ matrix and $\Lambda$ is a diagonal matrix whose entries are all the eigenvalues of $T$. Since the minimal/characteristic polynomials of both $T$ and $A_T$ are same, therefore we first observe that:
+        \begin{align*}
+            q(A_T) &= q(P^{-1}\Lambda P)\\
+            &= P^{-1}q(\Lambda)P\\
+            &= P^{-1}\Lambda^\prime P.
+        \end{align*}
+        Thus, $q(A_T)$ and hence $q(T)$ is itself diagonalizable. Since diagonalizable operators are invertible, which is equivalent to saying that they are surjective, therefore $\dim \Image{q(T)} = n$, a contradiction to the above. Hence, $q(c) \neq 0$. We are done.
+    \end{proof}
+    \begin{remark}\label{R-2.1.5}
+    (\textit{On polynomials preserving niceness of operators}) One would have noticed in the above proof that we explicitly used the trivial observation that if $T$ is diagonalizable, then so is $p(T)$ where $p(x) \in F[x]$ is any polynomial. This one example of the general feature that polynomials have wrt operators, that they preserves some of the nice features that $T$ may have. Another one of such phenomenon is the following fact:
+    \begin{align*}
+        \text{\textit{similar matrices[operators] have same minimal and characteristic polynomials.}}
+    \end{align*}
+    One should keep an eye out to find more such properties about operators on f.d. vector spaces which are preserved by polynomials, as and when they are introduced.
+    \end{remark}
+    Ok so we finally state the Cayley-Hamilton theorem in this language of annihilators so that you can make sense of last line of the proof of Theorem \ref{T-2.1.3} and then we'll move on to something more fascinating:
+    \begin{theorem}\label{T-2.1.6}
+        Let $T\in L(V)$ where $V$ is a finite-dimensional $F$-vector space. Denote $\Phi(x) \in F[x]$ to be the characteristic polynomial of $T$. Then, 
+        \begin{align}
+            \Phi(x) \in \Ann{T}.
+        \end{align}
+    \end{theorem}
+    \subsection{Invariant subspaces}
+    Let $T\in L(V)$ be a linear operator on an $F$-vector space. A \textbf{$T$-invariant subspace} $W\subseteq V$ is defined to be that subspace of $V$ such that $T(W) \subseteq W$. Some examples are as follows:
+    \begin{itemize}
+        \item {For any $T\in L(V)$, the subspaces $\{0\}$, $V$ are $T$-invariant.}
+        \item {For the $F$-vector space $F[x]$ and derivative linear operator in $L(F[x])$, the following subspace is invariant:
+        \begin{align*}
+            W_n = \{f(x) \in F[x]\;\vert\; \deg f \le n\}\cup \{0\}.
+        \end{align*}}
+    \end{itemize}
+    Given two commuting linear operators on a vector space, we automatically obtain two more invariant subspaces for each of the linear operators in question:
+    \begin{lemma}\label{L-2.2.1}
+    Let $T,U \in L(V)$ where $V$ is an $F$-vector space. If $TU = UT$, then $\Image{U}$ and $\Ker{U}$ are invariant $T$-invariant subspaces.
+    \end{lemma}
+    \begin{proof}
+     There are no surprises here.
+    \end{proof}
+    As we observed in Remark \ref{R-2.1.5}, something similar happens between the commuting relation of $f(T)$ and $T$. In particular,
+    \begin{lemma}\label{L-2.2.2}
+    Let $T\in L(V)$ where $V$ is an $F$-vector space and let $f(x) \in F[x]$. Then $f(T)$ and $T$ commutes with each other.
+    \end{lemma}
+    \begin{proof}
+    Nothing to show here.
+    \end{proof}
+    A corollary of Lemmas \ref{L-2.2.1} and \ref{L-2.2.2} is the following:
+    \begin{corollary}
+    Let $T \in L(V)$ and let $c\in F$ be an eigenvalue of $T$, then $\Ker{T-cI}$ and $\Image{T-cI}$ are $T$-invariant subspaces of $V$.
+    \end{corollary}
+    \begin{proof}
+    Lemma \ref{L-2.2.2} tells us that if we consider $f(x) = x-c$, then $f(T) = T-cI$ and $T$ commutes with each other. By Lemma \ref{L-2.2.1}, we obtain that $\Ker{T-cI}$ and $\Image{T-cI}$ are $T$-invariant.
+    \end{proof}
+    Here's a good exercise:
+    \begin{example}
+    Consider the following linear operator on $\R^2$:
+    \begin{align*}
+        A = \begin{bmatrix}
+        0&-1\\
+        1&0
+        \end{bmatrix}.
+    \end{align*}
+    Find all $A$-invariant subspaces of $\R^2$. Ok so for this, what we will try to do is to find a proper subspace of $\R^2$ which will be $A$-invariant. Thus suppose $W\subseteq \R^2$ is a proper non-trivial subspace, thus $\dim W = 1$. Now if $AW \subseteq W$, therefore there is only one choice that $AW = W$ as the only proper subspace of $W$ is $\{0\}$. Since $W$ is of dimension $1$, therefore $A$ on $W$ gives a linear operator on $W$ which is surjective, hence injective, hence bijective and hence invertible. So since we can write $W = \gen{w} \subseteq V$, therefore $Aw = cw$ for some $c\in \R$, that is, $A$ has an eigenvalue in $\R$. But notice that it is not true because $\Phi(x) = x^2+1$. Hence $W$ cannot be invariant for $A$. \qed
+    \end{example}
+    Let $T\in L(V)$ and $W\subseteq V$ be $T$-invariant. Then we obtain $T_W \in L(W)$, by restricting $T$ to $W$. We will now find relationship between the matrix representation of $T$ and $T_W$ for a $T$-invariant subspace $W\subseteq V$.
+    \begin{proposition}
+        Let $T \in L(V)$ where $V$ is a finite-dimensional $F$-vector space. Suppose $\mathcal{B} = \{b_1,\dots,b_n\}$ is an ordered basis of $V$ and let $W\subseteq V$ be a $T$-invariant subspace whose basis is given by $\mathcal{B}^\prime = \{b_1,\dots,b_r\}$ where $r\le n$. Then, 
+        \begin{enumerate}
+            \item {the matrices $[T]_{\mathcal{B}}$ and $[T_W]_{\mathcal{B}^\prime}$ are related as follows:
+            \begin{align*}
+                [T]_{\mathcal{B}} = \begin{bmatrix}
+                    [T_W]_{\mathcal{B}^\prime} &C\\
+                    0& D
+                \end{bmatrix}
+            \end{align*}
+            where $C$ is of shape $r\times (n-r)$ and $D$ is of shape $n-r\times n-r$,
+            }
+            \item {the characteristic polynomial of $T_W$ $\Phi_W(x)$ divides the characteristic polynomial of $T$ $\Phi(x)$,}
+            \item {the minimal polynomial of $T_W$ $p_W(x)$ divides the minimal polynomial of $T$ $p(x)$.}
+        \end{enumerate}
+    \end{proposition}
+    \begin{proof}
+    1. Denote $A = [T]_{\mathcal{B}}$ and $B = [T_W]_{\mathcal{B}^\prime}$. Then, for any $b_j $, $j\le r$, we have $Tb_j = \sum_{i=1}^nA_{ij}b_i$. Since $Tb_j \in W$, therefore $\sum_{i=1}^nA_{ij}b_i \in W$. This means that $A_{ij} = 0$ for all $n\ge i>r$, thus $Tb_j = \sum_{i=1}^rA_{ij}b_i$ for all $1\le j\le r$.\\
+    
+    2. To see this, define $A = [T]_{\mathcal{B}}$ and $B = [T_W]_{\mathcal{B}^\prime}$. Then, 
+    \begin{align*}
+        \det (A-xI) &= \begin{bmatrix}
+            B-xI &C\\
+            0& D-xI
+        \end{bmatrix}\\
+        &= \det (B-xI) \det (D-xI)
+    \end{align*}
+    which tells us that $\Phi_W(x) | \Phi(x)$.\\
+    
+    3. The minimal polynomial $p_W(x)$ is the generator of $\Ann{T_W}$, that is, if $f(x) \in F[x]$ is such that $f(T_W) = 0$, then $p_W(x) | f(x)$. Now, take any $f(x)\in \Ann{T} = \gen{p(x)}$. Then $f(T) = 0$. That means that for all $v\in V$, $f(T)(v) = 0$. But this means that for all $w\in W$, $f(T)(w) = 0$, therefore $f(T_W) : W\to W$ is zero. Hence $f(x)\in \Ann{T_W}$. Thus $\Ann{T} \subseteq \Ann{T_W}$. Hence $p_W(x) | p(x)$.
+    \end{proof}
+    \newlecture{3}{16/08/2022}
+    \subsection{Characterization of diagonal operators in terms of minimal polynomial}
+    We now develop tools which will allow us to characterize all diagonalizable and triangulable operators on a f.d. $F$-vector space. The main ingredient in all of this is the notion of $T$-conductors.\\
+    
+    Let $T\in L(V)$ be a linear operator on a finite dimensional $F$-vector space. Let $W\subseteq V$ be a $T$-invariant subspace of $V$. Let $\alpha \notin W$ be an element of $V$. Then, the \textbf{$T$-conductor of $\alpha$ into $W$ }is the following ideal of $F[x]$:
+    \begin{align*}
+        \cond{T}{\alpha}{W} := \{f(x)\in F[x]\;\vert\; f(T)(\alpha)\in W\}.
+    \end{align*}
+    Indeed $\cond{T}{\alpha}{W}$ is an ideal of $F[x]$ as the following lemma shows:
+    \begin{lemma}\label{L-2.3.1}
+    Let $T\in L(V)$ where $V$ is a finite dimensional $F$-vector space and $W\subseteq V$ is $T$-invariant. Then,
+    \begin{enumerate}
+        \item {for all $f\in F[x]$, $W$ is $f(T)$-invariant,}
+        \item {for all $\alpha \in V$, the $T$-conductor of $\alpha$ into $W$ is an ideal of $F[x]$.}
+    \end{enumerate}
+    \end{lemma}
+    \begin{proof}
+    1. Take any $f(x) \in F[x]$ and $w\in W$. Then $f(T)w = \sum_{i=0}^n c_iT^i(w)$. Since $T(W) \in W$, thus $T^iw \in W$ for all $i$. Hence $f(T)w \in W$, showing that $f(T)(W) \subseteq W$ and that if $W$ is $T$-invariant, then $W$ is also $f(T)$-invariant for all $f\in F[x]$.\\
+    
+    2. To show $\cond{T}{\alpha}{W}$ is an ideal of $F[x]$, take $f\in \cond{T}{\alpha}{W}$ and $g\in F[x]$. Then $f(T)g(T)\alpha = g(T) f(T) \alpha= g(T)(f(T)\alpha)$, where $f(T)\alpha \in W$ as $f$ is in the $T$-conductor. Now, by 1. above, $W$ is $g(T)$-invariant as well, so $g(T)(f(T)\alpha) \in W$. Hence $g(T)f(T) = f(T)g(T) \in \cond{T}{\alpha}{W}$. 
+    \end{proof} 
+    Since $F[x]$ is a PID and $\cond{T}{\alpha}{W}$ is an ideal of $F[x]$, therefore $\cond{T}{\alpha}{W} = \gen{g(x)}$, for some $g(x) \in F[x]$. Even though this generator won't be used much, we will still be calling it the \textbf{$T$-conductor $\alpha$ into $W$}. \\
+    
+    Since for all $f\in \Ann{T}$, $f(T)\alpha = 0$ as $f(T) = 0$, therefore $f\in \cond{T}{\alpha}{W}$, so $\Ann{T} \subseteq \cond{T}{\alpha}{W}$ for all $\alpha\in V$ and for all $T$-invariant $W$.\\
+    
+    Let us now introduce a lemma which will be our key to characterization of diagonal and triangular operators. In-fact, we will generalize it after some time and that will too depend on this lemma.
+    \begin{lemma}\label{L-2.3.2}
+    Let $T\in L(V)$ be a linear operator on a finite dimensional $F$-vector space $V$. If $W\subsetneq V$ is $T$-invariant and the minimal polynomial $p(x)$ of $T$ can be written as 
+    \begin{align*}
+        p(x) = (x-c_1)^{r_1} \dots (x-c_k)^{r_k}
+    \end{align*}
+    where $c_i \in F$, then $\exists \alpha\notin W$ such that $(T-c_iI)\alpha \in W$ for some $i=1,\dots,k$.
+    \end{lemma}
+    \begin{proof}
+        We will construct one such $\alpha \notin W$ satisfying the above condition. Notice that the condition is demanding us to show that there is a polynomial of form $x-c_i$ in the conductor $\cond{T}{\alpha}{W}$. So this observation motivates our proof. First, take any $\beta \notin W$ and consider the conductor $\cond{T}{\beta}{W} = \gen{g(x)}$. Since $\Ann{T} = \gen{p(x)}$ is contained in $\cond{T}{\beta}{W}$, therefore $g(x) | p(x)$ which is to say that
+        \begin{align*}
+            g(x) = (x-c_1)^{e_1} \dots (x-c_k)^{e_k}
+        \end{align*}
+        where $0\le e_i \le r_i$ for all $i=1,\dots,k$. Can all $e_i$ be zero? If they are then $g(x) = 1$ and hence $\cond{T}{\beta}{W} = F[x]$ and hence $x\in \cond{T}{\beta}{W}$ and hence $\beta \in W$, a contradiction to our starting assumption. So there $i_0 = 1,\dots,k$ such that $e_{i_0} \neq 0$. Consider then the polynomial $h(x)$ as in 
+        \begin{align*}
+            g(x) = (x-c_{i_0})h(x).
+        \end{align*}
+        We are close to the form needed in the question. Now, we need only show that $h(T)\beta \notin W$ because then, taking $\alpha := h(T)\beta$, we will get that $g(T)\beta = (T-c_{i_0}I)\alpha $ where $g(T)\beta \in W$ as $g \in \cond{T}{\beta}{W}$. So we reduce to showing that $h(T)\beta \notin W$. Well it is clear that $h(T)\beta \notin W$ because if to the contrary we find that $h(T)\beta \in W$, then $h(x) \in \cond{T}{\beta}{W} = \gen{g(x)}$ and hence we obtain a contradiction to the minimality of $g(x)$. So we are done.
+    \end{proof}
+    We now come to the main result, a characterization of diagonal operators. 
+    \begin{theorem}\label{T-2.3.3}
+    Let $T\in L(V)$ be a linear operator on a finite dimensional $F$-vector space. Then, the following are equivalent:
+    \begin{enumerate}
+        \item {The minimal polynomial $p(x)$ of $T$ is of form
+    \begin{align*}
+        p(x) = (x-c_1)\dots (x-c_k)
+    \end{align*}
+    where $c_1,\dots, c_k \in F$ are distinct.
+        }
+        \item{The operator $T$ is diagonalizable.}
+    \end{enumerate}
+    \end{theorem}
+    \begin{proof}
+    The implication $2 \implies 1$ is exactly the content of Lemma \ref{L-2.1.4}, so we need only show $1\implies 2$. We need to show that
+    \begin{align*}
+        T = \Ker{T-c_1 I} + \dots +\Ker{T-c_k I}.
+    \end{align*}
+    That seems a bit difficult because we need to show that every vector is an eigenvector just by knowing that minimal polynomial is split linearly and simply over $F$. So we try to prove the contrapositive, which is: If $T$ is not diagonalizable, then $p(x)$ has a repeated root. Now how is this easier to prove? Well, we have the Lemma \ref{L-2.3.2} on our side, and it tells us exactly that for a given $T$-invariant subspace $W$, there is a $\alpha \notin W$ such that $x-c_i \in \cond{T}{\alpha}{W}$. Since we are given that $T$ is not diagonalizable, therefore the direct sum of eigenspaces is not whole of $T$ and one does have a feeling that sum of eigenspaces will naturally be $T$-invariant, and this feeling will open \textit{a} door to \textit{a} possible proof. So we are motivated to prove this contrapositive. So let us check whether our feeling is correct or not. Let $W := \bigoplus_{i=1}^k \Ker{T-c_iI}$. Since $T$ is not diagonalizable, therefore $W\subsetneq V$. Now, $W$ is also $T$-invariant because for any $v_1 + \dots v_k \in W$, $T(v_1+\dots + v_k ) = Tv_1 + \dots + Tv_k = a_1v_1 + \dots a_kv_k \in W$. Now, using Lemma \ref{L-2.3.2}, we get an $\alpha \notin W$ such that $\beta := (T-c_{i_0}I)\alpha \in W$ for some $1\le i_0\le k$. Now remember that we have to show that there is a repeated root of the minimal polynomial $p(x)$. The previous discussion motivates us to claim that if we write
+    \begin{align*}
+        p(x) = (x-c_{i_0})h(x),
+    \end{align*}
+    then $h(x)$ should have $c_{i_0}$ as a root also. If that's the case, then we're done. So let us see if that's actually true or not. Since we have that $(T-c_{i_0})\alpha \in W$, so we try to observe what we can get after putting $T$ in above equation:
+    \begin{align*}
+         (T-c_{i_0}I)h(T)&= p(T)\\
+        &=0.
+    \end{align*}
+     So $(T-c_{i_0}I)h(T)$ is the zero operator. Now, observe that $h(x) - h(c_{i_0}) = (x-c_{i_0})q(x)$ for some $q(x) \in F[x]$. Since $0 = p(T)\alpha = (T-c_{i_0}I)h(T)\alpha$, therefore $h(T)\alpha \in \Ker{T-c_{i_0}I} \subset W$. Thus,
+     \begin{align*}
+         h(T)\alpha - h(c_{i_0})\alpha &= (T-c_{i_0}I)q(T)\alpha\\
+         &= q(T) (T-c_{i_0}I)\alpha\\
+         &= q(T)\beta
+     \end{align*}
+     and since $\beta\in W$ with $W$ being $T$-invariant, therefore $W$ is $q(T)$-invariant by Lemma \ref{L-2.3.1}, 1. Thus, $q(T)\beta \in W$. So in total we have $h(T)\alpha \in W$ and $h(T)\alpha - h(c_{i_0})\alpha \in W$, thus giving us that $h(c_{i_0})\alpha \in W$. If $h(c_{i_0})\neq 0$, then $\alpha\in W$. Use contrapositive of this easy statement and the fact that $\alpha\notin W$ to conclude that $h(c_{i_0}) = 0$. 
+    \end{proof}
+    \newlecture{4}{22/08/2022}
+    We begin with the following remark:
+    \begin{remark}
+    So far we have seen two ways to check whether a linear operator $T : V\to V$ on a finite dimensional $F$-vector space is diagonaliable or not. Denote $\Phi(x) = (x-c_1)^{d_1}\dots (x-c_k)^{d_k}$ to be the characteristic polynomial of $T$. Then, $T$ is diagonalizable if and only if:
+    \begin{enumerate}
+        \item {(Lemma \ref{L-2.0.2}) : for each $i=1,\dots,k$, $d_i = \dim \Ker{T-c_iI}$,}
+        \item {(Theorem \ref{T-2.3.3}) : $(T-c_1I)\dots (T-c_2I) = 0$.}
+    \end{enumerate}
+    We will see a similar characterization for triangulable operators now.
+    \end{remark}
+    \subsection{Characterization of triangulable operators in terms of minimal polynomial}
+    The Lemma \ref{L-2.3.2} is very important to us, as we will see soon in the proof of the even more important theorem below:
+    \begin{theorem}\label{T-2.4.1}
+    Let $T \in L(V)$ be a linear operator on a finite dimensional $F$-vector space. Then, the following are equivalent:
+    \begin{enumerate}
+        \item {The minimal polynomial $p(x)$ of $T$ splits into linear factors over $F$ as follows:
+        \begin{align*}
+            p(x) = (x-c_1)^{r_1} \dots (x-c_k)^{r_k},
+        \end{align*}
+        where $c_i\in F$.
+        }
+        \item {There exists a basis $\mathcal{B}$ of $V$ such that $[T]_\mathcal{B}$ is upper triangular.}
+    \end{enumerate}
+    \end{theorem}
+    \begin{proof}
+        (1 $\Rightarrow$ 2) We will successively use Lemma \ref{L-2.3.2} to construct the said basis. First of all, it is beneficial to actually look at what we want. Suppose we already have a basis $\mathcal{B}$ such that $[T]_\mathcal{B}$ is upper triangular. We would then have:
+        \begin{align*}
+            [T]_\mathcal{B} = \begin{bmatrix}
+            a_{11} &a_{12} & a_{13} &\cdots &a_{1n}\\
+            0&a_{22} &a_{23} &\cdots &a_{2n}\\
+            0&0&a_{33}&\cdots &a_{3n}\\
+            \vdots &\vdots &\vdots &\ddots &\vdots\\
+            0 &0 &0 &\cdots &a_{nn}
+            \end{bmatrix}.
+        \end{align*}
+        So if we write basis $\mathcal{B}$ as $\mathcal{B} = \{b_1,\dots,b_n\}$ and since we know that the $j^{\text{th}}$-column of $[T]_\mathcal{B}$ is given by coordinates of $Tb_j$ in $\mathcal{B}$, so we get that
+        \begin{align*}
+            Tb_j = \sum_{i=1}^j a_{ij}b_i.
+        \end{align*}
+        Thus, $Tb_j \in \Span{b_1,\dots,b_j}$. This is a crucial information because using this, we will construct $b_j$'s inductively by an intriguing use of Lemma \ref{L-2.3.1}. So let us begin.\\
+        
+        Consider the trivial $T$-invariant subspace $W = \{0\}$. Using Lemma \ref{L-2.3.2} on $W$ (which uses the hypothesis that $p(x)$ is split over $F$ into linear factors), we get $\alpha_1 \neq 0$ and an eigenvalue $a_{11}$ of $T$ (so $a_{11} = c_i$ for some $1\le i\le k$) such that $(T-a_{11}I)\alpha_1 \in W = \{0\}$. So $T\alpha_1 = a_{11}\alpha_1$. Next consider the $W_1 := \Span{\alpha_1}$. So $T\alpha_1 \in W_1$. It is easy to see that $T(W_1) \subseteq W_1$ as $W_1 = \gen{\alpha_1}$ and we know that $T\alpha_1 \in W_1$. So $W_1$ is a $T$-invariant subspace. Again using Lemma \ref{L-2.3.2}, we get $\alpha_2\notin W_1$ and eigenvalue $a_{22}$ of $T$ such that $T\alpha_2 -a_{22}\alpha_2 \in W_1$, that is $T\alpha_2 \in \Span{\alpha_1,\alpha_2}$. Denote $W_2 := \Span{\alpha_1,\alpha_2} = \gen{\alpha_1,\alpha_2}$. Note that $W_2 \supset W_1$. We again see that $W_2$ is $T$-invariant because $T\alpha_1 \in W_1 \subset W_2$ and $T\alpha_2 \in W_2$. Continuing like this, we will get at end a basis $\mathcal{B}$ of $V$ via this process which will terminate when we would have in the next step obtained the whole space $V$. The basis vectors here are $\mathcal{B} = \{\alpha_1,\dots,\alpha_n\}$, but they are not just any vectors, they follow the special property that:
+        \begin{align*}
+            T\alpha_j \in \Span{\alpha_1,\dots, \alpha_j}.
+        \end{align*}
+        Hence, when represented $T$ as a matrix using this basis, we will obtain an upper triangular matrix\footnote{The importance of Lemma \ref{L-2.3.2}, and hence of $T$-conductors, cannot be overstated here.}.\\
+        
+        (2 $\Rightarrow$ 1) Suppose $\mathcal{B}$ is a basis of $V$ in which $[T]_\mathcal{B}$ is an upper triangular matrix. We need to show that minimal polynomial $p(x)$ splits linearly over $F$. We will use Theorem \ref{T-2.1.3} here. First we see that $\Phi(x) = \det ([T]_\mathcal{B} - xI) = \prod_{i=1}^n (x-a_{ii})$. So $\Phi(x) = (x-c_1)^{d_1}\dots (x-c_k)^{d_k}$ where $c_i\in F$. By Theorem \ref{T-2.1.3}, we see that $p(x)$ will have to be split into linear factors over $F$.
+    \end{proof}
+    With the above major theorem done, we can see some easy corollaries:
+    \begin{corollary}\label{C-2.4.2}
+    Let $F$ be an algebraically closed field. If $T\in L(V)$ where $V$ is an $F$-vector space, then $T$ is triangulable.
+    \end{corollary}
+    \begin{proof}
+    Consider $p(x)$ to be the minimal polynomial of $T$. Since $p(x)\in F[x]$ and $F$ is algebraically closed, we have that $p(x)$ splits into linear factors over $F[x]$. By Theorem \ref{T-2.4.1}, we are done.
+    \end{proof}
+    We can actually prove Cayley-Hamilton theorem over algebraically closed field using the above theorem:
+    \begin{corollary}
+    (\textit{Cayley-Hamilton Theorem}) Let $F$ be an algebraically closed field, $V$ be an $F$-vector space and $T\in L(V)$ be a linear operator on $V$. Then, $\Phi(x) \in \Ann{T}$.
+    \end{corollary}
+    \begin{proof}
+    Since by Corollary \ref{C-2.4.2} we have that $T$ is triangulable, so we reduce to showing that if $T$ is a traingulable operator, then $\Phi(x) \in \Ann{T}$. Since characteristic polynomial of $T$ is same as characteristic polynomial of $[T]_\mathcal{B}$, so in particular, taking $\mathcal{B}$ to be the basis such that $A:=[T]_\mathcal{B}$ is upper triangular, we reduce to showing that $\Phi(x)$ for $A$ which is upper triangular is in $\Ann{A} = \Ann{T}$. So write 
+    \begin{align*}
+         \Phi(x) =\det(A-xI) &= \det\left(\begin{bmatrix}
+            a_{11}-x &a_{12} & a_{13} &\cdots &a_{1n}\\
+            0&a_{22}-x &a_{23} &\cdots &a_{2n}\\
+            0&0&a_{33}-x&\cdots &a_{3n}\\
+            \vdots &\vdots &\vdots &\ddots &\vdots\\
+            0 &0 &0 &\cdots &a_{nn}-x
+            \end{bmatrix}\right)&\\
+            &=\prod_{i=1}^n (a_{ii}-x).
+    \end{align*}
+    We need to show that $\Phi(A) = 0$. In particular, we need to see that
+    \begin{align*}
+       (a_{11}I-A) \dots (a_{nn}I-A) = 0. 
+    \end{align*}
+    But that follows quite easily. Hence we are done.
+    \end{proof}
+    \subsection{Simulataneous diagonalizability and triangulability}
+    Suppose $T_1$ and $T_2$ are two linear operators on a finite dimensional $F$-vector space such that there exists a basis $\mathcal{B}$ such that both $[T_1]_\mathcal{B}$
+ and $[T_2]_\mathcal{B}$ are diagonal. Then, we call $T_1$ and $T_2$ to be \textbf{simultaneously diagonalizable}. Notice that if $T_1$ and $T_2$ are simultaneously diagonalizable, then they commute, because $T_1T_2 = PAP^{-1}PBP^{-1} = PABP^{-1} = PBAP^{-1} = PBP^{-1}PAP^{-1} = T_2 T_1$ where $A$ and $B$ are diagonal. We will see in this section that commutativity of operators is also a sufficient condition for simultaneous diagonalizability and also triangulability.\\
+ 
+ Our goal is to prove theorems akin to Theorems \ref{T-2.3.3} and \ref{T-2.4.1}. For that, in order to follow same proof strategy, we need to generalize the Lemma \ref{L-2.3.2} to our case. This is the first thing we do.
+ \begin{lemma}\label{L-2.5.1}
+    Let $V$ be a finite dimensional $F$-vector space and let $\mathcal{F} \subset L(V)$ be a family of commuting triangulable linear operators. If $W\subseteq V$ is an $\mathcal{F}$-invariant subspace of $V$, then $\exists \alpha \notin W$ such that 
+    \begin{align*}
+        T\alpha \in \Span{\alpha, W} \;\forall T\in \mathcal{F}.
+    \end{align*}
+ \end{lemma}
+ \begin{proof}
+    We will again use Lemma \ref{L-2.3.2} here (the only place where we will need the triangulability hypothesis). But first note that we can reduce to $\mathcal{F}$ being a finite set of commuting operators because $L(V)$ is of finite dimension. In particular, we can reduce to the maximal linearly independent set of vectors in $\mathcal{F}$, that is, the basis of $\Span{\mathcal{F}}$. If we can prove that such an $\alpha $ exists for that basis, then same alpha will work for any $T\in \mathcal{F}$. So having been reduced to $\mathcal{F}$ being finite, say $\mathcal{F} = \{T_1,\dots,T_r\}$, we also reduce to finding $\alpha \notin W$ such that $T_j\alpha \in \Span{\alpha,W}$ for all $j=1,\dots,r$. So how do we construct such an $\alpha$? Well, if we have learned anything from Theorem \ref{T-2.4.1} is that we should approach most of such constructions in an inductive manner as we will be crucially using the finite-dimensionality of $V$ to say that such a construction will indeed end. So having said that, the construction of such an $\alpha$ will be as follows.\\
+    
+    Begin with $T_1$. We know that $W$ is $T_1$-invariant, so using Lemma \ref{L-2.3.2}\footnote{At this point it should be clear that how important this lemma actually is.}, we get $\alpha_1\notin W$ such that $T_1\alpha_1 \in \Span{\alpha_1,W}$. But of-course this doesn't tell us that, say $T_2\alpha_1 \in \Span{\alpha_1,W}$. So how should we produce next iteration of $\alpha$? Well we need to include that $T_2$ also throw the \textit{to-be-sought} $\alpha_2$ inside $\Span{\alpha_2,W}$. So clearly, we should first focus on \textit{all} those elements $\alpha \in V$ which are thrown by $T_1$ inside $\Span{\alpha,W}$, that is, denote:
+    \begin{align*}
+        V_1 := \{\alpha \in V\;\vert\; T_1\alpha \in \Span{\alpha, W}\}.
+    \end{align*}
+    Observe that $\alpha_1 \in V_1 $ and $W\subsetneq V_1$. But now if we similarly define $V_2$ to be all those elements $\alpha$ thrown inside $\Span{\alpha,W}$ by $T_2$, then we may get that $V_1$ and $V_2$ may be incomparable, and that will not be ideal. So we instead of focusing on $T_2$, we focus on $\rest{T_2}{V_1} $. But there's a problem, how are we sure that $T_2(V_1)\subseteq V_1$? Well, we see that $V_1$ is $\mathcal{F}$-invariant(!) To see this, we will have to use that fact that $\mathcal{F}$ is a commuting family. Take $\alpha\in V_1$ and $T_i\in \mathcal{F}$, we wish to show that $T_i\alpha \in V_1$. Since $T_1\alpha -c_1\alpha \in W$, therefore $T_iT_1\alpha -c_1T_i\alpha \in T_iW \subseteq W$ as $W$ is $\mathcal{F}$-invariant. By commutativity of $\mathcal{F}$, we have $T_1T_i\alpha -c_1T_i\alpha \in W$, therefore $T_i\alpha \in V_1$, thus making $\mathcal{F}$ a $T_i$-invariant subspace. Hence, $\rest{T_2}{V_1}$ is a valid linear operator on $V_1$, where $V_1\supsetneq W$. Now, we apply Lemma \ref{L-2.3.2} again on $\rest{T_2}{V_1}$ where $W$ is now treated as a $\rest{T_2}{V_1}$-invrariant subspace of $V_1$. Then we again get $\alpha_2 \notin W$ but $\alpha_2\in V_1$(!) such that $\rest{T_2}{V_1}(\alpha_2) \in \Span{\alpha_2,W}$. We then again define the following set:
+    \begin{align*}
+        V_2:= \{\alpha\in V_1\;\vert\; \rest{T_2}{V_1}(\alpha) \in \Span{\alpha,W}\}
+    \end{align*}
+    Observe that $\alpha_1,\alpha_2\in V_2$ and $W\subsetneq V_2 \subsetneq V_1$. Continue like this and we will get a sequence of subspaces $W\subsetneq V_r \subsetneq V_{r-1} \subsetneq \dots \subsetneq V_2 \subsetneq V_1$ and correspondingly $\alpha_r,\alpha_{r-1},\dots,\alpha_2,\alpha_1$ where $\alpha_i \in V_i$ and $\alpha_i \notin W$ for all $1\le i\le r$. Hence, we have that $\alpha_r\in V_r $ and $V_r \subsetneq V_i$ for each $i=1,\dots, r$. This means that $\alpha_r\notin W$ is such an element of $V$ such that $T_i \alpha_r\in \Span{\alpha_r,W}$ for each $i=1,\dots,r$. Hence, we are done. 
+ \end{proof}
+ \newlecture{5}{23/08/2022}    
+ So we now see the simulataneous triangulability theorem, which says that any commuting family of triangulable operators is simultaneously triangulable:
+ \begin{theorem}\label{T-2.5.2}
+    Let $V$ be a finite-dimensional $F$-vector space and let $\mathcal{F}\subseteq L(V)$ be a commuting family of triangulable linear operators on $V$. Then, there exists an ordered basis $\mathcal{B}$ of $V$ such that
+    \begin{align*}
+        [T]_\mathcal{B} \text{ is triangulable }\forall T\in \mathcal{F}. 
+    \end{align*}
+ \end{theorem}
+    \begin{proof}
+    Using Lemma \ref{L-2.5.1}, one needs to use the carbon-copy of the strategy of proof of Theorem \ref{T-2.4.1}.    \end{proof}
+    \begin{corollary}
+    Let $V$ be a finite dimensional $F$-vector space where $F$ is algebraically closed. Suppose $\mathcal{F}\subseteq L(V)$ is a commuting family of linear operators on $V$, then there exists an invertible matrix $P$ such that
+    \begin{align*}
+        PAP^{-1}\text{ is upper triangular }\forall A\in \mathcal{F}.
+    \end{align*}
+    \end{corollary}
+    \begin{proof}
+    Since $F$ is algebraically closed, so for any $T\in L(V)$, the minimal polynomial of $T$, $p(x)$ is split into linear factors over $F$. Hence each operator $T$ is triangulable by Theorem \ref{T-2.4.1}. So $\mathcal{F}$ is a commuting family of traingulable operators on $V$. Now use Theorem \ref{T-2.5.2} to deduce that there exists a basis $\mathcal{B}$ of $V$ such that for each $A\in \mathcal{F}$, $[A]_\mathcal{B}$ is upper triangular. By using the base change matrix $P$, we get that $P^{-1}AP$ is upper triangular.
+    \end{proof}
+    The next result is on simultaneous diagonalization. It tells you that a commuting family of diagonalizable operators is always simultaneously diagonalizable, that is, this is a companion to the Theorem \ref{T-2.5.2}.
+    \begin{theorem}
+    Let $V$ be a finite dimensional $F$-vector space and suppose $\mathcal{F}\subseteq L(V)$ is a commuting family of diagonalizable operators. Then, there exists a basis $\mathcal{B}$ of $V$ such that 
+    \begin{align*}
+        [T]_\mathcal{B} \text{ is diagonal }\forall T\in \mathcal{F}.
+    \end{align*}
+    \end{theorem}
+    \begin{proof}
+    The proof of this theorem is also akin to the ones we did above, by constructing the required basis each time and critically making use of finite dimensionality. A similar setup will work here, but we will actually use induction here. In-fact we will use strong-induction here. So we begin first by taking any $T\in \mathcal{F}$. We know that $T$ is diagonalizable, therefore by Theorem \ref{T-2.0.4}, we have that $T$ has all eignevalues inside field $F$ and let us denote the distinct eigenvalues by $c_1,\dots,c_k\in F$. We next use induction on $\dim V$. If $\dim V = 1$, then representation of $T$ in any basis will be a scalar and hence there is nothing to be proved here as matrices of form $1\times 1$ are always diagonalizable. Next, suppose $\dim V =n >1$. Moreover, suppose that for all subspaces $W\subseteq V$ of dimension $\le n-1$, we have that the above hypothesis is true; for each commuting family $ \mathcal{F}_W$ of diagonalizable operators on $W$, there exists a basis $ \mathcal{B}_W$ of $W$ such that $[T_W]_{ \mathcal{B}_W}$ is diagonal for all $T_W\in \mathcal{F}_W$. \\
+    
+    Hopefully spelling out what we already have would have made it clear that we will use the diagonalizability of each $T\in  \mathcal{F}$ and will reduce to their eigenspaces where we know the hypothesis is true. So let us spell it out more concretely. First, observe that $W_i := \Ker{T-c_iI}\neq 0$ for each $i=1,\dots,k$ as $T$ is diagonal. Now, having obtained a proper subspace of $V$ and knowing that we have a family of comuting operators, it is natural to ask whether it is invariant under that family. Well, we now observe that each $W_i$ is indeed $  \mathcal{F}$-invariant because for each $S\in  \mathcal{F}$, we have that $S$ commutes with $T$ (given assumption) and hence $S$ commutes with $T-c_iI$. Thus, by Lemma \ref{L-2.2.1}, $\Ker{T-c_iI} = W_i$ is $S$-invariant. But we somehow need a basis on each $W_i$ (which should make $\rest{T}{W_i}$ diagonal) using the inductive step, so that we can join each of the basis together to get that $T$ represented in that basis is diagonal. By this, it is clear that we should look at the following commuting family of operators:
+    \begin{align*}
+        \rest{ \mathcal{F}}{W_i} := \{\rest{S}{W_i} : W_i \to W_i\;\vert\; S\in  \mathcal{F}\}.
+    \end{align*}
+    The fact that $\rest{S}{W_i} $ is a linear operator on $W_i$ follows from the fact that each $W_i$ is $ \mathcal{F}$-invariant. So indeed, $\rest{ \mathcal{F}}{W_i}$ is a commuting family of diagonalizable operators on $W_i$, where $\dim W_i < n$. So by (strong) inductive hypothesis, we get that there exists a basis $ \mathcal{B}_{i}$ of $W_i$ such that for all $\rest{S}{W_i}\in \rest{ \mathcal{F}}{W_i}$, we have that $[\rest{S}{W_i}]_{ \mathcal{B}_i}$ is diagonal.\\
+    
+    Finally, we use the fact that $T$ is diagonal, therefore 
+    \begin{align*}
+        V = \bigoplus_{i=1}^k \Ker{T-c_iI} = \bigoplus_{i=1}^kW_i
+    \end{align*}
+    so that the basis $\mathcal{B}_i$ of $W_i$ can be joined together to give basis $\mathcal{B} = ( \mathcal{B}_1,\dots,\mathcal{B}_k)$ of $V$. Now, we observe that
+    \begin{align*}
+        [S]_\mathcal{B} = \begin{bmatrix}
+        [\rest{S}{W_1}]_{ \mathcal{B}_1}&0&\cdots &0\\
+        0&[\rest{S}{W_2}]_{ \mathcal{B}_2}&\cdots &0\\
+        \vdots &\vdots &\ddots &\vdots\\
+        0&0&\cdots &[\rest{S}{W_k}]_{ \mathcal{B}_k}
+        \end{bmatrix}
+    \end{align*}
+    where each $[\rest{S}{W_i}]_{ \mathcal{B}_i}$ is diagonal, hence making $[S]_\mathcal{B}$ diagonal, for all $S\in \mathcal{F}$. It is important to note what we did here. We took one diagonalizable linear operator $T\in \mathcal{F}$ and constructed a basis out of it for $V$ in which each $S\in  \mathcal{F}$ is diagonal. So we have indeed constructed a basis such that each each member in $ \mathcal{F} $ is diagonal. Thus we are done.
+    \end{proof}
+    \newlecture{6}{26/08/2022}
+    \subsection{Direct sum decomposition}
+    The first reason that we wish to decompose our old little finite dimensional $F$-vector space is because, as we will see, there are special type of linear operators (projections) whose collection will directly correspond to any such direct sum decomposition of $V$ (Theorem \ref{T-2.6.5}). Next, we will see that diagonalizability of an operator literally depends on the existsence of this so-called projection operators (Theorem \ref{T-2.7.2}), which as we said above, is same as giving a direct sum decomposition. So this is the reason we are doing this section. Well the thing is, most students know what an internal direct sums is is in vector spaces. So we will be a bit quick here and will go to the funky part soon.\\
+    
+    Remember that two subspaces $W_1,W_2 \subseteq V$ are said to be independent if $w_1 + w_2 = 0$ implies $w_1=w_2 = 0$ where $w_i\in W_i$.
+    \begin{lemma}\label{L-2.6.1}
+    Let $V$ be a f.d. $F$-vector space and suppose $W_1,\dots,W_k \subset V$ are independent. If $\alpha = \alpha_1 + \dots + \alpha_k$ where $\alpha_i \in W_i$, then the above expression is unique.
+    \end{lemma}
+    \begin{proof}
+    Nothing to see here.
+    \end{proof}
+    We have a simple characterization of independent subspaces:
+    \begin{lemma}
+    Let $V$ be a f.d. $F$-vector space and $W_1,\dots, W_k \subseteq V$ be a set of subspaces. Then the following are equivalent:
+    \begin{enumerate}
+        \item {Subspaces $W_1,\dots,W_k \subseteq V$ are independent.}
+        \item{For all $j=1,\dots,k$, $W_j \cap (W_1 + \dots + W_{j-1}) = 0$.}
+        \item{If $\mathcal{B}_i$ is an ordered basis of $W_i$, then $\mathcal{B} = (\mathcal{B}_1,\dots,\mathcal{B}_k)$ is an ordered basis of $W_1+\dots + W_k$.}
+    \end{enumerate}
+    \end{lemma}
+    \begin{proof}
+    (1 $\Rightarrow $ 2) : Take any $\alpha \in W_j\cap (W_1 + \dots + W_{j-1})$. Then $\alpha = \alpha_j = \alpha_1 + \dots + \alpha_{j-1}$. Then we get by independence that each $\alpha_i$ above should be zero.\\
+    (2 $\Rightarrow$ 3) : Since $W_1\cap W_2 = 0$, therefore $\mathcal{B}_1$ and $\mathcal{B}_2$ are disjoint, so $(\mathcal{B}_1,\mathcal{B}_2)$ forms a basis for $W_1+W_2$. Keep using the given relation and at the end we will get that $(\mathcal{B}_1,\dots,\mathcal{B}_k)$ is a basis for $W_1+\dots + W_k$.\\
+    (3 $\Rightarrow $ 1) : Take $0 = \alpha_1 + \dots + \alpha_k$, where $\alpha_i \in W_i$. Therefore $\alpha_i$ is a linear combination of vectors from $\mathcal{B}_i$, so that sum of linearly independent basis vectors is 0 and hence each scalar is zero and we are done. 
+    \end{proof}
+    If $\{W_i\}_{i=1}^k$ is a collection of subspaces satisfying any of the above criterion, then $W_1 + \dots +W_k$ is called \textbf{internal direct sum} and is denoted as $\bigoplus_{i=1}^k W_i$.
+    \subsubsection{Projection operators}
+    A \textbf{projection operator} $E$ is literally just an idempotent operator, $E^2 = E$. There are some obvious properties of $E$.
+    \begin{lemma}
+    Let $V$ be a f.d. $F$-vector space and let $E$ be a projection:
+    \begin{enumerate}
+        \item {If $\beta \in \Image{E}$, then $E\beta = \beta$.}
+        \item{$V = \Image{E} \oplus \Ker{E}$.}
+        \item{$I-E$ is also a projection.}
+        \item{$I+E$ is invertible with inverse being $I-\frac{1}{2}E$.}
+    \end{enumerate}
+    \end{lemma}
+    \begin{proof}
+   $\alpha = \alpha -E\alpha + E\alpha$. Rest is left to the reader.
+    \end{proof}
+    Ok, so we now notice that each decomposition of $V$ into $R\oplus N$ comes from image and kernel of some unique projection.
+    \begin{lemma}
+    Let $V$ be a f.d. $F$-vector space. If $V = R\oplus N$, then there exists a unique projection $E\in L(V)$ such that $R = \Image{E}$ and $N=\Ker{E}$.
+    \end{lemma}
+    \begin{proof}
+    Consider $E : V\to V$ such that $v = r+n \mapsto r$. Clearly, $\Image{E} = R$ and $\Ker{E} = N$.
+    \end{proof}
+    We then have the first important theorem:
+    \begin{theorem}\label{T-2.6.5}
+    Let $V$ be a f.d. $F$-vector space. Then, $V = W_1\oplus \dots \oplus W_k$ for some subspaces $W_i\subseteq V$ if and only if there exists projections $E_1,\dots, E_k \in L(V)$ such that 
+    \begin{enumerate}
+        \item {$I = E_1+ \dots E_k$,}
+        \item{$E_iE_j = 0$ for $i\neq j$.}
+    \end{enumerate}
+    \end{theorem}
+    \begin{proof}
+    (L $\Rightarrow$ R) : Define $E_i : V\to V$ which maps as $\alpha_1 + \dots + \alpha_k \mapsto \alpha_i$. The problem of well-definedness is handled by Lemma \ref{L-2.6.1}. Clearly, $E_i^2 = E_i$. Moreover, for $i\neq j$, $E_iE_j (\alpha) = E_i(\alpha_j) = 0$ as the $i^\text{th}$ component of $\alpha_j$ is $0$. So $E_iE_j = 0$. Finally, for any $\alpha\in V$, $E_i \alpha = \alpha_i$. Therefore $\alpha = \alpha_1 + \dots + \alpha_k = E_1\alpha + E_k \alpha = (E_1 + \dots + E_k)\alpha$. Hence $E_1 + \dots +E_k = I$.\\
+    
+    (R $\Rightarrow$ L) Suppose we have projections $E_1,\dots, E_k\in L(V)$ such that $E_1 + \dots +E_k = I$ and $E_iE_j = 0$ for $i\neq j$. Now denote $W_i = \Image{E_i} \subseteq V$. We claim that $W_i$'s are independent and moreover $W_1 + \dots + W_k = V$. First let us show they are independent. So take any $\alpha_i \in W_i$ such that $\alpha_1 + \dots + \alpha_k = 0$. Then there are $v_i \in V$ for each $i=1,\dots,k$ such that $E_i v_i = \alpha_i$. Then we have $E_1v_1 + \dots +E_kv_k = 0$, and so applying $E_2$ for example gives us $0 + E_2E_2v_2 + 0+ \dots +0 = 0$ and thus $\alpha_2 = E_2 v_2 = 0$. Similarly, all $\alpha_i$'s are zero. So $W_i$'s are indeed independent. \\
+    Next we need to show that $W_i$'s span the whole space $V$. This is simple because for any $v\in V$, $v = E_1v + \dots +E_k v$. So indeed $W_i$'s span the whole space $V$.
+    \end{proof}
+    Finally, let us end with the following independent lemma regarding projections, that they all are diagonalizable:
+    \begin{lemma}
+    Let $E\in L(V)$ be a projection where $V$ is a f.d. $F$-vector space. Then $E$ is diagonalizable.
+    \end{lemma}
+\begin{proof}
+    Let $E$ be a projection. Then $x^2-x \in F[x]$ is an annihilator of $E$ because $E^2-E = 0$. Therefore the minimal polynomial $p(x) | x(x-1)$. In any case, $p(x)$ will be a product of disjoint linear factors and therefore $E$ is diagonalizable using Theorem \ref{T-2.3.3}.
+\end{proof}
+    \subsection{Invariant direct sum decomposition}
+    We have been focusing on arbitrary direct sum decomposition in the last section. Here we don't look at any direct sum decomposition of $V$, but those which are all invariant subspaces of some linear operator $T$. This is quite natural to seek because we know that a diagonalizable operator $T$ induces a decomposition of $V$ (into just the eigenspaces of $T$) in which each subspace is $T$-invariant. So in-turn it is natural to ask whether if for a operator $T$, there is an direct sum decomposition of $V$ where each subspace is $T$-invariant, does that make $T$ diagonalizable? So that is why seeking \textit{invariant} direct sum decomposition is important, and thus justifies the time that this section demands.\\
+    
+    So suppose $T\in L(V)$ and we have a direct-sum decomposition of $V $ as $V = W_1 \oplus \dots \oplus W_k$. If each $W_i$ is $T$-invariant, then $T_i := \rest{T}{W_i} : W_i \to W_i$ is such that $\forall \alpha\in V$ with decomposition $\alpha = \alpha_1 + \dots + \alpha_k$, we get $T\alpha= T\alpha_1 + \dots + T\alpha_k = T_1\alpha_1 + \dots +T_k \alpha_k$. Therefore we actually get a decomposition of $T$ as $T=T_1+\dots +T_k$. Under these conditions we thus define $T=T_1+\dots +T_k$ as the \textbf{direct sum decomposition of $T$ w.r.t. $V = \bigoplus_{i=1}^kW_i$}. Moreover, we then denote the decomposition into $W_i$'s as a\textbf{ $T$-invariant decomposition of $V$}.\\
+    
+    Ok, now observe that if we have a $T$-invariant direct sum decomposition of $V$ as $V=W_1\oplus \dots \oplus W_k$ and moreover $\mathcal{B}_i$ is a basis of $W_i$, then two things happens. First, $(\mathcal{B}_1,\dots,\mathcal{B}_k)$ is a basis of $V$. Second $A_i = [T_i]_{\mathcal{B}_i}$, where $T_i = \rest{T}{W_i}$ combines to give
+    \begin{align*}
+        [T]_{\mathcal{B}} = \begin{bmatrix}
+        A_1&0&\dots &0\\
+        0&A_2&\dots &0\\
+        \vdots &\vdots &\ddots&\vdots\\
+        0&0&\dots &A_k
+        \end{bmatrix}.
+    \end{align*}
+    That is, we get that representation of $T$ can be achieved as a block diagonal form and we can thus reduce to analyzing the blocks themselves. In other words, having a $T$-invariant direct sum decompopsition reduces the task of analyzing the operator $T$ to it's components $T_i$.\\
+    
+    Ok, so we saw in Theorem \ref{T-2.6.5} that whether we may talk about a direct sum decomposition or equivalently projections with two more conditions, we will be doing the same thing. What we now like to know is how does a $T$-invariant decomposition of $V$ turns out to be in terms of the corresponding projections. This is the goal of the following theorem:
+    \begin{theorem}\label{T-2.7.1}
+    Let $f : X \ $ $T\in L(V)$ where $V$ is f.d. $F$-vector space. Let $V = W_1\oplus \dots \oplus W_k$ and let $E_1,\dots,E_k$ be the projections corresponding to each $W_i$ by Theorem \ref{T-2.6.5}\footnote{which we hitherto call the \textbf{projections associated to decomposition $V=W_1\oplus \dots \oplus W_k$.}}. Then, each subspace $W_i$ is $T$-invariant if and only if each $E_i$ commutes with $T$.
+    \end{theorem}
+    \begin{proof}
+    (L $\Rightarrow$ R) Suppose $W_i$'s form a $T$-invariant direct sum decomposition of $V$. We need to show that all of the associated projections commute with $T$. So first recall how $E_i$ was defined; $E_i : V\to W_i$ maps as $\alpha = \alpha_1+\dots+\alpha_k \mapsto \alpha_i$. Therefore, for any $\alpha\in V$, we have $TE_i \alpha = T(\alpha_i) \in W_i$ as $W_i$ is $T$-invariant and $W_i = \Image{E_i}$. Next $E_iT(\alpha) = E_i(T\alpha_1+\dots +T\alpha_k)$. But since each $W_i$ is $T$-invariant, therefore $T\alpha_i \in W_i$. Since $E_i\beta = 0$ for any $\beta\notin W_i$, therefore we get $E_i T(\alpha) = E_iT\alpha_i$. Since $\rest{E_i}{W_i} = \id{W_i}$, therefore we further get that $E_iT\alpha_i = T\alpha_i$. Thus indeed $TE_i\alpha = E_iT\alpha$ and thus $E_iT=TE_i$. Note that we implicitly used above that $E_iE_j = 0$ for $i\neq j$ and also the fact that $E_i^2 = E_i$.\\
+    
+    (R $\Rightarrow$ L) Suppose the projections $E_i$ corresponding to the decomposition all indeed commutes with $T$. Then we need to show that each $W_i = \Image{E_i}$ is $T$-invariant. So take any $\alpha\in W_i = \Image{E_i}$. Then there exists $\beta \in V$ such that $E_i\beta = \alpha$. Thus $T\alpha = TE_i\beta = E_iT\beta \in \Image{E_i} = W_i$. Hence done.
+    \end{proof}
+    Using the above results, we can finally give the main theorem of direct-sum decomposition, which characterizes diagonalizable operators in terms of existence of projections of the form as mentioned in Theorem \ref{T-2.6.5}, with an extra bell and whistle.
+    \begin{theorem}\label{T-2.7.2}
+    Let $V$ be a f.d. $F$-vector space. Then, we have the following two conclusions, which also contains each others' converse:
+    \begin{enumerate}
+        \item {If $T\in L(V)$ is a diagonalizable operator with distinct eigenvalues $c_1,\dots,c_k \in F$, then there exists non-zero projections $E_1,\dots, E_k$ such that 
+        \begin{enumerate}
+            \item {$T= c_1E_1 + \dots +c_kE_k$,}
+            \item {$I = E_1+\dots +E_k$,}
+            \item {$E_iE_j = 0 $ for $i\neq j$.}
+            \item {$\Image{E_i} = \Ker{T-c_iI}$ for all $i=1,\dots,k$.}
+        \end{enumerate}
+        }
+        \item {If there exists distinct $c_1,\dots,c_k\in F$ and projections $E_1,\dots,E_k$ such that 
+        \begin{enumerate}
+            \item {$T=c_1E_1 + \dots +c_kE_k$,}
+            \item{$I=E_1 + \dots +E_k$,}
+            \item{$E_iE_j = 0$ for $i\neq j$,}
+        \end{enumerate}
+        then there exists a diagonalizable operator $T\in L(V)$ whose all distinct eigenvalues are exactly $c_i$'s and $\Image{E_i}$'s are exactly the eigenspaces of $T$.
+        }
+    \end{enumerate}
+    \end{theorem}
+    \begin{proof}
+        1. Suppose $T$ is diagonalizable. Then $V = \bigoplus_{i=1}^k \Ker{T-c_iI}$. By Theorem \ref{T-2.6.5}, we have the corresponding projections $E_i : V\to V$ for each $i=1,\dots,k$, which already satisfies (b) and (c). Now take any $v\in V$. Then $v= v_1 + \dots + v_k$ where $v_i \in \Ker{T-c_iI}$. Therefore $Tv = Tv_1 + \dots +Tv_k = c_1v_1 + \dots c_kv_k$.\\
+        
+        2. Suppose we have $k$ many projections as mentioned in the second condition. We need to show that the operator $T$ is diagonalizable. First we should materialize how projections $E_i$ are actually connected to operator $T$. This is done by the condition (a), because $c_i\in F$ are all distinct eigenvalues of $T$. So first thing that we do is to show somehow that each eigenspace of $T$ is non-zero:
+        \begin{act}{1}{$\forall i=1,\dots,k$, $\Ker{T-c_iI} \neq \{0\}$.}
+        To see this, we need to show that $T$ defined as $T =c_1E_1 + \dots +c_kE_k$ will have each subspace $\Ker{T-c_iI}$ as non-zero. We need only show how $\Ker{T-c_1I}\neq \{0\}$. Since for all $v\in V$, $Tv = c_1E_1v + \dots +c_kE_kv$ and since $TE_i = c_iE_i^2 = c_iE_i $. Moreover, $E_iT = c_iE_i^2 = c_iE_i$, therefore $T$ and $E_i$ commutes with each other. Notice that $E_i^2 = E_i$ follows from the given conditions on $E_i$. Now, for any $v\in V$, $E_iv \in V$ is such that $T(E_1v) =E_1(Tv) = E_1(c_1E_1v + \dots c_kE_kv) = c_1E_1^2v = c_1E_1v$. Therefore $\Image{E_1} \subseteq \Ker{T-c_1I}$ and since $E_1$ is non-zero, therefore $\Ker{T-c_1I}\neq \{0\} $. This concludes act 1.
+        \end{act}
+        \begin{act}{2}{$c_1,\dots,c_k\in F$ are ALL eigenvalues of T.}
+        So let $c\in F$ be any eigenvalue of $T$. We need to show that there exists $i=1,\dots,k$ such that $c=c_i$. In particular, we also need to show that there exists $\alpha\in V$ such that $T\alpha = c\alpha$ and $\alpha \in \Ker{T-c_iI}$. How do we do that? Since $c$ is an eigenvalue of $T$ therefore $\Ker{T-cI} \neq \{0\}$. That is there exists $\alpha \in V$ which is non-zero such that $T\alpha= c\alpha$. Then we observe that $\alpha = E_1\alpha + \dots + E_k\alpha$, so applying $T$ to it we get $T\alpha = TE_1\alpha + \dots TE_k \alpha $. But $T\alpha = c_1E_1\alpha +\dots+ c_kE_k\alpha $ as well. Therefore $0 = (T-c_1I)E_1\alpha + \dots +(T-c_kI)E_k\alpha$. Now by Theorem \ref{T-2.6.5}, we get that $W_i = \Image{E_i}$ forms a direct sum decomposition of $V$. Therefore $W_i$'s are independent and therefore in the above expression, all $(T-c_iI)E_i\alpha =0$. Since $E_i$ and $T$ commutes, therefore $(T-c_iI)E_i\alpha = E_i((T-c_iI)\alpha) = E_i(T\alpha - c_i\alpha) = E_i(c\alpha - c_i\alpha) = (c-c_i)E_i\alpha = 0$ for all $i=1,\dots,k$. Now that's a very clear indication that we are on right path. Ok, so next we see that it cannot happen that all $E_i\alpha = 0$, because $I = E_1+\dots +E_k$ and $\alpha \neq 0$. Thus, there exists $j=1,\dots,k$ such that $E_j\alpha \neq 0$. But then $(c-c_j)E_j\alpha = 0$, so $c=c_j$. This concludes act 2.
+        \end{act}
+        \begin{act}{3}{$V = \bigoplus_{i=1}^k\Ker{T-c_iI}$.}
+            Since in Act 1, we showed that $\Image{E_i} \subseteq \Ker{T-c_iI}$, and since Theorem \ref{T-2.6.5} tells us that $\bigoplus_{i=1}^k \Image{E_i} = V$, therefore $V= \bigoplus_{i=1}^k \Ker{T-c_iI}$ where we know that eigenspaces are always independent. This concludes act 3.
+        \end{act}
+        We have by now shown that $T$ is diagonalizable. We now need only show that $E_i$'s are exactly the eigenspaces of $T$. To do this, we recall that in Act 1 above, we already showed that $\Image{E_i} \subseteq \Ker{T-c_iI}$. So we need to show the converse now. It's enough to do this for $i=1$. Ok, so take any $\alpha \in \Ker{T-c_1I}$. We have $T\alpha = c_1\alpha$. We need to show that $\alpha \in \Image{E_1}$. So again, we first write $T\alpha = c_1E_1\alpha + c_2E_2\alpha + \dots +c_kE_k\alpha = c_1\alpha$ and then using $c_1\alpha = c_1E_1\alpha + \dots c_1E_k\alpha$, we again get (as a similar situation happened in Act 2), that $(c_2-c_1)E_2\alpha + \dots (c_k-c_1)E_k\alpha = 0$. Again, using Theorem \ref{T-2.6.5}, we get that each $(c_i-c_1)E_i\alpha = 0$. But since $c_i \neq c_1$ for all $i\neq 1$, therefore $E_i\alpha = 0$ for all $i\neq 1$. Since $\alpha = E_1\alpha + \dots +E_k\alpha $ therefore $\alpha = E_1\alpha$. We are now (quite tiredly), done.
+    \end{proof}
+    We end this section with a good observation about the structure of the projections associated to a diagonalizable operator:
+    \begin{lemma}
+        Let $T\in L(V)$ be a diagonalizable operator where $V$ is an $F$-vector space. Let $c_1,\dots,c_k \in F$ be the distinct eigenvalues of $T$ and let $E_1,\dots,E_k$ be the projections of $V$ corresponding to the diagonalizable operator $T$ obtained by Theorem \ref{T-2.7.2}. Then, for all $g(x) \in F[x]$, $g(T) = g(c_1)E_1 + \dots + g(c_k)E_k$.
+    \end{lemma}
+    \begin{proof}
+    Consider $g(x) = x^2$, for example. Then $T^2 = (c_1 E_1 + \dots + c_kE_k)^2 = c_1^2 E_1^2 + \dots + c_k^2 E_k^2 + \text{other terms of form $E_iE_j$ for $i\neq j$}$, where these other terms will be zero by the fact that $E_iE_j = 0$ for $i\neq j$. So we will only be left with $c_1^2E_1 + \dots + c_k^2 E_k$. A similar thing happens for $T^r$, where to write formally, you will have to use the multinomial theorem. Rest is easy.
+    \end{proof}
+    \newlecture{7}{05/09/2022}
+    \subsection{Primary decomposition}
+    The general philosophy of our approach to try to characterize all linear operators on a finite dimensional vector space has been to find a characterization of a class of operators in the terms of some algebraic objects, namely polynomials. In all of these discussions we always worked with just the right examples and situations where indeed the polynomial splits nicely over the base field into linear factors. But, if you arbitrarily construct a matrix, then more often than not you will find it to have a very complicated minimal and or characteristic polynomial; in particular, it may not be able to split into linear factors over your base field. These cases have been nicely neglected so far in our goal of characterizing linear operators over a finite dimensional vector space. We now bring these cases to light and prove the most important theorem therein.
+    \begin{theorem}\label{T-2.8.1}(\textit{Primary decomposition theorem}) 
+    Let $V$ be a finite dimensional $F$-vector space and let $T\in L(V)$ be a linear operator. If the minimal polynomial $p(x)\in F[x]$ of $T$ is given by 
+    \begin{align*}
+        p(x) = p_1(x)^{r_1}\cdot \dots \cdot p_k(x)^{r_k}
+    \end{align*}
+    where $p_i(x) \in F[x] $ are all monic irreducible polynomials, then:
+    \begin{enumerate}
+        \item {we have a direct sum decomposition
+        \begin{align*}
+            V = \Ker{p_1(T)^{r_1}} \oplus \dots \oplus \Ker{p_k(T)^{r_k}},
+        \end{align*}
+        }
+        \item{the above decomposition is a $T$-invariant direct sum decomposition,}
+        \item{the minimal polynomial of the operator $T_i := \rest{T}{\Ker{p_i(T)^{r_i}}}$ is exactly $p_i(x)^{r_i}$, for all $i=1,\dots, k$.}
+    \end{enumerate}
+    \end{theorem}
+    \begin{proof}
+    	See Theorem 12, \cite{HK71}, pp 220.
+    \end{proof}
+    Let us now look at some corollaries of the primary decomposition.
+    \begin{corollary}
+        Suppose $T\in L(V)$ is a linear operator satisfying the hypothesis of Theorem \ref{T-2.8.1}. If $U\in L(V)$ commutes with $T$, then $\Ker{p_i(T)^{r_i}}$ is $U$-invariant for all $i=1,\dots,k$.
+    \end{corollary}
+    \begin{proof}
+        By Theorem \ref{T-2.8.1}, we have that $V = \bigoplus_{i=1}^k \Ker{p_i(T)^{r_i}}$ is a $T$-invariant direct sum decomposition. Now denote the corresponding projections given by Theorem \ref{T-2.6.5} as $E_1,\dots,E_k$. By Theorem \ref{T-2.7.1}, we also have that $E_i$ and $T$ commutes. Since $U$ and $T$ commutes, therefore $E_i$ and $U$ commutes. But again using Theorem \ref{T-2.7.1}, we observe that since $E_i$ and $U$ commutes, therefore the decomposition $V = \bigoplus_{i=1}^k \Ker{p_i(T)^{r_i}}$ is $U$-invariant.
+    \end{proof}
+    \begin{corollary}
+    Let $T\in L(V)$ be a linear operator on a finite dimensional $F$-vector space $V$. If minimal polynomial of $T$ is of the form 
+    \begin{align*}
+        p(x) = (x-c_1)^{r_1} \dots (x-c_k)^{r_k}
+    \end{align*}
+    and $E_1,\dots,E_k$ denotes the projections corresponding to the decomposition of $V$ as given by Theorem \ref{T-2.8.1}, then, denoting $D = c_1E_1 + \dots + c_kE_k$, we have that $N=T-D$ is a nilpotent operator.
+    \end{corollary}
+    \begin{proof}
+        The corresponding projections, by Theorem \ref{T-2.6.5}, follows $I = E_1 + \dots + E_k$. Therefore $T = TE_1 + \dots + TE_k$. Now, $N = T-D = (T-c_1I)E_1 + \dots + (T-c_kI)E_k$. Now, for clarity, consider $(T-D)^2 = (T-c_1I)^2E_1 + \dots (T-c_kI)^2E_k $ and the rest is zero because $E_iE_j = 0$ for $i\neq j$. Similarly, we can say $T^r = (T-c_1I)^r E_1 + \dots +(T-c_kI)^r E_k$. Now, if we take $r\ge r_i$ for all $i=1,\dots,k$, then for any $\alpha \in V$, $T^r\alpha = \sum_{i=1}^r(T-c_iI)^rE_i(\alpha) $, where $\Image{E_i} = \Ker{(T-c_iI)^{r_i}}$. Since $r\ge r_i$ for each $i$, therefore each term of the above sum is $0$. We are done.
+    \end{proof}
+    In some sense, the following is the actual primary decomposition theorem, as it tells you that every operator whose minimal polynomial is split over base field can be broken down into a diagonal and a nilpotent part, and that too in a unique way.
+    \begin{theorem}\label{T-2.8.4}
+    Let $V$ be a finite dimensional $F$-vector space and $T:V\to V$ be a linear operator whose minimal polynomial is a product of linear factors (is split over $F$). Then, there exists a unique diagonalizable operator $D$ and a unique nilpotent operator $N$ such that $T = D+N$ and $DN=ND$.
+    \end{theorem}
+    \begin{proof}
+		See Theorem 13, \cite{HK71}, pp 222.
+    \end{proof}
+    \newpage
+    \newlecture{??}{??/??/????}
+    \section{Rational \& Jordan forms}
+    \textbf{[Put motivating stuff here and link the main theorems, i.e. cyclic decomp. thm.]}\\\\
+    
+    Let $V$ be a finite dimensional $F$-vector space and $T\in L(V)$. Suppose $\alpha \in V$ is given to us. In relation to $\alpha$ and $T$ and $V$ we can ask the following question: \textit{What is the smallest $T$-invariant subspace of $V$ which contains $\alpha$?} Well, of-course the answer is the intersection of all $T$-invariant subspaces containing $\alpha$. But we can get more detailed than that:
+    \begin{lemma}\label{L-3.0.1}
+    Let $V$ be a f.d. $F$-vector space, $T\in L(V)$ and $\alpha \in V$. Denote the smallest $T$-invariant subspace of $V$ which contains $\alpha$ to be $Z(\alpha;T)$. Then, 
+    \begin{align*}
+        Z(\alpha; T)= \{g(T)\alpha\in V\;\vert\; g(x) \in F[x]\}.
+    \end{align*}
+    \end{lemma}
+    \begin{proof}
+    Since $Z(\alpha;T)$ is $T$-invariant and contains $\alpha$ by definition, therefore for all $n\in \mathbb{N}$, $T^n\alpha \in Z(\alpha;T)$. This implies that $g(T)\alpha \in Z(\alpha;T)$ for all $g(x)\in F[x]$. The set of all $g(T)\alpha $ for all $g(x) \in F[x]$ naturally is a subspace of $V$ which moreover contains $\alpha$ because $x\in F[x]$ and it is $T$-invariant because $T(g(T)\alpha) = f(T)\alpha$ where $f(x) = xg(x)\in F[x]$.
+    \end{proof}
+    \subsection{Cyclic subspaces and cyclic vectors}\label{S-3.1}
+    With the above Lemma \ref{L-3.0.1}, we define for an operator $T\in L(V)$ and $\alpha\in V$ the $T$\textbf{-cyclic subspace of $V$ generated by} $\alpha$ to be the smallest $T$-invariant subspace containing $\alpha$, that is, just $Z(\alpha;T)$. If it happens that $Z(\alpha;T) = V$, then one calls the vector $\alpha \in V$ to be a \textbf{cyclic vector for $T$} or that $ \alpha $ is a \textbf{$ T $-cyclic vector of $ V $}.\\
+    
+    In this subsection we will study some of the equivalent conditions for a linear operator to have a cyclic vector. In this regard, Theorem \ref{T-3.0.2}, Corollary \ref{C-3.1.2} and Theorem \ref{T-3.1.4} are important.\\
+    
+    Note that $Z(\alpha;T)$ is the span of all $T^i\alpha$ for all positive integer $i$. One then realizes that $Z(\alpha;T) $ is a subspace of $V$ and since $V$ is finite dimensional, then so is $Z(\alpha;T)$. This tells us that there is a finite basis of $Z(\alpha;T)$. So does there exists a basis of $Z(\alpha;T)$ consisting of vectors $\alpha, T\alpha,T^2\alpha,\dots, T^n\alpha$? If yes, then where does this $n$ comes from? We answer these and more, by, of-course, utilizing the algebra in the finitely generated reduced $F$-algebra $F[x]$\footnote{I'm sorry I had to do that.}. In particular, we go from the subspace $Z(\alpha;T)$ to an ideal, which is literally the $T$-conductor of $\alpha$ into 0, but we would like to pretend that we never studied that so we give the following definition. Let $\alpha \in V$ and $T\in L(V)$. We define the \textbf{$T$-annihilator of $\alpha$} to be the ideal 
+    \begin{align*}
+       M(\alpha;T):=\{g(x)\in F[x]\;\vert\; g(T)\alpha = 0\}.
+    \end{align*}
+    This is literally just $S_T(\alpha;0)$ by the way. Since $F[x]$ is a PID and $M(\alpha;T)$ is an ideal, therefore there exists a polynomial $p_\alpha(x)\in F[x]$ such that 
+    \begin{align}
+        M(\alpha;T) = \gen{p_\alpha(x)}.
+    \end{align}
+    We call this $p_\alpha(x)$ to be the \textbf{$T$-annihilator of $\alpha$} as well by heavy abuse (of notation). \\
+    
+    Now because of the trivial observation that $M(\alpha;T) \supseteq \Ann{T}$, we get that $p_\alpha(x)| p(x)$ where $\gen{p(x)} = \Ann{T}$.\\
+    
+    It turns out that the questions we asked above are answered by the $T$-annihilator of $\alpha$, $p_\alpha(x)$, via the following theorem. This theorem tells us the relation between the $T$-annihilator $p_\alpha(x)$ of $\alpha \in V$ and the cyclic subspace $Z(\alpha;T) \subseteq V$.
+    \begin{theorem}\label{T-3.0.2}
+    Let $V$ be a finite dimensional $F$-vector space and $T : V\to  V$ be a linear operator. Let $\alpha \in V$ be a non-zero vector and consider $M(\alpha;T) = \gen{p_\alpha(x)}$. Then,
+    \begin{enumerate}
+        \item {$\deg p_\alpha(x) = \dim Z(\alpha;T)$.}
+        \item {If $\deg p_\alpha(x) = k$, then $\alpha, T\alpha, T^2\alpha ,\dots, T^{k-1}\alpha$ forms a basis of $Z(\alpha;T)$.}
+        \item{If $U := \rest{T}{Z(\alpha;T)}$, then the minimal polynomial of $U$ is $p_\alpha(x)$.}
+    \end{enumerate}
+    \end{theorem}
+    \begin{proof}
+        We prove statements 1 and 2 together. In particular, we will show that if $\deg p_\alpha(x) = k$, then $\alpha, T\alpha ,\dots , T^{k-1}\alpha$ forms a basis of $Z$. For this, consider any polynomial $g(x) \in F[x]$. Then by division with $p_\alpha(x)$, we get $g(x) = p_\alpha(x) q(x) + r(x)$ where $\deg r(x) < k$. Since by Lemma \ref{L-3.0.1}, we get $g(T)\alpha\in Z(\alpha;T)$, so $g(T)\alpha = p_\alpha(T)q(T)\alpha + r(T)\alpha = q(T)p_\alpha(T)\alpha +r(T)\alpha = r(T)\alpha$ as $p_\alpha(x) \in M(\alpha;T)$. So for any $g(T)\alpha\in Z(\alpha;T)$, we get that there is a polynomial $r(x) \in F[x]$ of degree less than $k$ such that $g(T)\alpha = r(T)\alpha \in Z(\alpha;T)$. Hence, the set $\{\alpha,T\alpha,T^2\alpha,\dots,T^{k-1}\alpha\}$ spans the whole $Z(\alpha;T)$. Next, we need to show it's linear independence. Suppose $c_i \in F$ such that $c_0\alpha + c_1 T\alpha + c_2 T^2\alpha + \dots + c_{k-1}T^{k-1}\alpha = 0$. We thus have that $g(x) = c_0 + c_1 x +c_2 x^2 + \dots + c_{k-1}x^{k-1} \in F[x]$ is a polynomial such that $g(T)\alpha = 0$. This means that $g(x) \in M(\alpha;T)$. Hence $p_\alpha(x) | g(x)$. But, $\deg p_\alpha(x) = k$ whereas $\deg g(x) = k-1$. So this implies $g(x) = 0$ which is equivalent to saying that $c_i = 0$ for all $i=0,1,\dots,k-1$. Hence $\{\alpha,T\alpha,T^2\alpha,\dots,T^{k-1}\alpha\}$ is a basis for $Z(\alpha;T)\subseteq V$.\\
+        
+        To prove 3, consider any polynomial $g(x) \in \Ann{U}$. Then $g(U)v = 0$ for all $v\in Z(\alpha;T)$. If $v\in Z(\alpha;T)$, then there is a polynomial $h(x)\in F[x]$ such that $v = h(T)\alpha$. Hence $0=g(U)v = g(U)h(T)\alpha = g(T)h(T)\alpha = $. Since $M(\alpha;T) = \gen{p_\alpha(x)}$, therefore $p_\alpha(x) | g(x)h(x)$. So set $v = \alpha\in Z(\alpha;T)$. Then, $h(x) = 1$. Thus, $p_\alpha(x) | g(x)$. Hence we are done.
+    \end{proof}
+    A simple corollary of the above theorem is the following:
+    \begin{corollary}\label{C-3.1.2}
+    Let $V$ be a f.d. $F$-vector space and $T\in L(V)$. If $\alpha\in V$ is a $T$-cyclic vector for $V$, then the characteristic and minimal polynomial of $T$ are same.
+    \end{corollary}
+    \begin{proof}
+    We have that $Z(\alpha;T) = V$. By Theorem \ref{T-3.0.2}, 3, we get that the minimal polynomial of $T$ is $p_\alpha(x)$, the $T$-annihilator of $\alpha$. So $\Ann{T} = \gen{p_\alpha(x)}$. By Theorem \ref{T-3.0.2}, 1, we see that $\deg p_\alpha(x) = \dim V$. Since $\Phi(x) \in \Ann{T}$, $\deg \Phi(x) = \dim V = \deg p_{\alpha}(x)$, $p_\alpha(x) | \Phi(x)$ and both $\Phi(x)$ and $p_\alpha(x)$ are monic, therefore $p_\alpha(x) = \Phi(x)$.
+    \end{proof}
+    We will soon see that the above is also a sufficient condition for having $T$-cyclic vector for $V$.\\
+    
+    In our goal of finding equivalent criterion for when a linear operator has a cyclic vector, we will now introduce another concept, which materializes in Theorem \ref{T-3.1.4}.
+    \subsubsection{Companion matrix of a monic polynomial}
+    We first begin with the following definition.
+    \begin{definition}(\textbf{Companion matrix})\label{D-3.1.3}
+    % Let $V$ be a f.d. $F$-vector space and $T  :V\to V$ be a linear operator on it. Let $\alpha \in V$ 
+    Let $p(x)\in F[x]$ be a monic polynomial given by
+    \begin{align*}
+        p(x) = c_0 + c_1x + \dots c_{k-1}x^{k-1} + x^k.
+    \end{align*}
+    Then, the companion matrix of $p(x)$ is defined to be the following $k\times k$ matrix
+    \begin{align*}
+        \Comp{p(x)} := \begin{bmatrix}
+            0 & 0 & 0 & \cdots & 0 & -c_0\\
+            1 & 0 & 0 & \cdots & 0 & -c_1\\
+            0 & 1 & 0 & \cdots & 0 & -c_2\\
+            \vdots & \vdots & \vdots & \ddots & \vdots & \vdots\\
+            0 & 0 & 0 & \cdots & 1 & -c_{k-1}
+        \end{bmatrix}.
+    \end{align*}
+    \end{definition}
+    The main reason for introducing this matrix is because of the following theorem, which tells us that an operator has a cyclic vector if and only if it can be represented in some basis as the companion matrix of it's minimal polynomial.
+    \begin{theorem}\label{T-3.1.4}
+    Let $V$ be a f.d. $F$-vector space and $T \in L(V)$ be a linear operator. Then, $T$ has a cyclic vector if and only if there exists an ordered basis $\mathcal{B}$ of $V$ such that $[T]_{\mathcal{B}} = \Comp{p(x)}$ where $p(x) \in F[x]$ is the minimal polynomial of $T$.
+    \end{theorem}
+    \begin{proof}
+    (L $\Rightarrow$ R) Suppose $\alpha \in V$ is a $T$-cyclic vector. Then by Theorem \ref{T-3.0.2}, 1 \& 2, we have an ordered basis $\mathcal{B} := \{\alpha,T\alpha,T^2\alpha,\dots, T^{k-1}\alpha\}$ where $k = \deg p_\alpha(x)$ and $p_\alpha(x)$ is the $T$-annihilator of $\alpha$ which is also the minimal polynomial of $T$. Now, we claim that $[T]_\mathcal{B} = \Comp{p_\alpha(x)}$. For this, first write $\alpha_i = T^{i}\alpha$ for $i=0,\dots, k-1$, thus $\alpha_0 = \alpha$. Then, $T\alpha_i = \alpha_{i+1}$ for each $i=0,\dots,k-2$. We also have $T\alpha_{k-1} = T^k \alpha$. Now denote $p_\alpha(x) = c_0 + c_1x + \dots + c_{k-1}x^{k-1}\in F[x]$, so that $p_\alpha(T)\alpha = c_0\alpha + c_1T\alpha + \dots + c_{k-1}T^{k-1}\alpha + T^k\alpha= 0$, so that in particular we get $T^k\alpha = -c_0\alpha_0 - c_1 \alpha_1 - \dots - c_{k-1}\alpha_{k-1}$. This proves that $[T]_\mathcal{B} = \Comp{p_\alpha(x)}$.\\
+    
+    (R $\Rightarrow$ L) Suppose that $\mathcal{B}$ is a basis $\mathcal{B} = \{\alpha_0,\alpha_1,\dots, \alpha_{k-1}\}$ such that $[T]_\mathcal{B} = \Comp{p(x)}$. We need to show that $T$ has a cyclic vector. We claim that $\alpha_0$ is a $T$-cyclic vector. First we observe that $T\alpha_i = \alpha_{i+1}$ for $i=0,\dots,k-2$. This follows from the structure of the companion matrix $\Comp{p(x)}$. We also have $T\alpha_{k-1} = T^k\alpha_0 = -c_0\alpha_0 - c_1\alpha_1 -\dots - c_{k-1}\alpha_{k-1} = -c_0\alpha_0 - c_1T\alpha_0 - \dots - c_{k-1}T^{k-1}\alpha_0$. So, we see that we can write the basis $\mathcal{B}$ as $\mathcal{B} = \{ \alpha_0,T\alpha_0,\dots,T^{k-1}\alpha_0 \}$. Now since $Z(\alpha_0;T)$ is generated by all vectors of the form $\alpha_0,T\alpha_0,\dots, T^{k-1}\alpha_0,\dots$ and $\mathcal{B}$ is a basis of $V$, so $V= Z(\alpha_0;T)$.
+    \end{proof}
+    A natural question to ask about the companion matrices is that what are the characteristic and mininmal polynomials of it and what is the connection between these two and the generating monic polynomial of the companion matrix. The following proposition answers that.
+    \begin{proposition}
+    Let $F$ be a field. If $A \in M_n(F)$ is a companion matrix of some monic polynomial of degree $n$, say $p(x)\in F[x]$, then the characteristic and minimal polynomials of $A$ are both $p(x)$.\footnote{Not sure if the instructor covered this, but this is how I proved this.} 
+    \end{proposition}
+    \begin{proof}
+%    By Theorem \ref{T-3.1.4}, we have that the operator represented by the matrix $A = \Comp{p(x)}$, denoted by $T_A$, is such that $T_A : F^{n} \to F^n$ has a cyclic vector in $F^n$. So by Corollary \ref{C-3.1.2}, we have that both characteristic and minimal polynomials of $T_A$ are same. To see that both these is exactly $p(x)$, we first see that since $Z(\alpha;T_A) = F^n$ for some $\alpha\in F^n$, so by Theorem \ref{T-3.0.2}, 1, we get that $\deg p_\alpha(x) = n$, where $\gen{p_\alpha(x)} = M(\alpha;T_A)$. Since $p(T_A) = $  \textbf{[TODO]}
+Let $ \alpha = e_1= (1,0,0,\dots,0) $ in the standard basis $ \mathcal{B} $ of $ F^n $. We claim that $ \alpha $ forms a cyclic vector of $ A $. To do this, we need only show that $ \{\alpha,A\alpha, A^{2}\alpha, \dots\} $ generates $ F^{n} $. This is simple to see as $ A^{i}\alpha = e_{1+i} $ for all $ i=0,\dots, n-1 $. Thus, $ Z(\alpha;A) = F^{n} $ and hence $ A $ has a cyclic vector.
+% By Theorem \ref{T-3.1.4}, we have that there is an ordered basis $ \mathcal{B}^{\prime} $ such that $ B:= [T]_{\mathcal{B}^{\prime}} = \Comp{q(x)}$ where $ q(x)\in F[x] $ is the minimal polynomial of $ T $, and thus of $ A $. Now denote $ P $ to be the invertible $ n\times n $ matrix which is the base change matrix from $ \mathcal{B} $ to $ \mathcal{B}^{\prime} $. Then, 
+Now, Theorem \ref{T-3.0.2}, 3, tells us that the minimal polynomial of $ A $ is $ p_\alpha(x) $, the $ A $-annihilator of $ \alpha = e_1 \in V$. So we need only show that $ p_\alpha(x) $ is equal to $ p(x) $. Now notice that $ Ae_j = e_{j+1} $ for $ j=1,\dots,n-1 $ and $ Ae_n = -\sum_{i=1}^{n} c_{i-1} e_i $. Now, it is a matter of a small calculation to see that $ p(A)\alpha := p(A) e_1 = 0$ and it is at this point we use the specific structure of the $ A $ as the companion matrix of $ p(x) $. Thus $ p(x)\in M(\alpha;T) $ and thus $ p_\alpha(x)| p(x) $. Conversely, if $ g(x) \in M(\alpha;A) $, then $ g(A)\alpha = 0 $. Then, dividing $ g(x) $ by $ p(x) $ we obtain $ g(x) = p(x)q(x) + r(x) $ where $ \deg r(x) < \deg p(x) = n $. Now, $ g(A)\alpha = p(A)q(A)\alpha + r(A)\alpha  = 0 $ which further implies $ r(A)\alpha = 0 $. Hence $ r(x) \in M(\alpha;A) $. But by Theorem \ref{T-3.0.2}, 1, $ \deg p_\alpha(x) = n $. But since $ \deg r(x) < n $, therefore it implies that $ \deg p_\alpha(x) < n $ as $ p_\alpha(x ) | r(x) $. This can only happen when $ r(x) = 0 $. Hence $ p(x)|g(x) $. Thus $ p(x)|p_\alpha(x) $. Hence we have $ p_\alpha(x) = p(x) $. Since $ A $ has a cyclic vector, so by Corollary \ref{C-3.1.2}, $ p(x) $ is equal to both the characteristic and minimal polynomials of $ A $.
+%Clearly, $ p_\alpha(x) | p(x) $ as $ M(\alpha;A) \supseteq \Ann{A} $. Conversely, for any $ g(x)\in M(\alpha;A) $, we have $ g(A)\alpha= 0 $. We will show that this implies $ g(x) \in \Ann{A} $. For this, we first notice that any arbitrary $ v\in F^{n} $ can be written as $ v = \sum_{i=1}^{n}v_ie_i $ where $ v_i \in F $. But since $ e_i= A^{i-1}\alpha $, therefore $ v = \sum_{i=1}^{n}v_iA^{i-1}\alpha $. Now,
+%\begin{align*}
+%	g(A)v &= g(A)\left ( \sum_{i=1}^{n} v_iA^{i-1} \alpha\right )\\
+%	&= \sum_{i=1}^{n}\left ( v_ig(A)A^{i-1} \alpha \right )\\
+%	&= \sum_{i=1}^{n}\left (v_i A^{i-1}g(A)\alpha \right )\\
+%	&= \sum_{i=1}^{n}\left (v_iA^{i-1}0\right )\\
+%	&= 0.
+%\end{align*}
+%Thus, $ g(x)\in \Ann{A} $. So $ p_\alpha(x)  \in \Ann{A}$ and thus $ p(x)| p_\alpha(x) $. Hence $ p(x) = p_\alpha(x)$. Since $ A $ has a cyclic vector, therefore by Corollary \ref{C-3.1.2}, $ p(x) = \Phi(x) = $ as well.
+    \end{proof}
+
+    \subsection{Cyclic decomposition theorem}
+    In this section we will show the second decomposition theorem, after primary decomposition, in which we will decompose a f.d $ F $-vector space into direct sum of cyclic subspaces and the corresponding cyclic vectors and their annihilators will satisfy the descending divisibility criterion. This will prove to be an important result as using it we would be able to prove results in Section \ref{S-3.2.1} like the Corollary \ref{C-3.2.4} which brings to light the importance of cyclic vectors and the Corollary \ref{C-3.2.6} which generalizes the Cayley-Hamilton theorem. In this section, we also see the first major theorem which steps towards fulfilling the philosophy of the course, as mentioned in Remark \ref{R-3.2.9}. Unfortunately, due to the sheer size of the proof of this theorem, we would not do it's proof here, which is not much enlightening.\\
+    
+    We begin with the following definition.
+    \begin{definition}
+    	(\textbf{$ T $-admissible subspaces}) Let $ V $ be a f.d. $ F $-vector space. A subspace $ W\subseteq V $ is said to be $ T $-admissible if
+    	\begin{enumerate}
+    		\item {$ W \subseteq V$ is $ T $-invariant,}
+    		\item {for any $ \alpha \in V $ and $ f(x)\in F[x] $, $ f(T)\alpha \in W $ implies that $ \exists \beta \in W $ such that $ f(T)\alpha = f(T)\beta $.}
+    	\end{enumerate}
+    \end{definition}
+\begin{example}
+	Let $ V $ be an $ F $-vector space. The trivial subspace $ W = \{0\} $ is a $ T $-admissible subspace of $ V $. The $ T $-invariancy of $ W $ is clear. Now suppose $ v\in V $ and $ f(x)\in F[x] $ is such that $ f(T)v \in W $, i.e $ f(T)v = 0 $. Then, the only vector in $ W $, which is 0, is such that $ f(T)0 = f(T)v = 0 $. Hence $ W=\{0\} $ is indeed a $ T $-admissible subspace of $ V $.
+\end{example}
+	Here's the main theorem.
+\begin{theorem}\label{T-3.2.2}
+	(\textit{Cyclic decomposition theorem}) Let $ V $ be a f.d. $ F $-vector space. If $ W_0 \subsetneq V $ is a proper $ T $-admissible subspace of $ V $, then there exists non-zero vectors $ \alpha_1,\dots,\alpha_r  \in V$ such that 
+	\begin{enumerate}
+		\item {we have
+	\begin{align*}
+		V  = W_{0} \oplus Z(\alpha_1;T)\oplus Z(\alpha_2;T)\oplus \dots \oplus Z(\alpha_r;T),
+	\end{align*}	
+	}
+		\item {if we denote $ p_i(x)\in F[x] $ to be the $ T $-annihilator of $ \alpha_i $ for each $ i=1,\dots,r $, then
+			\begin{align*}
+				p_i(x) \;|\; p_{i-1}(x)\;\forall i=2,\dots, r
+			\end{align*}
+		where we have that, in particular, $ p_1(x) $, the $ T $-annihilator of $ \alpha_{1} $, is the minimal polynomial of $ T $.
+	}
+	\item {the integer $ r $ and the $ T $-annihilators $ p_1(x),\dots,p_r(x) $ are unique w.r.t properties $ 1. $, $ 2. $ and $ \alpha_i\neq 0 \;\forall i=1,\dots, r$. We call these polynomials the \textbf{invariant factors of $ T $.}}
+	\end{enumerate}
+\end{theorem}
+    \begin{proof}
+    	Theorem 3, p.p. 233 of \cite{HK71}.
+    \end{proof}
+    \begin{remark}
+    	It is important to note that one can keep $ W_0 = \{0\} $ in order to get the cyclic decomposition of $ V $ with respect to $ T $. In other words, every linear operator on a f.d. $ F $-vector space has a cyclic decomposition.
+    \end{remark}
+    \subsubsection{Corollaries of cyclic decomposition}\label{S-3.2.1}
+    Let us in this section discuss some of the corollaries that one obtain from a clear understanding of Theorem \ref{T-3.2.2}. These are very interesting results and in particular throws light and concludes the constructions and questions raised in Section \ref{S-3.1}.\\
+    
+    The first corollary completely characterizes the $ T $-admissible subspaces of $ V $.
+    \begin{corollary}\label{C-3.2.3}
+    	Let $ V $ be a f.d. $ F $-vector space. Then, $ W\subseteq  V$ is a $ T $-admissible subspace of $ V $ if and only if $ W $ is $ T $-invariant and it has a complementary $ T $-invariant subspace $ W^{\prime} \subseteq V $, i.e. $ W\oplus W^{\prime} = V $.
+    \end{corollary}
+\begin{proof}
+	(R $ \Rightarrow $ L) Suppose that $ W \subseteq V$ has a $ T $-invariant complement as in $ W\oplus W^{\prime} =V $. Then for any $ v\in V $, we have $ v = w+ w^{\prime} $ where $ w\in W $ and $ w^{\prime} \in W^{\prime} $. Now take any $ f(x) \in F[x] $, we then have $ f(T)v = f(T)w + f(T)w^{\prime} $. Since $ W $ and $ W^{\prime} $ are $ T $-invariant, therefore $ f(T)w \in W $ and $ f(T)w^{\prime} \in W^{\prime} $. Now, if $ f(T)v \in W $, then $ f(T)w + f(T)w^{\prime} \in W $ and thus $ f(T)w^{\prime} \in W $. But since $ W\cap W^{\prime} = \{0\} $, hence $ f(T)w^{\prime} = 0 $. Thus $ f(T)v = f(T)w $ where $ w\in W $. \\\\
+	(L $ \Rightarrow $ R) If $ W = V $, then we are done. Otherwise, let $ W\subsetneq V $. It is in this place that we use the cyclic decomposition theorem (Theorem \ref{T-3.2.2}). Since $ W $ is given to us to be a $ T$-admissible subspace of $ V $, then there is a decomposition $ V = W \oplus \bigoplus_{i=1}^{r} Z(\alpha_i;T) $ for $ \alpha_i\in V $. Since each $ Z(\alpha_{i};T) $ is $ T $-invariant, hence so is their direct sum. So we define $ W^{\prime} := \bigoplus_{i=1}^{n}Z(\alpha_{i};T) $ and call it a day.
+\end{proof}
+	Next corollary is very important as it brings to conclusion the whole goal of Section \ref{S-3.1} of finding an equivalent characterization of when an operator has a cyclic vector, and more.
+	\begin{corollary}\label{C-3.2.4}
+		Let $ V $ be a f.d. $ F$-vector space and let $ T: V\to V $ be a linear operator. We have the following conclusions:
+		\begin{enumerate}
+			\item {There exists an $ \alpha\in V $ such that the $ T $-annihilator of $ \alpha $ is equal to the minimal polynomial of $ T $.}
+			\item {$ T $ has a cyclic vector if and only if the characteristic and minimal polynomials of $ T $ are same.}
+		\end{enumerate}
+	\end{corollary}
+\begin{proof}
+		1. This is just Theorem \ref{T-3.2.2}, 2, in the special case when we choose $ W_0 = \{0\} $, which is a valid proper $ T $-admissible subspace of $ V $.\\
+		
+		2. (L $ \Rightarrow $ R) This is just Corollary \ref{C-3.1.2}.\\
+		(R $ \Rightarrow $ L) Suppose $ T $ is such that characteristic and minimal polynomials of $ T $ are equal. Let them be denoted by $ \Phi(x) $ and $ p(x) $ respectively. Now using Theorem \ref{T-3.2.2} with $ W_0 = \{0\} $ we can write $ V = \bigoplus_{i=1}^{r} Z(\alpha_i;T)  $. Then, we have
+		\begin{align*}
+			\dim V &= \deg \Phi(x)\\
+			&= \deg p(x)\\
+			&= \dim Z(\alpha_1;T).
+		\end{align*}
+		Thus $ Z(\alpha_1;T) = V $ and hence $ T $ has a cyclic vector, namely $ \alpha_1 $ appearing in the cyclic decomposition of $ T $ w.r.t $ W_0 = \{0\} $.
+\end{proof}
+	We next study an important generalization of Cayley-Hamilton theorem.
+	\begin{corollary}\label{C-3.2.6}
+		(\textit{Generalized Cayley-Hamilton theorem}) Let $ V $ be a f.d. $ F $-vector space and let $ T: V\to V $ be a linear operator. Denote by $ p(x) $ the minimal polynomial and by $ \Phi (x) $ the characteristic polynomial of $ T $. Then,
+		\begin{enumerate}
+			\item {$ p(x) \; | \; \Phi(x)$,}
+			\item {$ p(x) $ and $ \Phi(x) $ has same prime factors,}
+			\item {if $ p(x)  = f_1^{r_1}(x)\cdot \dots \cdot f_k^{r_k}(x)$ is the prime factorization of $ p(x) $, then $ \Phi(x) = f_{1}^{d_1}(x) \cdot \dots \cdot  f_{k}^{d_k}(x)$ where 
+		\begin{align*}
+			d_i = \dfrac{\dim\Ker{f_i(T)^{r_i}}}{\deg f_i(x)}.
+		\end{align*}	
+		}
+		\end{enumerate}
+	\end{corollary}
+    \begin{proof}
+    	To get 1., we first decompose $ V = \bigoplus_{i=1}^{r}Z(\alpha_{i};T)$ using Theorem \ref{T-3.2.2}, for non-zero $ \alpha_i \in V $. Also denote by $ p_i(x) \in F[x]$ the $ T $-annihilator of $ \alpha_i \in V$ where we have that $ p_1(x) $ is the minimal polynomial of $ T $, so $ p(x) = p_1(x) $, and that $ p_i(x) | p_{i-1}(x) $ for each $ i=2,\dots, r $. Now denote $ U_i = \rest{T}{Z(\alpha_i;T)} $ which is well-defined as any $ T $-cyclic subspace of $ V $ is $ T $-invariant. Now, by Theorem \ref{T-3.0.2}, 3, we have that the minimal polynomial of $ U_i $ is $ p_i(x) $. Moreover, by Corollary \ref{C-3.1.2} or more generally by Corollary \ref{C-3.2.4}, 2., we also get that the characteristic polynomial of $ U_i $ denoted by $ \Phi_i(x) $ is equal to $ p_i(x) $. Now we claim that if we denote the characteristic polynomial of $ T $ by $ \Phi(x) $, then $ \Phi(x) = \Phi_1(x) \cdot \dots \cdot \Phi_r(x) $. To see this, take any basis $ \mathcal{B}_{i} $ of $ Z(\alpha_{i};T) $. Then, since each $ Z(\alpha_{i};T) $ are independent, therefore we get a basis of $ V $ as in $ \mathcal{B} = (\mathcal{B}_1,\dots, \mathcal{B}_r) $. Now, in this basis, we get
+    	\begin{align*}
+    		[T]_{\mathcal{B}} = \begin{bmatrix}
+    			[U_1]_{\mathcal{B}_1} & 0 &\dots & 0\\
+    			0 & [U_2]_{\mathcal{B}_2} & \dots & 0\\
+    			\vdots & \vdots &\ddots & \vdots \\
+    			0 & 0 & \dots & 	[U_r]_{\mathcal{B}_r}
+    		\end{bmatrix}.
+    	\end{align*}
+    Now, we see that the characteristic polynomial of $ [T]_{\mathcal{B}} $ (and thus of $ T $) is exactly $ \Phi_{1}(x) \cdot \dots \cdot \Phi_{r}(x) $. So this proves the claim. Next, since $ p_1(x) = \Phi_1(x) $ thus divides $ \Phi(x) $, and since $ p_1(x) $ is exactly the minimal polynomial of $ T $, hence 1. is done.\\
+    
+    Now to conclude 2. is also a matter of few observations. First let $ f(x)\in F[x] $ be any prime factor of $ p(x) (=p_1(x))$. Then, it is a prime factor of $ p_1(x) = \Phi_1(x) $ and hence a prime factor of $ \Phi(x) $. Conversely, let $ f(x) $ be any prime factor of $ \Phi(x) $. Then it is a prime factor of some $ \Phi_i(x) = p_i(x)$, thus $ f(x) | p_i(x) $. But since $ p_i(x)| p_{i-1}(x) $, hence, $ f(x)|p_1(x) $ where we know that $ p_1(x) = p(x) $. Hence 2. is done as well.\\
+    
+    Finally, to conclude 3., we would require the help of an old friend, the primary decomposition theorem (Theorem \ref{T-2.8.1}). Since $ p(x) = f_{1}^{r_{1}}(x) \dots f_k^{r_k}(x) $ where each $ f_i(x) $ is irreducible, therefore by the primary decomposition theorem, we can decompose $ V = \bigoplus_{i=1}^{k}\Ker{f_{i}(T)^{r_i}}$. Now, denote $ T_i := \rest{T}{\Ker{f_{i}(T)}^{r_{i}}} $, which is well-defined by Theorem \ref{T-2.8.1}, 2. By Theorem \ref{T-2.8.1}, 3, we also have that the minimal polynomial of $ T_i $ is $ f_{i}(x)^{r_i} $. By statement 2. of this result which we just proved above, and applying it on $ T_i : \Ker{f_{i}(T)}^{r_{i}} \to \Ker{f_{i}(T)}^{r_{i}} $, we get that the characteristic polynomial $ \Phi_{i}(x) $ has to be $ f_{i}(x)^{d_i} $ where $ d_i \ge r_i $. Moreover, we get that $ \Phi(x) = \Phi_1(x)\dots \Phi_k(x) $. Now, since the degree of characteristic polynomial is equal to the dimension of the vector space, therefore 
+    \begin{align*}
+    	\deg \Phi_{i}(x) &= \dim \Ker{f_{i}(T)}^{r_{i}}\\
+    	d_i\cdot \deg f_i &= \dim \Ker{f_{i}(T)}^{r_{i}}\\
+    	d_i &= \dfrac{\dim \Ker{f_{i}(T)}^{r_{i}}}{\deg f_i}.
+    \end{align*}
+	This concludes the proof.
+    \end{proof}
+	The proof Corollary \ref{C-3.2.6}, 1 also gives us the following statement, which is good to keep in mind.
+	\begin{corollary}\label{C-3.2.7}
+		Let $ V $ be a f.d. $ F $-vector space and let $ T: V\to V $ be a linear operator. If in the cyclic decomposition of $ T $, the invariant factors are $ p_1(x),\dots,p_r(x) $, then the characteristic polynomial of $ T $ is
+		\begin{align*}
+			\Phi(x) = p_1(x)\dots p_r(x).
+		\end{align*}
+	\end{corollary}
+	\begin{proof}
+		See proof of Corollary \ref{C-3.2.6}, 1.
+	\end{proof}
+	\subsubsection{Cyclic decomposition in terms of matrices}
+	Let $ V $ be a f.d. $ F $-vector space and let $ T: V\to V $ be a linear operator. By cyclic decomposition (Theorem \ref{T-3.2.2}) on $ W_0 =\{0\} $, we get that 
+	\begin{align*}
+		V = \bigoplus_{i=1}^{r}Z(\alpha_i;T)
+	\end{align*}
+	where let us denote the $ T $-annihilator of $ \alpha_i $ by $ p_i(x) \in F[x]$. Now, consider the restricted operator $ T_i := \rest{T}{Z(\alpha_i;T)} $ on cyclic subspace $ Z(\alpha_i;T) $. It is clear that $ Z(\alpha_i;T) $ has a $ T_i $-cyclic vector, namely $ \alpha_i $. Now, by Theorem \ref{T-3.0.2}, 2 and Theorem \ref{T-3.1.4}, we get several conclusions. Firstly, that $\mathcal{B}_{i}:= \{\alpha_i,T\alpha_i,\dots, T^{k_i-1}\alpha_i\} $ is a basis of $ Z(\alpha_i;T) $ where $ k_i := \deg p_{i}(x) = \dim Z(\alpha_i;T) $ and $ p_{i}(x) $ is the monic $ T $-annihilator of $ \alpha_{i} $. Second, $ p_{i}(x) $ is also the minimal polynomial of $ T_i $. Third, we get that 
+	\begin{align*}
+		A_i := [T_i]_{\mathcal{B}_i} = \Comp{p_{i}(x)}.
+	\end{align*}
+    Now, denote $ \mathcal{B} = (\mathcal{B}_1,\dots, \mathcal{B}_{r}) $ to be the basis of $ V $ formed by collating the bases of individual parts. Then, we get that
+    \begin{align*}
+    	[T]_{\mathcal{B}} = \begin{bmatrix}
+    		A_1 &0 & 0 &\dots &0\\
+    		0& A_2 & 0 & \dots &0\\
+    		\vdots & \vdots & \vdots & \ddots & \vdots\\
+    		0 & 0  & 0 & \dots & A_r
+    	\end{bmatrix}
+    \end{align*}
+	where keep in mind that $ A_i = \Comp{p_i(x)} $ is a matrix of size $ k_i\times k_i $, thus all $ A_i $s are not necessarily of same size! Recall also that $ p_i(x) | p_{i-1}(x) $ for all $ i=2,\dots, r $. We thus give the definition of rational form of a matrix.
+	\begin{definition}
+		(\textbf{Rational form}) Let $ F $ be a field and let $ A $ be an $ n\times n $ matrix over the field $ F $. If $ A $ can be written as 
+		\begin{align*}
+			A= \begin{bmatrix}
+				\Comp{p_1(x)} & 0 & \dots & 0\\
+				0 & \Comp{p_2(x)} & \dots & 0\\
+				\vdots & \vdots & \ddots & \vdots \\
+				0 & 0 & \dots & \Comp{p_r(x)}
+			\end{bmatrix}
+		\end{align*} 
+		where $ p_1(x), \dots, p_r(x)$ are non-scalar monic polynomials such that $ p_i(x) | p_{i-1}(x)$ for all $ i=2,\dots, r $, then $ A $ is said to be in rational form.
+	\end{definition}
+	Indeed, the above definition makes sense because for each $ n\times n $ matrix $ A $ over field $ F $ can only be similar to a unique matrix in rational form, as the following theorem tells us.
+	\begin{theorem}(\textit{Uniqueness of rational form})\label{T-3.2.8}
+		Let $ F $ be a field and let $ B $ be an $ n\times n $ matrix over $ F $. Then there exists a unique $ n\times n $ matrix $ A $ in rational form such that $ B $ is similar to $ A $. That is, in the monoid $ M_{n}(F) $, each conjugacy class\footnote{Let $ G $ be a monoid and let $ g,h\in G $, then the relation \begin{align*}
+				g\sim h\iff \exists p\in G^{\times} \text{ s.t. } h = pgp^{-1}
+		\end{align*}
+		is an equivalence relation on $ G $, where $ G^{\times} = \{g\in G\;\vert\; \exists h\in G,\; gh=hg =e\} $. We call each equivalence class a conjugacy class.	
+} contains a unique matrix in rational form(!)
+	\end{theorem}
+	\begin{proof}
+		It is in this place that we realize the importance of the statement 3. of Theorem \ref{T-3.2.2}, and it follows straightforwardly from it, by keeping in mind the datum required for a matrix to be in rational form.
+	\end{proof}
+    \begin{remark}\label{R-3.2.9}
+    	The Theorem \ref{T-3.2.8} can be seen as the first major theorem in the direction of the philosophy of the course, which is the humble goal to "\textit{classify all linear operators on a f.d. vector space}".
+    \end{remark}
+    
+    \subsection{Jordan form}
+    In rational forms, we found one answer to our goal of characterizing all linear operators on a f.d. $ F $-vector space. In particular, one can gain knowledge of the rational form of an operator by various arguments about the dimension of the base vector space and the allowed sizes of the cyclic subspaces (which, along with the divisibility criterion of the respective $ T $-annihilators, can often give you the few cases which the cyclic decomposition of an operator can have). However, we now study a form of an operator which is in some sense even simpler than rational form, albeit we would require more hypotheses on the operator\footnote{We also test out a new environment.}.
+\begin{construct}\label{CT-3.3.1}
+	(\textit{Jordan form of a nilpotent operator}) Let $ V $ be a $ n $-dimensional $ F $-vector space and $ N : V\to V $ be a nilpotent operator. Let $ p(x) = x^{k} $ and $ \Phi(x) = x^{n} $ be the minimal and characteristic polynomials of $ N $, respectively ($ k\le n $). The cyclic decomposition of $ N $ (Theorem \ref{T-3.2.2}) tells us
+	\begin{align*}
+		V = \bigoplus_{i=1}^{r} Z(\alpha_i;N)
+	\end{align*}
+	where $ \alpha_i \in V $ and denote $ p_i(x) \in F[x] $ to be the $ T $-annihilator of $ \alpha_i $. By divisibility criterion, we also get $ p_1(x) = p(x) = x^{k} $ and $ p_i(x) = x^{k_i} $ where $ k_{i} \le k_{i-1} $. That is,
+	\begin{align*}
+		k = k_1 \ge k_2 \ge \dots \ge k_{r-1} \ge k_{r}.
+	\end{align*}
+	With this, the rational form of $ N $ will be given by
+	\begin{align*}
+		\Rat{N} &= \begin{bmatrix}
+			\Comp{p_1(x)} & 0 & \dots & 0\\
+			0 & \Comp{p_2(x)} & \dots & 0\\
+			\vdots & \vdots & \ddots & \vdots \\
+			0 & 0 & \dots & \Comp{p_r(x)}
+		\end{bmatrix}\\
+	&= \begin{bmatrix}
+		\Comp{x^{k}} & 0 & \dots & 0\\
+		0 & \Comp{x^{k_2}} & \dots & 0\\
+		\vdots & \vdots & \ddots & \vdots \\
+		0 & 0 & \dots & \Comp{x^{k_r}}
+	\end{bmatrix}
+	\end{align*}
+ 	where 
+ 	\begin{align*}
+ 		\Comp{x^{k_i}} = \begin{bmatrix}
+ 			0 & 0 & 0& \dots & 0 & 0\\
+ 			1 & 0&  0 &\dots & 0 & 0\\
+ 			0 & 1& 0 & \dots & 0 & 0\\
+ 			\vdots & \vdots & \vdots& \ddots & \vdots  & \vdots\\
+ 			0 & 0 & 0 & \dots & 1 & 0
+ 		\end{bmatrix}_{k_{i}\times k_{i}}
+ 	\end{align*}
+ for each $ i = 1,\dots, r $. Hence, the conclusion of this is the following:
+ \begin{align*}
+ 	\boxed{\footnotesize\text{\textit{Rational form of a nilpotent operator is determined by natural $ r $ and $ r $ descending naturals $ k_1\ge \dots\ge k_r $ which adds upto $ n $}.}}
+ \end{align*}
+ \textbf{Question : }How is $ r $ related to the nilpotent operator $ N $?\\
+ The answer is clear from the fact that $ \Rat{N} $ has exactly $ r $ zero columns and all other columns are independent, that is, the $ \dim \Ker{N} = r $.
+\end{construct}
+We now, in some sense, conclude one main goal of the course by using everything we did in the past sections, in the following construction:
+\begin{construct}\label{CT-3.3.2}
+	(\textit{Jordan form of an arbitrary operator}) Let $ V $ be a f.d. $ F $-vector space of $ \dim V = n $ and let $ T : V\to V $ be a linear operator. Further suppose that the characteristic polynomial of $ T $ is factored completely into linear factors in $F[x] $ as follows:
+	\begin{align*}
+		\Phi(x) = (x-c_1)^{d_1}\dots (x-c_k)^{d_k},
+	\end{align*}
+ 	where $ c_1,\dots, c_k \in F $ are all distinct eigenvalues of $ T $. Hence by Corollary \ref{C-3.2.6}, we also get that the minimal polynomial of $ T $ is
+ 	\begin{align*}
+ 		p(x) = (x-c_1)^{r_1}\dots (x-c_k)^{r_k}
+ 	\end{align*}
+ 	where $ r_i \le d_i $ for each $ i $.\\
+ 	
+	In such a case, we first use the primary decomposition theorem (Theorem \ref{T-2.8.1}) in order to get the following decomposition of $ V $:
+	\begin{align*}
+		V = \bigoplus_{i=1}^{k} \Ker{(T-c_iI)^{r_{i}}}.
+	\end{align*}
+	Denote by $ W_i := \Ker{(T-c_iI)^{r_{i}}} $ for each $ i=1,\dots,k $ and denote $ T_i:= \rest{T}{W_i} : W_i\to W_i $. Now, consider the operator
+	\begin{align*}
+		N_i := T_i -c_iI : W_i \to W_i.
+	\end{align*}
+	Note that the dimension of $ W_i $ is $ d_i $. This follows by Corollary \ref{C-3.2.6}, 3.\\\\
+	By the primary decomposition, we also have that the minimal polynomial of $ T_i = \rest{T}{W_i} $ is equal to $ (x-c_i)^{r_i} $. Since $ N_i^{r_i} = 0 $ on $ W_i $, therefore $ N_i $ as defined above is a nilpotent operator on $ W_i $ and has minimal polynomial $ x^{r_i} \in F[x] $. This is true for each $ i=1,\dots,k $. Now, by executing Construction \ref{CT-3.3.1} on $ N_i : W_i\to W_i $, we get that there are following data attached to $ N_i $:
+	\begin{enumerate}
+		\item {the positive natural $ d_i $, where $ d_i = \dim W_i $,}
+		\item {the positive natural $ n_i $, where $ n_i :=  \dim \Ker{N_i}$,}
+		\item {a sequence of naturals $ r_i = k^{(i)}_1\ge k^{(i)}_2\ge \dots \ge k^{(i)}_{n_i} $ which add up to $ d_i $,}
+		\item {a basis $ \mathcal{B}_i $ of $ W_i $, in which $ N_i $ is represented as
+	\begin{align*}
+		[N_i]_{\mathcal{B}_i} =  \begin{bmatrix}
+			\Comp{x^{k^{(i)}_1}} & 0 & \dots & 0\\
+			0 & \Comp{x^{k^{(i)}_2}} & \dots & 0\\
+			\vdots & \vdots & \ddots & \vdots \\
+			0 & 0 & \dots & \Comp{x^{k^{(i)}_{n_i}}}
+		\end{bmatrix}.
+	\end{align*}
+	}
+	\end{enumerate}
+	That is, we get for $ N_i : W_i\to W_i $ the following tuple of information: $ (d_i,n_i,\{k^{(i)}_{j}\}_{j=1}^{r_i}, \mathcal{B}_i) $. This is for each $ i =1,\dots,k $.\\
+	
+	If $ [N_i]_{\mathcal{B}_i} $ is as given above, then $ [T_i]_{\mathcal{B}_i} $ is given by:
+	\begin{align*}
+		[T_i]_{\mathcal{B}_i} &=
+		\begin{bmatrix}
+			\Comp{x^{k^{(i)}_1}} & 0 & \dots & 0\\
+			0 & \Comp{x^{k^{(i)}_2}} & \dots & 0\\
+			\vdots & \vdots & \ddots & \vdots \\
+			0 & 0 & \dots & \Comp{x^{k^{(i)}_{n_i}}}
+		\end{bmatrix} + c_iI_{d_i}\\
+		&= \begin{bmatrix}
+			\Comp{x^{k^{(i)}_1}} + c_iI_{k_1^{(i)}}& 0 & \dots & 0\\
+			0 & \Comp{x^{k^{(i)}_2}} + c_iI_{k_2^{(i)}} & \dots & 0\\
+			\vdots & \vdots & \ddots & \vdots \\
+			0 & 0 & \dots & \Comp{x^{k^{(i)}_{n_i}}} + c_iI_{k_{n_i}^{(i)}}
+		\end{bmatrix}_{d_i\times d_i}.
+	\end{align*}
+	Now note that, for each $ i=1,\dots,k $, for each $j=1,\dots, n_i  $, we get that the block
+	\begin{align*}
+		J^{(i)}_{j} &:= \Comp{x^{k^{(i)}_j}} + c_iI_{k^{(i)}_j}\\
+		&= \begin{bmatrix}
+			c_i&0&0&\cdots&0&0\\
+			1&c_i&0&\cdots&0&0\\
+			\vdots&\vdots&\ddots&\vdots&\vdots\\
+			0&0&0&\cdots&c_i&0\\
+			0&0&0&\cdots&1&c_i
+		\end{bmatrix}_{k^{(i)}_{j}\times k^{(i)}_{j}}.
+	\end{align*}
+	So, we can write 
+	\begin{align*}
+		[T_i]_{\mathcal{B}_i} = \begin{bmatrix}
+			J^{(i)}_{1}& 0 & \dots & 0\\
+			0 & J^{(i)}_{2} & \dots & 0\\
+			\vdots & \vdots & \ddots & \vdots \\
+			0 & 0 & \dots & J^{(i)}_{n_i}
+		\end{bmatrix}_{d_i\times d_i}.
+	\end{align*}
+	With this information, we can now construct a basis of $ V $ by gluing together all of the bases $ \mathcal{B}_i $. Let the resultant basis be $ \mathcal{B} $. Clearly, the matrix $ [T]_{\mathcal{B}} $ will be given by:
+	\begin{align*}
+		[T]_{\mathcal{B}} = \begin{bmatrix}
+			[T_1]_{\mathcal{B}_1}&0&\cdots &0\\
+			0&[T_2]_{\mathcal{B}_2}&\cdots &0\\
+			\vdots &\vdots &\ddots &\vdots\\
+			0&0&\cdots &[T_k]_{\mathcal{B}_k}
+		\end{bmatrix}_{n\times n}.
+	\end{align*}
+	The matrix $ [T]_{\mathcal{B}} $ is said to be the \textbf{Jordan form} of operator $ T $.
+\end{construct}
+Conversely, one defines a matrix to be in Jordan form as follows:
+\begin{definition}
+	(\textbf{Matrix in Jordan form}) Let $ A_{n\times n} $ be a matrix over field $ F $. Then $ A $ is said to be in Jordan form if there exists
+	\begin{enumerate}
+		\item {$ k \in \N$,}
+		\item {$ c_1,\dots,c_k \in F $,}
+		\item {$ d_i \in \N $ for each $ i=1,\dots,k $}
+		\item {$ n_i\in \N $ for each $ i=1,\dots,k $}
+		\item {sequence $ k^{(i)}_{1} \ge k^{(i)}_{2}\ge \dots\ge k^{(i)}_{n_i}$ for each $ i=1,\dots,k $ such that
+	\begin{align*}
+		\sum_{j=1}^{n_i}k^{(i)}_{j} = d_i
+	\end{align*}	
+	}
+	\end{enumerate}
+	such that
+	\begin{align*}
+		A = \begin{bmatrix}
+			A_1&0&\cdots&0\\
+			0&A_2&\cdots&0\\
+			\vdots&\vdots&\ddots&\vdots\\
+			0&0&\cdots&A_k
+		\end{bmatrix}_{n\times n}
+	\end{align*}
+	where
+	\begin{enumerate}
+		\item { $ A_i $ is given by
+			\begin{align*}
+				A_i:= \begin{bmatrix}
+					J^{(i)}_{1} &0&\cdots&0\\
+					0&J^{(i)}_{2}&\cdots&0\\
+					\vdots&\vdots&\ddots&\vdots\\
+					0&0&\cdots&J^{(i)}_{n_i}
+				\end{bmatrix}_{d_i\times d_i}
+		\end{align*}}
+	\item {$ J^{(i)}{j} $ is given by
+\begin{align*}
+	J^{(i)}_{j} := \begin{bmatrix}
+		c_i &0&\cdots&0&0\\
+		1&c_i&\cdots&0&0\\
+		\vdots&\vdots&\ddots&\vdots&\vdots\\
+		0&0&\cdots&1&c_i
+	\end{bmatrix}_{k^{(i)}_{j}\times k^{(i)}_{j}}.
+\end{align*}	
+
+}
+	\end{enumerate}
+\end{definition}
+    \begin{theorem}\label{T-3.3.4}
+    	Let $ T: V\to V $ be a linear operator on a f.d. $ F $-vector space. Then there exists a basis $ \mathcal{B} $ of $ V $ such that the matrix $ [T]_{\mathcal{B}} $ is in Jordan form.
+    \end{theorem}
+\begin{proof}
+	This is exactly the Construction \ref{CT-3.3.2}.
+\end{proof}
+    This concludes the Part 1 of the course, where we found that each conjugacy class of the monoid $ L(V) $ has two unique matrices, one in rational form and one in Jordan form. Thus completing the initial goal we set out for us in the beginning of the course.
+    
+    
+\part{Inner product spaces}
+	\newpage
+	One of the main goals of this part is to answer the following question: \textit{What condition should one require on an operator $ T $ on a $ \C $-IPS in order to get that $ T $ is diagonalizable?} The answer is normality! This will be the main theorem of this part. 
+	\section{Inner products, orthonormal basis, functionals, adjoints and uniqueness}
+	Since people already know what is an inner product, so we will breeze through some of the initial material here. Please note that at times our proofs in this part might become very sketchy, but that is to be expected by this long into the course. Let $ F $ be a field which is either $ \R $ or $ \mathbb{C} $. Let $ V $ be an $ F $ vector space. An \textbf{inner product} structure on $ V $ is a map
+	\begin{align*}
+		\ip{.}{.} : V\times V &\longrightarrow F
+	\end{align*}
+    such that it satisfies the following three axioms:
+    \begin{enumerate}
+    	\item {(\textit{Linearity in first argument}) $ \forall  \alpha,\beta,\gamma\in V$ and $ c\in F $, we must have
+    \begin{align*}
+    	\ip{c\alpha + \beta}{\gamma} =c\ip{\alpha}{\gamma} + \ip{\beta}{\gamma}.
+    \end{align*}	
+    }
+    	\item {(\textit{Conjugation symmetry}) $ \forall \alpha,\beta\in V $, we must have
+    \begin{align*}
+    	\ip{\alpha}{\beta} = \conj{\ip{\beta}{\alpha}}.
+    \end{align*}	
+    }
+	\item {(\textit{Positivity}) $ \forall \alpha\neq 0 $, we must have
+\begin{align*}
+	\ip{\alpha}{\alpha} > 0,
+\end{align*}	
+	that is, if $ \ip{\alpha}{\alpha} = 0 $, then $ \alpha = 0 $.
+}
+    \end{enumerate}
+    Denote by $ \norm{\alpha} := \ip{\alpha}{\alpha}^{2} $. An important property to keep in mind while working with inner products is the polarisation identity.
+   \begin{lemma}\label{L-4.0.1}
+   		Let $ V $ be a $ \C $-IPS, then for all $ \alpha,\beta\in V $, we have
+   		\begin{align*}
+   			4\ip{\alpha}{\beta} = \norm{\alpha+\beta}^{2} - \norm{\alpha-\beta}^{2} + i\norm{\alpha+i\beta}^{2} - i\norm{\alpha-i\beta}^{2}.
+   		\end{align*}	
+   	The proof is straightforward. \qed
+   \end{lemma}
+	We also recall the usual Gram-Schmidt process to find an orthonormal basis of a f.d. $ \C $-IPS.
+	\begin{theorem}\label{T-4.0.2}
+		(\textit{Gram-Schmidt process}) Let $ V $ be a f.d. $ \C $-IPS. Then, there exists a basis $ \mathcal{B} $ of $ V $ consisting of orthogonal and unit norm vectors.
+	\end{theorem}
+    One can find it's proof in any basic linear algebra textbook. It is good to keep in mind that using the above result, we can most of the times reduce down to calculations with an orthonormal collection of vectors, which is at times much, much simpler.
+    \subsection{Linear functionals}
+    A \textbf{linear functional} on an $ F $-IPS $ V $ is a linear map $ f : V\to F $. 
+   	\begin{lemma}\label{L-4.1.1}
+   		Let $ V $ be an $ F $-IPS and let $ \beta \in V $. Then, 
+   		\begin{align*}
+   			f_{\beta} : V&\longrightarrow F\\
+   			\alpha &\longmapsto \ip{\alpha}{\beta}.
+   		\end{align*}
+   		is a linear functional. \qed
+   	\end{lemma}
+    We see that on f.d. $ F $-IPS, all linear functionals are of the form of Lemma \ref{L-4.1.1}. This is \textit{baby} Riesz representation theorem.
+    \begin{theorem}\label{T-4.1.2}
+    	Let $ V $ be a f.d. $ F $-IPS. If $ f : V\to F $ is a linear functional, then there exists a unique $ \beta \in V $ such that $ f = f_\beta := \ip{-}{\beta} $.
+    \end{theorem}
+	\begin{proof} (\textit{Brief sketch})
+		The main idea is to take an orthonormal basis of $ V $ by Theorem \ref{T-4.0.2} and do back-calculation on what that $ \beta\in V $ should be.
+	\end{proof}
+    \subsection{Adjoint operators}
+    The following theorem tells us that corresponding to each linear operator $ T : V\to V $ on a f.d. $ F $-IPS, there is a unique linear operator $ T^{*} $ which \textit{switches} in the inner product.
+    \begin{theorem}\label{T-4.2.1}
+    	Let $ V $ be a f.d. $ F $-IPS. If $ T : V\to V $ is a linear operator, then there exists a unique linear operator $ T^{*} : V\to V$ satisfying the following for all $ \alpha,\beta\in V $:
+    	\begin{align*}
+    		\ip{T\alpha}{\beta} = \ip{\alpha}{T^{*} \beta}.
+    	\end{align*}
+    \end{theorem} 
+\begin{proof}
+	The idea is to construct a linear functional and then use the Theorem \ref{T-4.1.2}. In particular, we have the following functional for each $ \beta \in V$, where $ f_\beta $ is as earlier
+	% https://q.uiver.app/?q=WzAsMyxbMCwwLCJWIl0sWzEsMCwiViJdLFsyLDAsIkYiXSxbMCwxLCJUIl0sWzEsMiwiZl9cXGJldGEiXV0=
+	\[\begin{tikzcd}
+		V & V & F
+		\arrow["T", from=1-1, to=1-2]
+		\arrow["{f_\beta}", from=1-2, to=1-3]
+	\end{tikzcd}.\]
+	Now, by Theorem \ref{T-4.1.2}, we get that there is a unique $ \gamma_{\beta} \in V $ such that $ f_\beta T = f_{\gamma_{\beta}} $. Now define $ T^{*} : V\to V $ by $ \beta \mapsto \gamma_{\beta} $. One can see it is linear and it is unique by uniqueness of $ \gamma_\beta $.
+\end{proof}
+	
+	\begin{remark}
+		(\textit{Matrix of the adjoint}) Once we know that each linear operator has a unique adjoint, it is natural to ask how for a basis $ \mathcal{B} $, are the following two matrices related
+		\begin{align*}
+			[T]_{\mathcal{B}} \;\&\; [T^{*}]_{\mathcal{B}}?
+		\end{align*}
+		The answer is in the following result.
+	\end{remark}
+    
+    \begin{proposition}\label{P-4.2.3}
+    	Let $ V $ be a f.d. $ F $-IPS and let $ \mathcal{B} = \{\alpha_1,\dots,\alpha_n\} $ be any orthonormal basis of $ V $.
+    	\begin{enumerate}
+    		\item {If $ A:=[T]_{\mathcal{B}} $, then 
+    		\begin{align*}
+    			A_{ij} = \ip{T\alpha_j}{\alpha_i}.
+    		\end{align*}	
+    	}
+    		\item {The matrices $ [T]_{\mathcal{B}} $ and $ [T^{*}]_{\mathcal{B}} $ are related by:
+    		\begin{align*}
+    			[T^{*}]_{\mathcal{B}} = [T]_{\mathcal{B}}^{*}.
+    		\end{align*}	
+    		where $ ^{*} $ of a matrix means the usual Hermitian conjugate.
+    	}
+    	\end{enumerate}
+    \end{proposition}
+    \begin{proof}
+    	Trivial and use 1. in 2.
+    \end{proof}
+	We see that an invariant subspace also behaves nicely with adjoints:
+	\begin{lemma}\label{L-4.2.4}
+		Let $ V $ be a f.d. $ \C $-IPS, $ T :V\to V $ be a linear operator and $ W\subseteq V $ be a linear subspace. Then
+		\begin{align*}
+			W\text{ is }T\text{-invariant} \iff 	W^{\perp}\text{ is }T^{*}\text{-invariant}. 
+		\end{align*}
+	\end{lemma}
+	\begin{proof}
+		This is almost a tautology, as if we take $ \alpha \in W $ and $ \beta \in W^{\perp} $, then $0 = \ip{\alpha}{T^{*}\beta} = \ip{T\alpha}{\beta} = 0 $.
+	\end{proof}
+	\subsubsection{Properties of adjoints on $ \C $-IPS}
+	Let us discuss the properties of adjoints of operators on a $ \C $-IPS. The first one instructs us how to do algebra with them.
+	\begin{proposition}\label{P-4.2.4}
+		Let $ V $ be a f.d. $ \C $-IPS and let $ T,U : V\rightrightarrows V $ be two operators and $ c\in \C $. Then,
+		\begin{enumerate}
+			\item {$ (T+U)^{*} = T^{*} + U^{*} $,}
+			\item {$ (cT)^{*} = \conj{c}T^{*} $,}
+			\item {$ (TU)^{*} = U^{*}T^{*} $,}
+			\item {$ T^{**} = T $.}
+		\end{enumerate}
+	\end{proposition} 
+	\begin{proof}
+		In all of these, the main result that we will use is Theorem \ref{T-4.2.1} which makes sure that each operator has a unique adjoint. With this, all of them are routine, but instructive.
+	\end{proof}
+	\begin{remark}\label{R-4.2.6}
+			One of the ways one tries to understand the stuff about operators and its adjoints is by the following analogy:
+		\begin{align*}
+			\text{\textit{Operators on a f.d. $ \C $-IPS and Hermitian adjoints behaves as complex numbers and complex conjugates.}}
+		\end{align*}
+		This is already testified in Proposition \ref{P-4.2.4} and is further seen by the following lemma, which mimics how each complex number $ z $ can be written as $ z= a+ bi $ where $ \conj{a} = a $ and $ \conj{b}=b $ (i.e. $ a,b\in \R $).
+	\end{remark}
+	\begin{lemma}
+		Let $ T :V\to V $ be a linear operator on a f.d. $ \C $-IPS. Then, there exists operators $ U_1,U_2 : V\rightrightarrows V $ such that
+		\begin{align*}
+			T = U_1 + iU_2
+		\end{align*}
+		and $ U_1 = U_1^{*} $ and $ U_2 = U_2^{*} $.
+	\end{lemma}
+	\begin{proof}
+		Just consider the following candidates
+		\begin{align*}
+			U_1 = \frac{T + T*}{2}\;\&\: U_2 = \frac{T-T*}{2i}
+		\end{align*}
+		and these can be verified to satisfy the needed property.
+	\end{proof}
+	\subsection{Normal \& unitary operators - 1}
+	Motivated by above lemma, we give the following two definitions, which will be the central theme of the conclusion of this part.
+	\begin{definition}
+		(\textbf{Normal and unitary operators}) Let $ V $ be an $ F $-IPS and let $ T :V\to V $ be a linear operator. Then, $ T $ is called normal if
+		\begin{align*}
+			T^{*}T = TT^{*}
+		\end{align*}
+		and $ T $ is called unitary if
+		\begin{align*}
+			T^{*}T = TT^{*}=I.
+		\end{align*}
+	\end{definition}
+	\begin{remark}\label{R-4.3.2}
+		Apart from normal and unitary, we can also define self-adjoint operators, which, as the name suggests, are required to be such that it and its adjoint are both actually equal. We will study all these three operators in great detail in the next few pages. For now, it is clear that 
+		% https://q.uiver.app/?q=WzAsMyxbMCwwLCJcXHRleHR7U2VsZi1hZGpvaW50fSJdLFsyLDAsIlxcdGV4dHtVbml0YXJ5fSJdLFsxLDEsIlxcdGV4dHtOb3JtYWx9Il0sWzAsMl0sWzEsMl1d
+		\[\begin{tikzcd}
+			{\text{Self-adjoint}} && {\text{Unitary}} \\
+			& {\text{Normal}}
+			\arrow[from=1-1, to=2-2]
+			\arrow[from=1-3, to=2-2]
+		\end{tikzcd}.\]
+		We'll slowly add more members to the above diagram.
+	\end{remark}
+	We now build some of the tools that we may use later. It is usually the case while working with operators on a f.d. $ \C $-IPS that we need to show that two operators are equal. In such a situation, a nice way of showing this is to somehow show that their difference, say $ T $, is zero. One can do this especially by using the following lemma. 
+	\begin{lemma}\label{L-4.2.9}
+		Let $ V $ be a f.d. $ \C $-IPS. If $ \forall \alpha \in V $, $ \ip{T\alpha}{\alpha} = 0 $, then $ T=0 $.
+	\end{lemma}
+	\begin{proof}
+		Take any $ \alpha,\beta  \in V$. Now we have $ 0=\ip{T(\alpha + i\beta)}{\alpha + i\beta} = -i\ip{T\alpha}{\beta} + i\ip{T\beta}{\alpha}$. We may write $ \ip{T\alpha}{\beta} = \ip{T\alpha}{\alpha+\beta} $ as $ \ip{T\alpha}{\alpha} = 0 $. Similarly, write $ \ip{T\beta}{\alpha} = \ip{T\beta}{\alpha + \beta} $. We thus get that
+		\begin{align*}
+		\ip{T\alpha}{\beta} = \ip{T\beta}{\alpha}.
+		\end{align*}
+		Now, do the same on $ \ip{T(\alpha+\beta)}{\alpha + \beta} $ in order to get from both of them that $ \ip{T\alpha}{\beta} = 0$ for all $ \alpha,\beta \in V $. Thus put $ \beta = T\alpha $ to get rid of this.
+	\end{proof}
+	Another tool is the following lemma which gives a characterization of normal operators.
+	\begin{lemma}\label{L-4.2.10}
+		Let $ V $ be a f.d. $ \C $-IPS. Then, $ T $ is normal if and only if $ \forall \alpha \in V $, $ \norm{T\alpha} = \norm{T^{*}\alpha} $.
+	\end{lemma}
+	\begin{proof}
+		(R $ \Rightarrow $ L) $ T $ is normal iff $ TT^{*}-T^{*}T =0 \Leftarrow \forall \alpha \in V, \ip{(TT^{*}-T^{*}T)\alpha}{\alpha} = 0 \iff \ip{TT^{*}\alpha}{\alpha} = \ip{T^{*}T\alpha}{\alpha} \iff \ip{T^{*}\alpha}{T^{*}\alpha} = \ip{T\alpha}{T\alpha}$, and the last statement is exactly the hypothesis.\\
+		(L $ \Rightarrow $ R) If $ T $ is normal, then $ \ip{T\alpha}{T\alpha} = \ip{T^{*}T\alpha}{\alpha} = \ip{TT^{*}\alpha}{\alpha} = \ip{T^{*}\alpha}{T^{*}\alpha} $. 
+	\end{proof}
+	A useful lemma about normal operators is that an "obvious" method of calculation is indeed true:
+	\begin{lemma}\label{L-4.3.5}
+		Let $ T : V\to V $ be a normal operator on a f.d. $\C  $-IPS. Then $ \lambda\in \C $ is an eigenvalue of $ T $ with eigenvector $ v\in V $, if and only if $ \conj{\lambda} $ is an eigenvalue of $ T^{*} $ with eigenvector $ v \in  V$. That is,
+		\begin{align*}
+			Tv=\lambda v \iff T^{*}v = \conj{\lambda}v.
+		\end{align*}
+	\end{lemma}
+	\begin{proof}
+		This follows from Lemma \ref{L-4.2.10} applied on $ T-\lambda I $ which is also normal if and only if $ T $ is. It then tells us that $ \Ker{T-\lambda I} = \Ker{T^{*}-\conj{\lambda}I}$.
+	\end{proof}
+	One of the important fact about normal operators is that the eigenspaces are orthogonal.
+	\begin{proposition}\label{P-4.3.5}
+		Let $ T: V\to V $ be a linear operator on a f.d. $ \C $-IPS. If $ \lambda,\eta \in \C $ are two distinct eigenvalues of $ T $ and $ T $ is normal, then 
+		\begin{align*}
+			\Ker{T-\lambda I} \perp \Ker{T-\eta I}.
+		\end{align*}
+	\end{proposition}
+\begin{proof}
+		Take $ \alpha \in \Ker{T-\lambda I} $ and $ \beta \in \Ker{T-\eta I} $, then we wish to show that $ \ip{\alpha}{\beta} = 0 $. We do this as follows:
+		\begin{align*}
+			\lambda \ip{\alpha}{\beta} = \ip{\lambda \alpha}{\beta} 
+									   = \ip{T\alpha}{\beta}
+									   = \ip{\alpha}{T^{*}\beta}
+									   = \ip{\alpha}{\conj{\eta}\beta}
+									   = \eta\ip{\alpha}{\beta}.
+		\end{align*}
+		Since $ \lambda \neq \eta $, therefore $ \ip{\alpha}{\beta} = 0 $.
+\end{proof}
+	
+    \section{Best approximation and self-adjoint operators}
+    We will understand here how to approximate a vector, while staying inside a subspace, which is closest to it. In the process we will construct a linear map for each subspace of the vector space, which has some spectacular properties (Theorem \ref{T-5.0.5}). This operator will just keep on giving and will motivate us to study a class of operators on an IPS called self-adjoint operators. These operators are very nice as they are normal (see Remark \ref{R-4.3.2}), and as we noted in the beginning, they will be shown to satisfy some very good properties over a $ \C $-IPS.
+    \subsection{Best approximation}
+    In an $ F $-IPS, it is possible to find for an element $ \alpha\in V $ and a subspace $ W\subseteq V $, an element of $ W $ which is \textit{closest} to $ \alpha $. For that, we recall that in an IPS, two vectors $ v,w\in V$ are said to be \textbf{perpendicular}, if $ \ip{\alpha}{\beta} = 0 $. For a subspace $ W\subseteq V $, one denotes $ W^{\perp} = \{v\in V\;\vert\; \ip{v}{w} = 0 \forall w\in W \} $. One then defines the following:
+    \begin{definition}
+    	(\textbf{$ W $-approximation of $ \alpha $}) Let $ V $ be an $ F$-IPS, $ \alpha \in V $ and $ W\subseteq V $ be a subspace. The $ W $-approximation of $ \alpha $ is defined to be a vector $ \beta \in W $ such that for all $ \gamma \in W $, 
+    	\begin{align*}
+    		\norm{\beta -\alpha} \le \norm{\gamma - \alpha}.
+    	\end{align*}
+    \end{definition}
+     The following theorem tells us when will $ W $-approximation of $ \alpha $ exist, if it does, then whether it is unique and how to find it given an orthonormal basis.
+     \begin{theorem}\label{T-5.0.2}
+     	Let $ V $ be a f.d. $ F $-IPS and let $ \alpha \in V $ and $ W\subseteq V $. Then, 
+     	\begin{enumerate}
+     		\item {A $ W $-approximation of $ \alpha $ exists and is equal to $ \beta\in W $ if and only if $ \alpha -\beta\perp W $.}
+     		\item {If a $ W $-approximation of $ \alpha $ exists, then it is unique.}
+     		\item {If $ W \subseteq V$ is finite dimensional and $ \mathcal{B} = \{\beta_1,\dots,\beta_n\} $ is an orthonormal basis of $ W $, then \textit{the} $ W $-approximation of $ \alpha $ is given by
+     	\begin{align*}
+     		\beta = \sum_{i=1}^{n}\ip{\alpha}{\beta_i}\beta_i.
+     	\end{align*}	
+     	}
+     	\end{enumerate}
+     \end{theorem}
+ 	\begin{proof}
+ 		2. Let us first prove the uniqueness using 1. Let $ \beta_1,\beta_2 \in V $ be two elements such that both of them are $ W $-approximations of $ \alpha $. We will show that $ \beta_1-\beta_2 = 0$, by showing that $ \ip{\beta_1-\beta_2}{\gamma} = 0 $ for all $ \gamma \in V $ (then take $ \gamma = \beta_1-\beta_2 $). This is simple by 1.\\
+ 		1. (R $ \Rightarrow$ L) Take any $ \gamma \in W $ and then open $ \alpha - \gamma = (\alpha - \beta) + (\beta - \gamma) $ where note that $ \beta - \gamma \in  W$ and $ \alpha - \beta \perp W$ and the open as the following:
+ 		\begin{align*}
+ 			\norm{\alpha - \gamma}^{2} &=  \norm{ (\alpha - \beta) + (\beta- \gamma) }^{2}\\
+ 			&= \norm{\alpha - \beta}^{2} + \norm{\beta-\gamma}^{2} + \underbrace{\ip{\alpha - \beta}{\beta-\gamma}}_{0} + \underbrace{\ip{\beta- \gamma}{\alpha - \beta}}_{0}\\
+ 			&= \norm{\alpha - \beta}^{2} + \norm{\beta-\gamma}^{2}.
+ 		\end{align*}
+ 		Hence $ \norm{\alpha - \gamma} \ge \norm{\alpha -\beta} $.\\
+ 		(L $ \Rightarrow $ R) $ \forall \gamma \in W $ we have $ \norm{\alpha - \beta} \le \norm{\alpha - \gamma}  $. This gives us the following : $ \norm{\gamma - \alpha}^{2} -\norm{\beta - \alpha} ^{2} \ge 0$. Now open the square as above to get $ 2 \Re{\ip{\gamma-\alpha}{\beta - \alpha}} + \norm{\alpha - \gamma}^{2} \ge 0$ and do a serious back-calculation on $ \gamma -\alpha $ to get the desiredata.\\
+ 		3. Use the statement 1 to show that $ \beta $ is a \textit{right} candidate, then use statement 2 to show that $ \beta $ is \textit{the} candidate.
+ 	\end{proof}
+ 	Let us now call the $ W $-approximation of $ \alpha $ by a name which is closer to home.
+ 	\begin{definition}
+ 		(\textbf{Orthogonal projection of $ \alpha $ onto $ W $}) Let $ V $ be a f.d. $ F $-IPS and let $ \alpha \in V $ and $ W\subseteq V $ be a subspace. The $ W $-approximation of $ \alpha $ is also called the the orthogonal projection of $ \alpha $ onto $ W $.
+ 	\end{definition}
+    \begin{construct}
+    	Let $ V $ be an $ F $-IPS with $ \alpha \in V $ and $ W\subseteq V $ a subspace. We can construct the following mapping:
+    	\begin{align*}
+    		E_W : V&\longrightarrow V\\
+    				\alpha &\longmapsto \text{orthgonal projection of $ \alpha $ onto $ W $}.
+    	\end{align*}
+    	This mapping is very special (as testified by the following result) and is called the \textbf{orthogonal projection onto $ W $}.
+    \end{construct}
+    \begin{theorem}\label{T-5.0.5}
+    	Let $ W\subseteq  V$ be a finite dimensional subspace of an $ F $-IPS $ V $. Let $ E_W : V\to V $ be the orthogonal projection onto $ W $. Then,
+    	\begin{enumerate}
+    		\item {$ E_W $ is an idempotent linear operator,}
+    		\item {$ W^{\perp} = \Ker{E_W}$,}
+    		\item {$ V = W\oplus W^{\perp} $.}
+    	\end{enumerate}
+    \end{theorem}
+    \begin{proof}
+    	1. Idempotency of $ E_W $ is straightforward. Use the explicit form of the orthogonal projection of $ \alpha $ onto $ W $ as stated in Theorem \ref{T-5.0.2}, 3 to get that $ E_W $ is linear.\\
+    	2.\& 3. This is straightforward once one notices that for any $ \alpha \in V $, we can write it as $ \alpha = \alpha -E_W\alpha + E_W\alpha$ where $ \alpha- E_W\alpha \in \Ker{E_W} $ and $ E_W\alpha \in \Image{E_W} $. But since $ E_W\alpha = 0 \iff \alpha \in W^{\perp} $ by Theorem \ref{T-5.0.2}, 3, therefore we have 2. The 3. is simple.
+    \end{proof}
+	Let us now see that $ E_W $ is a self-adjoint operator.
+	\begin{lemma}\label{L-5.1.6}
+		Let $ V $ be a f.d. $ \C $-IPS and $ W\subseteq V $ be a subspace. Let $ E_W : V\to V $ denote the orthogonal projection of $ V $ onto $ W $. Then, $ E_W $ is a self-adjoint operator.
+	\end{lemma}
+    \begin{proof}
+    	We wish to show that for any $ \alpha,\beta\in V $ that $ \ip{E_W\alpha}{\beta} = \ip{\alpha}{E_W\beta} $. By uniqueness of adjoints, we will be done. This is simple, because of the following observation : $ \ip{E_W\alpha}{\beta} = \ip{E_W\alpha}{E_W\beta + (\beta - E_W\beta)} $, where by Theorem \ref{T-5.0.5}, we see that $ \beta+ (E_W\beta) \in W^{\perp}$ and $ E_W\alpha,E_W\beta \in W $. Now after this we get
+    	\begin{align*}
+    		\ip{E_W\alpha}{\beta} &= \ip{E_W\alpha}{E_W\beta}\\
+    		&= \ip{E_W\alpha}{E_W\beta} + \underbrace{ \ip{\alpha - E_W\alpha}{E_W  \beta} }_{0}.
+    	\end{align*}
+    	This last step is very important and must be kept in mind all the time while dealing with inner products; you can write $ 0 = \ip{\alpha}{\alpha^{\perp}} $(!!) The proof then follows by opening the RHS of the above equation.
+    \end{proof}
+	We now see the spectrum (the set of eigenvalues) of self-adjoint and unitary operators.
+	\begin{lemma}\label{L-5.1.7}
+		Let $ V $ be a f.d. $ \C $-IPS. Let $ T:V\to V $ be a linear operator.
+		\begin{enumerate}
+			\item {If $ T $ is self-adjoint, then $ \lambda(T) \subseteq \R $.}
+			\item {If $ T $ is unitary, then $ \lambda(T) \subset S^{1} \subseteq \C$.}
+		\end{enumerate}
+	\end{lemma}
+    \begin{proof}
+    	1. Begin with $ \lambda\ip{\alpha}{\alpha} $ for $ \alpha \in \Ker{T-\lambda I} $. Everything is straightforward from there.\\
+    	2. As usual, since we wish to show that $ \lambda\conj{\lambda} =1 $, so begin with $ \lambda \conj{\lambda}\ip{\alpha}{\alpha} $ where $ \alpha $ is an eigenvector for $ \lambda $, and after some work it is equal to $ \ip{\alpha}{\alpha} $.
+    \end{proof}
+	We now prove the main theorem of this part. 
+    \section{Spectral theorem for normal operators}
+    We earlier saw that over a f.d. $ \C $-vector space, every operator $ T $ is triangulable, that is, there is a basis $ \mathcal{B} $ over which $ [T]_{\mathcal{B}} $ is triangular (Corollary \ref{C-2.4.2}). We now show the same thing, but more stronger when $ V $ is an $ \C $-IPS, that there is an \textit{orthonormal} basis $ \mathcal{B} $ such that $ [T]_{\mathcal{B}} $ is triangular. When $ T $ becomes normal, then this theorem will also become special.\\
+    
+    We have the first main theorem towards understanding when operators on a f.d. $ \C $-IPS becomes diagonal.
+    \begin{theorem}\label{T-6.0.1}
+    	Let $ T : V\to V $ be a linear operator on a f.d. $ \C $-IPS. Then there exists an orthonormal basis $ \mathcal{B}$ such that $ [T]_\mathcal{B} $ is upper triangular.
+    \end{theorem}
+    \begin{proof}
+    	Theorem 21, pp 316 of \cite{HK71}.
+    \end{proof}
+    Another theorem that we observe is the following, which when combined with the above will get us the main result of this part. In-fact this gives us more than what we wanted, as not only it tells us that each normal operator is diagonalizable, but that diagonalizability only comes from normal operators.
+    \begin{theorem}\label{T-6.0.2}
+    	Let $ V $ be a f.d. $ \C $-IPS and $ T:V\to V $ be a linear operator. Let $ \mathcal{B} $ be an orthonormal basis such that $ [T]_{\mathcal{B}} $ is upper triangular. Then,
+    	\begin{align*}
+    		T \text{ is normal}\iff [T]_{\mathcal{B}} \text{ is diagonal.}
+      	\end{align*} 
+    \end{theorem}
+    \begin{proof}
+    	Follows from Theorem 20, pp 315 of \cite{HK71} and by Theorem \ref{T-6.0.1} above.
+    \end{proof}
+	We can state above in the matrix form as follows.
+	\begin{corollary}\label{C-6.0.3}
+		If $ A $ is an $ n\times n $ normal matrix over $ \C $, then there exists an unitary $ n\times n $ matrix $ U $
+		\begin{align*}
+			U^{*}AU = \Lambda
+		\end{align*}
+		where $ \Lambda$ is the matrix with diagonal entries equal to the eigenvalues of $ A $ and columns of $ U $ are obtained by the eigenvectors corresponding to the eigenvalues in $ \Lambda $.
+	\end{corollary}
+    Before moving on to the next theorem, let us give an important definition.
+    \begin{definition}
+    	(\textbf{Positive operator}) Let $ V $ be a f.d. $ \C $-IPS and let $ T : V\to V$ be a linear operator. If $ \forall \alpha \in V $, we have that $ \ip{T\alpha}{\alpha} \ge 0 $, then $ T $ is said to be positive.
+    \end{definition}
+    \begin{remark}\label{R-6.0.5}
+    	The following addendum to Remark \ref{R-4.3.2} can be seen quite easily:
+    	% https://q.uiver.app/?q=WzAsNCxbMCwxLCJcXHRleHR7U2VsZi1hZGpvaW50fSJdLFsyLDEsIlxcdGV4dHtVbml0YXJ5fSJdLFsxLDIsIlxcdGV4dHtOb3JtYWx9Il0sWzEsMCwiXFx0ZXh0e1Bvc2l0aXZlfSJdLFswLDJdLFsxLDJdLFszLDBdXQ==
+    	\[\begin{tikzcd}
+    		& {\text{Positive}} \\
+    		{\text{Self-adjoint}} && {\text{Unitary}} \\
+    		& {\text{Normal}}
+    		\arrow[from=2-1, to=3-2]
+    		\arrow[from=2-3, to=3-2]
+    		\arrow[from=1-2, to=2-1]
+    	\end{tikzcd}.\]
+    	That is, a positive operator is self-adjoint. This follows by investigating the following implication that is obtained from the hypothesis: since $ \ip{T\alpha}{\alpha} \in \R $, therefore
+    	\begin{align*}
+    		\R\ni \ip{T\alpha}{\beta} &= \conj{\ip{\beta}{T\alpha}}\\ 
+    		&= \ip{\beta}{T\alpha}\\
+    			&= \ip{T^{*}\beta}{\alpha}\\
+    			&= \conj{\ip{\alpha}{T^{*}\beta}}\\
+    			&= \ip{\alpha}{T^{*}\beta}.
+    	\end{align*}
+    	We then conclude by the uniqueness of the adjoints. One can further see that the eigenvalues of a positive operator is always positive. This can be observed by letting $ \alpha $ be an eigenvector of $ T $.
+    \end{remark}
+   	Let us now state the more general spectral theorem for normal operators.
+   	\begin{theorem}\label{T-6.0.6}
+   		(\textit{Spectral theorem}) Let $ T : V\to V $ be a normal linear operator on a f.d. $ \C $-IPS. By Theorem \ref{T-6.0.2}, $ T $ is diagonalizable, so let $ c_1,\dots,c_k\in \C $ be its distinct eigenvalues. Denote $ W_i := \Ker{T-c_iI} \subseteq V$ and let $ E_i : V\to V $ be the orthogonal projection of $ V $ onto $ W_i $ for all $ i=1,\dots,k $. Then,
+   		\begin{enumerate}
+   			\item {$ W_i \perp W_j $ for all $ i\neq j = 1,\dots,k$,}
+   			\item {$ T = c_1E_1 + \dots +c_k E_k $, which is called the spectral resolution of the normal operator $ T $,}
+   			\item {$ I = E_1+ \dots + E_k $,}
+   			\item {$ V = W_1 \oplus\dots \oplus W_k $, that is $ T $ is diagonalizable,}
+   			\item {the projections $ E_1,\dots,E_k $ are uniquely determined by $ T $.}
+   		\end{enumerate}
+   	\end{theorem}
+    	\begin{proof}
+%    		We need only show that $ T $ is diagonalizable, as that will imply $ V= W_1 \oplus \dots \oplus W_k $, and hence every vector $ \alpha \in V $ can be written as $ \alpha = \sum_{i}d_i\alpha_i $ with $ \alpha_i \in W_i $, so that $ T\alpha = \sum_{i}d_iT\alpha_i $ but we know that $ T\alpha_i = c_i\alpha_i $, so we finally get $ T\alpha =  $
+		Statement 1. is just Proposition \ref{P-4.3.5}. Rest follows from Theorem \ref{T-2.7.2}.
+    	\end{proof}
+    	A useful fact one can deduce from above is that all the orthogonal projections $ E_i $ in the above theorem are polynomials of $ T $.
+    	\begin{corollary}
+    		Let $ T : V\to V $ be a normal linear operator on a f.d. $ \C $-IPS. Denote $ W_i := \Ker{T-c_iI} \subseteq V$ and let $ E_i : V\to V $ be the orthogonal projection of $ V $ onto $ W_i $ for all $ i=1,\dots,k $. Then, 
+    		\begin{align*}
+    			E_j = e_j(T)
+    		\end{align*}
+    		where $ e_j(x) = \prod_{i\neq j}\frac{x-c_i}{c_j-c_i} \in \C[x]$ is the Lagrange's interpolation polynomial. 
+    	\end{corollary}
+    \begin{proof}
+    	By Theorem \ref{T-6.0.6}, we know that $ T $ can be written as $ c_1E_1+\dots c_k E_k $. This result then follows.
+    \end{proof}
+    Let us revisit the Remark \ref{R-6.0.5}. We saw that each one of the unitary, self-adjoint and positive operators are normal. However, what conditions do we need to find on a normal operator $ T $ in order to conclude that it will be unitary, self-adjoint or positive? The following result answers that:
+    \begin{proposition}\label{P-6.0.8}
+    	Let $ V $ be a f.d. $ \C $-IPS and let $ T: V\to V $ be a linear operator. If $ T $ is normal, then we have the following equivalences:
+    	\begin{enumerate}
+    		\item {$ T $ is self-adjoint if and only if $ \lambda(T) \subseteq \R $,}
+    		\item {$ T $ is unitary if and only if $ \lambda(T)\subseteq S^{1}\subseteq  \C$,}
+    		\item {$ T $ is positive if and only if $ \lambda(T) \subseteq [0,\infty) $.}
+    	\end{enumerate}
+    \end{proposition}
+	\begin{proof}
+		In each of the equivalences we need only prove the R $ \Rightarrow $ L part as the converse has been done in Lemma \ref{L-5.1.7} and in Remark \ref{R-6.0.5}. Let us state the main idea in each of these. In all of these, the main ingredient is the spectral resolution of the normal operator $ T $ (Theorem \ref{T-6.0.6}). In particular, for 1, we will use the fact that since $ T $ has an orthonormal basis of eigenvectors by Theorem \ref{T-6.0.6}, we get that any $ \alpha\in V $ can be written as $ \alpha = \sum_{i}d_i\alpha_i $. Now we want to show that $ \ip{T\alpha}{\alpha} = \ip{\alpha}{T\alpha} $. It follows that for them to be equal, the eigenvalues $ c_i $ must be self-conjugate, that is real. One uses spectral resolution for the 2. and 3. 
+	\end{proof}
+    \subsection{Unitary operators - 2}
+    We will now study unitary operators in a different light. It will turn out that an unitary operator is exactly an inner product structure preserving linear isomorphism, hence giving us a geometric interpretation of unitary operators and algebraically, this simply tells us that if $ T $ is unitary, then $ \ip{T\alpha}{T\beta} = \ip{\alpha}{\beta} $, which clearly would be very helpful. Let us first define the relevant category for our purposes. Denote by $ \cat{IPS}_{F} $ be the category of inner product spaces over $ F $ and inner product preserving linear transformations between them. A linear transform between IPS $ V $ and $ W $, $ T : V\to W $, is to preserve inner product if for all $ \alpha,\beta\in V $, we have
+    \begin{align*}
+    	\ip{T\alpha}{T\beta}= \ip{\alpha}{\beta}.
+    \end{align*}
+	\begin{lemma}
+		If $ T :V\to W $ is an inner product preserving linear transformation and $ T $ is surjective, then $ T $ is an isomorphism of inner product spaces.
+	\end{lemma}
+	\begin{proof}
+		We need only show that $ \Ker{T} = 0 $. If $ \alpha\in V $ is such that $ T\alpha = 0 $ then $ \ip{T\alpha}{T\alpha} = 0 $, but $ \ip{T\alpha}{T\alpha} = \ip{\alpha}{\alpha} $.
+	\end{proof}
+    We now come to the main result. We'll later see that IPS isomorphisms are exactly unitary operators.
+    \begin{theorem}\label{T-6.1.2}
+    	Let $ T:V\to W $ be a linear transform between two IPS $ V,W $ over $ F $, both of which are of same dimension. Then, the following are equivalent.
+    	\begin{enumerate}
+    		\item {$ T $ preserves inner products,}
+    		\item {$ T $ is an $ F $-IPS isomorphism (isomorphism in $ \cat{IPS}_F $),}
+    		\item {$ T $ takes every orthonormal basis of $ V $ to an orthonormal basis of $ W $,}
+    		\item {$ \exists $ an orthonormal basis of $ V $ which is mapped by $ T $ to an orthonormal basis of $  W$.}
+    	\end{enumerate}
+    \end{theorem}
+    \begin{proof}
+    	(1. $ \Rightarrow $ 2.) Since $ V $ and $ W $ have same dimension and $ \norm{T\alpha} = \norm{\alpha} $ for all $ \alpha \in V $, therefore $ T\alpha = 0 \iff \norm{T\alpha} = \norm{\alpha} = 0 \iff \alpha = 0$. Hence $ T $ is an injective linear transform between two equal and finite dimensional vector spaces. Hence $ T $ is linear isomorphism and hence $ T $ is an IPS isomorphism.\\
+    	(2. $ \Rightarrow $ 3.) and (3. $ \Rightarrow $ 4.) Trivial.\\
+    	(4. $ \Rightarrow $ 1.) To check that $ T $ preserves inner products, reduce to the calculations on the orthonormal basis that $ T $ preserves. 
+    \end{proof}
+    \begin{corollary}
+    	Any two finite dimensional IPS over $ F $ of same dimension are isomorphic.
+    \end{corollary}
+	\begin{proof}
+		Since any linear transform can be made by defining a set map between the respective basis, therefore we can conclude by Theorem \ref{T-6.1.2}, 4.
+	\end{proof}
+    If $ T $ is an IPS map, then it preserves norms. But what about the converse? That is, if $ T $ is a linear transform which preserves norms, then is it an inner product preserving linear transform (i.e. an IPS map) as well? The answer is yes. Hence a linear isometry between IPS is exactly an IPS map.
+	\begin{proposition}
+		Let $ T:V\to W $ be an $ F $-linear transformation. Then, $ T $ is an $ F $-IPS map if and only if $ \norm{T\alpha} = \norm{\alpha} $ for all $ \alpha \in V $.
+	\end{proposition}
+    \begin{proof}
+    	One side is trivial, other side requires polarization identity (Lemma \ref{L-4.0.1}).
+    \end{proof}
+    We finally see the main result of this section, which characterizes $ F $-IPS isomorphisms with unitary operators.
+    \begin{theorem}
+    	Let $ V $ be an $ F $-IPS and $ T:V\to V $ be a linear operator. Then, $ T $ is an $ F $-IPS isomorphism if and only if $ T $ is an unitary operator.
+    \end{theorem}
+    \begin{proof}
+    	(L $ \Rightarrow $ R) Since $ T $ is linear isomorphism which preserves inner products, therefore, for any $ \alpha,\beta\in V $, we have
+    	\begin{align*}
+    		\ip{T\alpha}{\beta} &= \ip{T\alpha}{TT^{-1}\beta}\\
+    		&= \ip{\alpha}{T^{-1}\beta}.
+    	\end{align*}
+    	Thus by uniqueness of adjoints (Theorem \ref{T-4.2.1}), $ T^{*} = T^{-1} $, that is, $ TT^{*} = T^{*}T = I $.\\
+    	(R $ \Rightarrow $ L) Super trivial.
+    \end{proof}
+	A small characterization of unitary operators in terms of matrices are in order.
+	\begin{corollary}
+		An operator $ T $ on a $ \C $-IPS $ V $ is unitary if and only if in every orthonormal basis $ \mathcal{B} $ of $ V $, the matrix $ [T]_{\mathcal{B}} $ is unitary.
+	\end{corollary}
+    \begin{proof}
+    	This is an artifact of the fact that $ [T^{*}]_{\mathcal{B}} = [T]_{\mathcal{B}}^{*} $ by Proposition \ref{P-4.2.3}, 2.
+    \end{proof}
+    \section{Polar decomposition}
+    In this final topic of the course, we will talk about an another property of operators on a f.d. $ \C $-IPS, that makes them behave like complex numbers (see Remark \ref{R-4.2.6}). We know two things about an arbitrary complex number $ z\in \C $:
+    \begin{enumerate}
+    	\item {If $ z \in [0,\infty)$, the $ z $ has a\textit{ unique square root} $ w\in \C $, that is, $ w^{2} =z $,}
+    	\item {$ z $ has a \textit{polar decomposition}, that is we can write 
+    \begin{align*}
+    	z = re^{i\theta}
+    \end{align*}	
+	where $ r\in [0,\infty) $ and $ e^{i\theta} \in S^{1}\subseteq \C$. Moreover, $ r $ is always unique for $ z $ whereas $ e^{i\theta} $ will not be.
+    }
+    \end{enumerate}
+    	The way the second statement is written incites one to wonder whether an arbitrary operator $ T $ on a f.d. $ \C $-IPS can be written as 
+    \begin{align*}
+    	T = NU
+    \end{align*}
+    where $ N $ is a positive operator and $ U $ is a unitary operator. The answer is yes, it is true, and this decomposition is the title of the concluding section of this course.\\
+    Let us first find the analogue of statement 1 above.
+    \subsection{Square root of positive operators} 
+    The following theorem asserts the existence and uniqueness of square root of positive operators.
+	\begin{theorem}\label{T-7.1.1}
+		Let $ V $ be a f.d. $ \C $-IPS and let $ T:V\to V $ be a linear operator on $ V $. If $ T $ is a positive operator, then there exists a unique positive operator $ N :V\to V$ such that
+		\begin{align*}
+			N^{2} = T. 
+		\end{align*}
+	\end{theorem}
+	\begin{proof}
+		Since $ T $ is positive, therefore it is self-adjoint and hence it is normal. Now by the spectral theorem (Theorem \ref{T-6.0.6}), we have the spectral resolution of $ T $ as $ T = c_1E_1 + \dots + c_kE_k $. Since $ T $ is positive, therefore $ c_i \ge 0 $ for all $ i $. Now consider the operator $ N = \sum_{i}\sqrt{c_i}E_i $. Taking square of $ N $, we see that $ N^{2} = \left (\sum_{i}\sqrt{c_i}E_i\right ) = \sum_{i,j}\sqrt{c_ic_j}E_iE_j $. Since $ E_iE_j =\delta_{ij}$ by Theorem \ref{T-6.0.6}, 1, Theorem \ref{T-5.0.5} and by Theorem \ref{T-5.0.2}, 1, therefore $ N^{2} = \sum_{i}\sqrt{c_ic_i} E_i^{2} = \sum_{i}\abs{c_i} E_i $ and since $ T$ is positive, therefore $ \abs{c_i} = c_i $. This shows existence. The uniqueness follows from the uniqueness of $ E_i $ for $ T $ as given by Theorem \ref{T-6.0.6}, 5. 
+	\end{proof}
+	This shows the existence of square roots of positive operators.
+	\subsection{Polar decomposition of complex operators}
+    Let us finally prove the analogue of statement 2 in the opening discussion. 
+    \begin{theorem}\label{T-7.2.1}
+    	(\textit{Polar decomposition}) Let $ T : V\to V $ be a linear operator on a f.d. $ \C $-IPS. Then there are
+    	\begin{enumerate}
+    			\item {a unitary operator $ U : V\to V $,}
+    		\item {a positive operator $ N : V\to V $,}
+    	\end{enumerate}
+    	such that $ T=UN $\footnote{One another way of looking at this is that every linear operator in $ L(V) $ is a product of two normal operators, so if $ L(V)_n $ denotes the set of all normal operators, then $ L(V)_n \cdot L(V)_n = L(V) $.}. Moreover, $ N $ is unique for $ T $. If $ T $ is invertible, then $ U $ is also unique.
+    \end{theorem}
+	\begin{proof}
+		Theorem 14, pp 342 of \cite{HK71}.
+	\end{proof}
+	\begin{remark}\label{R-7.2.2}
+		We have some concluding remarks about this theorem.
+		\begin{enumerate}
+			\item {The polar decomposition of $ T $ is not unique unless $ T $ is invertible.}
+			\item {Even if $ T $ is invertible so as to make $ N $ and $ U $ unique, they may not commute.}
+			\item {But, for an operator $ T $, we have that $ UN=NU $ if and only if $ T $ is normal.
+		\begin{proof}
+			(L $ \Rightarrow $ R) Since $ N $ is a positive operator, so it is self-adjoint. We thus have $ TT^{*} = (UN)(UN)^{*}= UNN^{*}U^* =UN^*N^*U^*= UN^{*}U^{*}N^{*} = UU^{*}NN = NN  =N^{*}N = N^{*}U^{*}UN = T^{*}T $.\\
+			(R $ \Rightarrow $ L) If $ T $ is normal, then $ T^{*}T= (UN)^{*}(UN) = NU^*UN = NN $ and $ TT^{*} = (UN)(UN)^{*} = UNN^{*}U^{*} = UNNU^{*} $. Hence $ UN^2U^{*} =N^2 $. Now, here's a remarkable line of thought. Since $ T^{*}T = TT^{*} $ is a positive operator, therefore by Theorem \ref{T-7.1.1}, there exists a unique square root. Since $N^{2} = UN^{2}U^{*} = (UNU^{*})2 $ and $ UNU^{*} $ is positive, therefore by uniqueness of square roots, $ N = UNU^{*} \implies NU = UN $. Let us prove why $ UNU^{*} $ is positive. It is clear that $ UNU^{*} $ is self-adjoint, thus it is normal. Now, by Corollary \ref{C-6.0.3}, we see that $ \exists $ unitary $ V $ such that $ UNU^{*} = V\Lambda V^{*} $ where $ \Lambda $ is the diagonal matrix with entries being the eigenvalues of $ UNU^{*} $. After rearrangement, we see $ N = U^{*}V\Lambda V^{*}U $. So the operator $ N $, which is positive (and hence normal and hence diagonalizable), is similar to a diagonal matrix $ \Lambda $. Since $ N $ is also similar to the diagonal matrix consisting of eigenvalues of $ N $, which are all positive, therefore $ \Lambda $ is similar to another diagonal matrix of all positive entries. It follows that $ \Lambda $ is equal to that diagonal matrix and hence all eigenvalues of $ UNU^{*} $ are positive. We then conclude by Proposition \ref{P-6.0.8}, 3.
+		\end{proof}	
+		}
+		\item {It follows that each operator $ T $ on $ V $ can also be written as
+			\begin{align*}
+				T = NU
+			\end{align*}
+			where $ N $ is positive and $ U $ unitary. Indeed, by applying the Theorem \ref{T-7.2.1} on $ T^{*} $, we get that we can write
+	\begin{align*}
+		T^{*} = U_1N_1.
+	\end{align*}	
+	But this implies that $ T = N_1^{*}U_1^{*} = N_1U_1^{*}$ because $ N_1 $ is positive (so self-adjoint). But since $ U_1^{*} $ is also unitary, therefore we get the said claim.
+	}
+		\end{enumerate}
+	\end{remark}
+	%\decoration
+	\ifdim\dimexpr\pagegoal-\pagetotal-\baselineskip\relax>.7\textheight
+	\begin{center}
+		\rule{3cm}{2pt}
+	\end{center}
+	\fi
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    \newpage
+  	\pagestyle{empty}
+	\begin{thebibliography}{9}
+		\footnotesize
+		\bibitem[HK71]{HK71}
+		K. Hoffman, R. Kunze, S.S. Roy, \textit{Linear Algebra}, 1971.
+	\end{thebibliography}
+\end{document}
